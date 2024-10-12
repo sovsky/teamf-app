@@ -43,7 +43,7 @@ const Navbar:React.FC = () => {
         <a href="#" className='py-2 px-3 border rounded-md'>
             Zaloguj
         </a>
-        <a href="#" className='bg-blue-500 text-neutral-50 font-semibold py-2 px-4 rounded-md'>
+        <a href="#" className='bg-teal-500 text-neutral-50 font-semibold py-2 px-4 rounded-md'>
 Dołącz
         </a>
     </div>
@@ -66,7 +66,7 @@ Dołącz
 </ul>
 <div className="flex space-x-6 " >
     <a href="#" className='py-2 px-3 border rounded-md'>Zaloguj</a>
-    <a href="#" className='bg-blue-500 py-2 px-3 rounded-md text-neutral-50 font-semibold'>
+    <a href="#" className='bg-teal-500 py-2 px-3 rounded-md text-neutral-50 font-semibold'>
 Dołącz
         </a>
 </div>

@@ -1,8 +1,11 @@
 import React from 'react'
+import Hero from '../components/Hero'
 
 const Home:React.FC = () => {
   return (
-    <div>Home</div>
+    <div className=''>
+      <Hero/>
+    </div>
   )
 }
 

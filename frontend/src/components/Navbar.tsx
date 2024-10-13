@@ -41,9 +41,9 @@ const Navbar: React.FC = () => {
                         })}
                     </ul>
                     <div className="hidden lg:flex justify-center space-x-12 items-center ">
-                        <a href="#" className='py-2 px-3 border rounded-md'>
+                        <Link to="/login" className='py-2 px-3 border rounded-md'>
                             Zaloguj
-                        </a>
+                        </Link>
                         <Link to="/register" className='bg-teal-500 text-neutral-50 font-semibold py-2 px-4 rounded-md'>
                             Dołącz
                         </Link>
@@ -61,16 +61,17 @@ const Navbar: React.FC = () => {
                             {navItems.map((item, index) => {
                                 return (
                                     <li key={index} className='py-4 font-semibold text-gray-700'>
-                                        <a href={item.href}>{item.label}</a>
+                                        <Link to={item.href}>{item.label}</Link>
                                     </li>
                                 )
                             })}
                         </ul>
                         <div className="flex space-x-6 ">
-                            <a href="#" className='py-2 px-3 border rounded-md'>Zaloguj</a>
-                            <a href="#" className='bg-teal-500 py-2 px-3 rounded-md text-neutral-50 font-semibold'>
+                            <Link to="/login" className='py-2 px-3 border rounded-md'>Zaloguj</Link>
+                            <Link to="/register"
+                                  className='bg-teal-500 py-2 px-3 rounded-md text-neutral-50 font-semibold'>
                                 Dołącz
-                            </a>
+                            </Link>
                         </div>
                     </div>
                 )}

@@ -33,7 +33,7 @@ export default function Register() {
         <main className="h-screen flex justify-center items-center bg-teal-50 p-5">
             <Card className="sm:px-10 sm:py-5 min-w-[300px]">
                 <CardHeader>
-                    <Link className="text-blue-500 font-semibold" to="/">Powrót</Link>
+                    <Link className="text-blue-400 font-semibold py-2" to="/">Powrót</Link>
                     <CardTitle className="text-2xl font-bold">Utwórz Konto</CardTitle>
                 </CardHeader>
                 <CardContent>

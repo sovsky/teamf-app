@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .section_container {
-    @apply max-w-7xl mx-auto p-4; /* Użycie @apply do zastosowania klas Tailwind */
+    @apply min-w-[1580px] mx-auto p-4; /* Użycie @apply do zastosowania klas Tailwind */
   }
 
 @layer base {

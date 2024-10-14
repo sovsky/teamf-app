@@ -3,10 +3,11 @@ import { SiHelpscout } from "react-icons/si";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 
-import { navItems } from '../constants';
+import {  navItems } from '../constants';
 import { useWindowSize } from '@react-hook/window-size';
 
 const Navbar:React.FC = () => {
+
     const [mobileDrawerOpen,setMobileDrawerOpen]=useState<boolean>(false);
     const [windowWidth] = useWindowSize();
 
@@ -21,16 +22,18 @@ const Navbar:React.FC = () => {
         setMobileDrawerOpen((prevState)=>!prevState);
     }
   return (
-    <nav className='sticky top-0 z-50 py-3.5 backdrop-blur-lg border-b '>
+    <nav className='sticky top-0 z-50 py-5 backdrop-blur-lg bg-main'
+
+    >
  <div className="container px-4 mx-auto relative text-sm">
 <div className="flex justify-between items-center">
     <div className="flex items-center flex-shrink-0">
   
-        <SiHelpscout className='mr-1 w-6 h-6 text-emerald-400'/>
+        <SiHelpscout className='mr-1 w-6 h-6 text-button_primary'/>
         <span className='text-xl tracking-tight text-slate-600 font-semibold'>SąsiadWPotrzebie </span>
         
     </div>
-    <ul className='hidden lg:flex ml-14 space-x-12 '>
+    <ul className='hidden lg:flex ml-14 space-x-12 font-semibold text-gray-700 text-lg'>
 {navItems.map((item,index)=>{
     return(
 <li key={index}>
@@ -43,7 +46,7 @@ const Navbar:React.FC = () => {
         <a href="#" className='py-2 px-3 border rounded-md'>
             Zaloguj
         </a>
-        <a href="#" className='bg-teal-500 text-neutral-50 font-semibold py-2 px-4 rounded-md'>
+        <a href="#" className='bg-button_primary text-neutral-50 font-semibold py-2 px-4 rounded-md'>
 Dołącz
         </a>
     </div>
@@ -66,7 +69,7 @@ Dołącz
 </ul>
 <div className="flex space-x-6 " >
     <a href="#" className='py-2 px-3 border rounded-md'>Zaloguj</a>
-    <a href="#" className='bg-teal-500 py-2 px-3 rounded-md text-neutral-50 font-semibold'>
+    <a href="#" className='bg-blue-500 py-2 px-3 rounded-md text-neutral-50 font-semibold'>
 Dołącz
         </a>
 </div>

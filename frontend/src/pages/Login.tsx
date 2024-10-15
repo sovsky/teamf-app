@@ -8,6 +8,7 @@ export default function Login() {
 
     return (
         <main className="h-screen flex justify-center items-center bg-teal-50 p-5">
+
             <Card className="sm:px-10 sm:py-5 min-w-[300px]">
                 <CardHeader>
                     <Link className="text-blue-400 font-semibold py-2" to="/">Powrót</Link>

@@ -1,7 +1,6 @@
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {Link} from "react-router-dom";
-import {Input} from "@/components/ui/input.tsx";
-import {Label} from "@/components/ui/label.tsx";
+
 import {
     Select,
     SelectContent,
@@ -9,21 +8,21 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select.tsx";
-import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {MultiSelect} from "@/components/ui/multi-select.tsx";
 import {useState} from "react";
+import FirstStepForm from "@/components/register/FirstStepForm.tsx";
 
-
-interface firstStepInputs {
+export interface IRegisterForm {
+    accountType: "inNeed" | "helper";
     name: string;
-    password: string;
     email: string;
+    password: string;
     age: number;
     phone: string;
+    city: string;
+    helpTypes: string[];
 }
-
-interface secondStepInputs {}
 
 export default function Register() {
 
@@ -42,51 +41,16 @@ export default function Register() {
     ]
 
     const [actualStep, setActualStep] = useState(1)
-
-    const FirstForm = (
-        <form className="flex flex-col gap-6">
-            <Tabs defaultValue="needer" className="py-2">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger className="data-[state=active]:bg-teal-300"
-                                 value="needer">Potrzebujący</TabsTrigger>
-                    <TabsTrigger className="data-[state=active]:bg-teal-300"
-                                 value="helper">Wolontariusz</TabsTrigger>
-                </TabsList>
-            </Tabs>
-            <div className="grid sm:grid-flow-col gap-6">
-                <div className="grid w-full items-center gap-1.5">
-                    <Label htmlFor="fullname">Imię</Label>
-                    <Input id="fullname"/>
-                </div>
-            </div>
-            <div className="grid sm:grid-flow-col gap-6">
-                <div className="grid w-full items-center gap-1.5">
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email"/>
-                </div>
-            </div>
-            <div className="grid sm:grid-flow-col gap-6">
-                <div className="grid w-full items-center gap-1.5">
-                    <Label htmlFor="password">Hasło</Label>
-                    <Input id="password" type="password"/>
-                </div>
-            </div>
-            <div className="grid sm:grid-flow-col gap-6">
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="age">Wiek</Label>
-                    <Input id="age" type="number" min="0" max="999"/>
-                </div>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="phone">Numer Telefonu</Label>
-                    <Input id="phone" type="tel"/>
-                </div>
-            </div>
-            <Button className="bg-blue-500 hover:bg-blue-600 mt-auto" onClick={() => {
-                setActualStep(prevState => prevState + 1)
-            }}>Dalej
-            </Button>
-        </form>
-    )
+    const [fullFromData, setFullFormData] = useState<IRegisterForm>({
+        accountType: "inNeed",
+        name: "",
+        email: "",
+        password: "",
+        age: 0,
+        phone: "",
+        city: "",
+        helpTypes: []
+    })
 
     const SecondForm = (
         <form className="flex flex-col gap-6">
@@ -118,7 +82,8 @@ export default function Register() {
     const multiForm = [
         {
             title: "Uzupełnij dane 1 / 2",
-            form: FirstForm,
+            form: <FirstStepForm setActualStep={setActualStep} setFullFormData={setFullFormData}
+                                 fullFormData={fullFromData}/>,
         },
         {
             title: "Uzupełnij dane 2 / 2",
@@ -127,7 +92,7 @@ export default function Register() {
     ]
 
     return (
-        <main className="h-screen flex justify-center items-center bg-teal-50 p-5">
+        <main className="h-screen flex justify-center items-center bg-violet-50 p-5">
             <Card className="sm:px-10 sm:py-5 min-w-[300px] w-full max-w-[600px]">
                 <CardHeader>
                     <Link className="text-blue-400 font-semibold py-2" to="/">Powrót</Link>

@@ -1,67 +1,66 @@
-import {Link} from "react-router-dom";
+import { Button } from "./ui/button";
+import { images } from "@/constants";
 
+const  Hero = ()=> {
+  return (
+    <>
+      {/* Hero */}
+      <div className=" overflow-hidden relative  rounded-3xl max-w-[96%] bg-gradient-to-r from-purple-100 via-blue-100 to-blue-100   py-24 justify-between mx-auto flex  h-[630px] px-12 2xl:px-0"
+      // style={{
+      //   backgroundImage: `url(${images.hero7})`,
+      //   backgroundPosition: 'center',
+      //   backgroundRepeat: 'no-repeat',
+      //   backgroundSize: 'cover',
+      // }}
+      >
+{/* <div className="w-full h-full absolute md:rounded-3xl left-0 top-0 opacity-20 bg-slate-900 z-10 pointer-events-none" /> */}
+        {/* Gradients */}
+        {/* <img src="../../public/wolontariat.jpg" alt="" /> */}
 
-const Hero = () => {
-    return (
-        <>
-            {/* Hero */}
-            <div
-                className="relative overflow-hidden py-24 lg:py-32 max-w-[98%] md:rounded-3xl mx-auto flex  pt-3 justify-center px-12 2xl:px-0"
-                style={{
-                    backgroundImage: `url(../../public/wolontariat.jpg)`,
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: 'cover',
-                }}
-            >
-                <div className="w-full h-full absolute top-0 left-0 bg-zinc-800 opacity-60"></div>
-                {/* Gradients */}
-                {/* <img src="../../public/wolontariat.jpg" alt="" /> */}
-                <div
-                    aria-hidden="true"
-                    className="flex absolute -top-96 start-1/2 transform -translate-x-1/2"
-                >
-                    <div
-                        className="bg-gradient-to-r from-background/50 to-background blur-3xl w-[25rem] h-[44rem] rotate-[-60deg] transform -translate-x-[10rem]"/>
-                    <div
-                        className="bg-gradient-to-tl blur-3xl w-[90rem] h-[50rem] rounded-full origin-top-left -rotate-12 -translate-x-[15rem] from-primary-foreground via-primary-foreground to-background"/>
-                </div>
-                {/* End Gradients */}
-                <div className="relative z-10">
-                    <div className="container py-10 lg:py-16">
-                        <div className="max-w-2xl text-center mx-auto">
-
-                            {/* Title */}
-                            <div className="mt-5 max-w-2xl">
-                                <h1 className="text-neutral-200 scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl">
-                                    Razem dla lepszego jutra
-                                </h1>
-                            </div>
-                            {/* End Title */}
-                            <div className="mt-5 max-w-3xl">
-                                <p className="text-xl text-muted-foreground text-neutral-200">
-                                    Łączymy wolontariuszy z potrzebującymi
-                                    Dołącz do nas, aby wprowadzać zmiany w swojej społeczności.
-                                </p>
-                            </div>
-                            {/* Buttons */}
-                            <div className="mt-8 gap-3 flex justify-center">
-                                <button
-                                    className=" border border-slate-900 px-7 py-3 rounded-md bg-teal-400 font-semibold text-gray-900">
-                                    <Link to="/register">Dołącz</Link>
-                                </button>
-                                <button className="border border-neutral-300 px-4 py-3 rounded-md text-neutral-50">
-                                    Zobacz więcej
-                                </button>
-                            </div>
-                            {/* End Buttons */}
-                        </div>
-                    </div>
-                </div>
+        {/* End Gradients */}
+  
+          <div className="container py-10 lg:py-16">
+            <div className="max-w-2xl text-center ml-52 flex flex-col gap-2">
+         
+              {/* Title */}
+              <div className="mt-5 max-w-2xl">
+                <h1 className="text-gray-900 scroll-m-20 text-4xl font-bold tracking-tight lg:text-6xl">
+                Razem dla lepszego jutra
+                </h1>
+              </div>
+              {/* End Title */}
+              <div className="mt-8 max-w-3xl">
+                <p className="text-2xl text-muted-foreground text-gray-700">
+                Łączymy wolontariuszy z potrzebującymi
+                Dołącz do nas, aby wprowadzać zmiany w swojej społeczności.
+                </p>
+              </div>
+              {/* Buttons */}
+              <div className="mt-12 gap-3 flex justify-center">
+                <Button size="lg" className="bg-button_primary py-7 hover:shadow-2xl rounded-2xl hover:bg-button_primary border border-transparent"  >Dołącz teraz</Button>
+                <Button  variant="transparent" className="text-gray-600  py-7 border hover:border-2 hover:text-slate-700" size="lg" >
+                 Zobacz Więcej
+                </Button>
+              </div>
+              {/* End Buttons */}
             </div>
-            {/* End Hero */}
-        </>
-    );
+          </div>
+       
+
+
+
+        {/* <div className="w-[66%]  mr-[230px]  rounded-full bg-teal-200 opacity-50    mt-12  min-h-full"></div> */}
+
+        <img src="../../public/hero3.png" className="w-fit h-[660px] absolute top-12 right-[200px]" alt="" />
+       
+
+      </div>
+      {/* End Hero */}
+    </>
+  );
 }
 
 export default Hero;
+// className=" border border-slate-900 px-7 py-3 rounded-md bg-teal-400 font-semibold text-gray-900"
+
+// className="border border-neutral-300 px-4 py-3 rounded-md text-neutral-50"

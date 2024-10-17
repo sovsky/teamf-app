@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
-import { SiHelpscout } from "react-icons/si";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { IoClose } from "react-icons/io5";
+import React, {useEffect, useState} from 'react'
+import {SiHelpscout} from "react-icons/si";
+import {GiHamburgerMenu} from "react-icons/gi";
+import {IoClose} from "react-icons/io5";
 
 import {  navItems } from '../constants';
 import { useWindowSize } from '@react-hook/window-size';
@@ -18,9 +18,10 @@ const Navbar:React.FC = () => {
     }, [windowWidth]);
 
 
-    const toggleNavbar = ():void=>{
-        setMobileDrawerOpen((prevState)=>!prevState);
+    const toggleNavbar = (): void => {
+        setMobileDrawerOpen((prevState) => !prevState);
     }
+
   return (
     <nav className='sticky top-0 z-50 py-5 backdrop-blur-lg bg-main'
 

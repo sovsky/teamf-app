@@ -64,4 +64,3 @@ export default Hero;
 // className=" border border-slate-900 px-7 py-3 rounded-md bg-teal-400 font-semibold text-gray-900"
 
 // className="border border-neutral-300 px-4 py-3 rounded-md text-neutral-50"
-

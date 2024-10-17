@@ -5,16 +5,17 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class TypeOfAidSeeder extends Seeder
+class ProductCategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('type_of_aid')->insert([
-            ['name' => 'zdalna'],
-            ['name' => 'osobista'],
+        DB::table('product_categories')->insert([
+            ['name' => 'Żywność'],
+            ['name' => 'Środki czystości'],
+            ['name' => 'Medycyna']
         ]);
     }
 }

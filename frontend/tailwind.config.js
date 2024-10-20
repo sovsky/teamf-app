@@ -10,24 +10,26 @@ export default {
   		maxWidth: {
   			'8xl': '1400px'
   		},
-
-		  scaleUpDown: {
-			'0%, 100%': { transform: 'scale(0.5)' },
-			'50%': { transform: 'scale(1.2)' },
-		  
-		},
-		animation: {
-		  scaleUpDown: 'scaleUpDown 2s ease-in-out infinite', // 2 seconds, ease in-out, loop
-		},
-
+  		scaleUpDown: {
+  			'0%, 100%': {
+  				transform: 'scale(0.5)'
+  			},
+  			'50%': {
+  				transform: 'scale(1.2)'
+  			}
+  		},
+  		animation: {
+  			'accordion-down': 'accordion-down 0.2s ease-out',
+  			'accordion-up': 'accordion-up 0.2s ease-out'
+  		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
-			button_primary:'rgb(139, 92, 246)',
-			main:'rgb(246, 246, 246)',
+  			button_primary: 'rgb(139, 92, 246)',
+  			main: 'rgb(246, 246, 246)',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -86,10 +88,6 @@ export default {
   					height: '0'
   				}
   			}
-  		},
-  		animation: {
-  			'accordion-down': 'accordion-down 0.2s ease-out',
-  			'accordion-up': 'accordion-up 0.2s ease-out'
   		}
   	}
   },

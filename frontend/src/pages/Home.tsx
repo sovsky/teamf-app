@@ -3,6 +3,7 @@ import Hero from '../components/Hero'
 import Tiles from '@/components/Tiles'
 
 import HowItWorks from '@/components/HowItWorks'
+import About from '@/components/About'
 
 const Home:React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const Home:React.FC = () => {
       <Tiles/>
       <HowItWorks/>
       </div>
+      <About/>
 
     </div>
   )

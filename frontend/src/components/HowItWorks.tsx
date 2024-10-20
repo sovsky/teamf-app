@@ -30,7 +30,7 @@ const HowItWorks:React.FC = () => {
     )
    })}
    <div className='flex justify-center'>
-   <Button className='w-1/4 py-6'>Załóż konto</Button>
+   <Button className='py-6'>Załóż konto</Button>
    </div>
         </div>
 
@@ -47,7 +47,7 @@ const HowItWorks:React.FC = () => {
     )
    })}
     <div className='flex justify-center'>
-   <Button className='w-1/4 py-6'>Załóż konto</Button>
+   <Button className='py-6'>Załóż konto</Button>
    </div>
         </div>
       </div>

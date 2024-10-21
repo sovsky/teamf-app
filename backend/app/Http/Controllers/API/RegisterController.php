@@ -21,7 +21,7 @@ class RegisterController extends BaseController
             'name' => 'required',
             'email' => 'required|email',
             'password' => 'required',
-            'confirmed_password' => 'required|same:password',
+            'confirm_password' => 'required|same:password',
             'age' => 'required|date', 
             'phone_number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10', 
             'city' => 'required|string|max:100'
@@ -43,7 +43,7 @@ class RegisterController extends BaseController
             }
 
             if ($validator->errors()->has('c_password')) {
-                $errors['confirmed_password'] = 'Confirm password is required and must match the password.';
+                $errors['confirm_password'] = 'Confirm password is required and must match the password.';
             }
 
             if ($validator->errors()->has('age')) {

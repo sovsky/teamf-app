@@ -5,8 +5,7 @@
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {
-        "php": "8.2",
-        "laravel/fortify": "v1.24.2",
+        "php": "8.2.22",
         "laravel/framework": "v11.28.1",
         "laravel/sanctum": "v4.0.3",
         "laravel/tinker": "v2.10.0"

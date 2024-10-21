@@ -1,15 +1,15 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import {motion} from "framer-motion";
 
 const RootLayout:React.FC = () => {
   return (
-    <div className='flex flex-col'
-    >
+    <div className='flex flex-col'>
      <Navbar/>
-      <div className='bg-main '>
+      <motion.div initial={{opacity: 0}} animate={{opacity: 1}} className='bg-main '>
         <Outlet/>
-      </div>
+      </motion.div>
     </div>
   )
 }

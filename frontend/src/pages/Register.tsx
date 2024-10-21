@@ -68,7 +68,7 @@ export default function Register() {
     ]
 
     return (
-        <main className="h-screen flex justify-center items-center bg-violet-50 p-5">
+
             <Card className="sm:px-10 sm:py-5 min-w-[300px] w-full max-w-[600px]">
                 <CardHeader>
                     <Link className="text-blue-400 font-semibold py-2" to="/">Strona Główna</Link>
@@ -78,6 +78,5 @@ export default function Register() {
                     {multiForm[actualStep - 1].form}
                 </CardContent>
             </Card>
-        </main>
     )
 }

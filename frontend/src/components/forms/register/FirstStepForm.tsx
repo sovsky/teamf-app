@@ -7,6 +7,7 @@ import {useForm} from "react-hook-form";
 import {IRegisterForm} from "@/pages/Register.tsx";
 import {ErrorMessage} from "@hookform/error-message";
 
+
 interface Inputs {
     name: string;
     password: string;

@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import {useState} from "react";
 import FirstStepForm from "@/components/forms/register/FirstStepForm.tsx";
 import SecondStepForm from "@/components/forms/register/SecondStepForm.tsx";
+import {motion} from "framer-motion";
 
 export interface IRegisterForm {
     accountType: "inNeed" | "helper";
@@ -67,16 +68,20 @@ export default function Register() {
         }
     ]
 
-    return (
 
-            <Card className="sm:px-10 sm:py-5 min-w-[300px] w-full max-w-[600px]">
-                <CardHeader>
-                    <Link className="text-blue-400 font-semibold py-2" to="/">Strona Główna</Link>
-                    <CardTitle className="text-2xl font-bold">{multiForm[actualStep - 1].title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    {multiForm[actualStep - 1].form}
-                </CardContent>
-            </Card>
+    const MotionCard = motion.create(Card)
+
+    return (
+        <MotionCard initial={{opacity: 0, translateY: -50}}
+                    animate={{opacity: 1, translateY: 0, transition: {duration: 0.5}}}
+                    className="sm:px-10 sm:py-5 min-w-[300px] w-full max-w-[600px]">
+            <CardHeader>
+                <Link className="text-blue-400 font-semibold py-2" to="/">Strona Główna</Link>
+                <CardTitle className="text-2xl font-bold">{multiForm[actualStep - 1].title}</CardTitle>
+            </CardHeader>
+            <CardContent>
+                {multiForm[actualStep - 1].form}
+            </CardContent>
+        </MotionCard>
     )
 }

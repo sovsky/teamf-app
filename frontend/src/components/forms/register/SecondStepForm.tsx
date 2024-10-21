@@ -6,6 +6,7 @@ import {ICity, IHelpType, IRegisterForm} from "@/pages/Register.tsx";
 import {useForm} from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
 
+
 interface ISecondStepForm {
     setActualStep: Dispatch<SetStateAction<number>>,
     setFullFormData: Dispatch<SetStateAction<IRegisterForm>>,

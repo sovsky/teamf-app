@@ -17,7 +17,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('name');
-            $table->integer('age');
+            $table->dateTime('age', precision: 0);
             $table->string('phone_number');
             $table->string('city');
             $table->string('picture')->nullable();

@@ -44,12 +44,12 @@ const Navbar: React.FC = () => {
                             )
                         })}
                     </ul>
-                    <div className="hidden lg:flex justify-center space-x-12 items-center ">
+                    <div className="hidden lg:flex justify-center space-x-7 items-center ">
                         <Link to="/login" className='py-2 px-3 border rounded-md'>
                             Zaloguj
                         </Link>
                         <Link to="/register"
-                              className='bg-button_primary text-neutral-50 font-semibold py-2 px-4 rounded-md'>
+                              className='bg-button_primary text-neutral-50 border border-transparent font-semibold py-2 px-4 rounded-md'>
                             Dołącz
                         </Link>
                     </div>

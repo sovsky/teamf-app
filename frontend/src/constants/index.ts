@@ -1,6 +1,9 @@
 import heroBg from "../../public/wolontariat.jpg"
 import hero7 from "../../public/hero7.svg"
-
+import { LuHelpingHand } from "react-icons/lu";
+import { PiUsers } from "react-icons/pi";
+import { FaRegComments } from "react-icons/fa6";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 export const navItems = [
     { label: "O nas", href: "#" },
@@ -53,3 +56,65 @@ export const navItems = [
     }
   ];
   
+
+  export  const adminNavbarOptions = {
+    user: {
+      name: "shadcn",
+      email: "m@example.com",
+      avatar: "/avatars/shadcn.jpg",
+    },
+    navMain: [
+     
+      {
+        title: "Użytkownicy",
+        url: "#",
+        icon: PiUsers,
+        isActive: true,
+        items: [
+          {
+            title: "Wolontariusze",
+            url: "/admin/volunteers",
+          },
+          {
+            title: "Potrzebujący",
+            url: "/admin/peopleInNeed",
+          },
+      
+        ],
+      },
+      {
+        title: "Formy Pomocy",
+        url: "helpType",
+        icon: LuHelpingHand,
+        items: [
+          {
+            title: "Materialna",
+            url: "/meterial",
+          },
+          {
+            title: "Medyczna",
+            url: "#",
+          },
+          {
+            title: "Psychologiczna",
+            url: "#",
+          },
+        ],
+      },
+  
+      {
+        title: "Komentarze",
+        url: "#",
+        icon: FaRegComments,
+
+      },
+    ],
+    navFooter:[
+      {
+        title:"Powrót",
+        url:"/",
+        icon: IoMdArrowRoundBack,
+      }
+    ]
+  
+  }

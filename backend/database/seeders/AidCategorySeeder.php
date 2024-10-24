@@ -4,13 +4,14 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class AidCategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
-    public function run(): void
+    public static function run(): void
     {
         // remote
         $remoteId = DB::table('aid_types')->where('name', 'zdalna')->first()->id;

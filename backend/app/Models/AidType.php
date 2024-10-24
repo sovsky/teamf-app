@@ -12,6 +12,8 @@ class AidType extends Model
         'name'
     ];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     public function aidCategories(): HasMany {
         return $this->hasMany(AidCategory::class);
     }

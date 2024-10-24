@@ -2,22 +2,22 @@ import React, {useEffect, useState} from 'react'
 import {SiHelpscout} from "react-icons/si";
 import {GiHamburgerMenu} from "react-icons/gi";
 import {IoClose} from "react-icons/io5";
-
 import {navItems} from '@/constants';
 import {useWindowSize} from '@react-hook/window-size';
 import {Link} from "react-router-dom";
+import useAuth from "@/hooks/useAuth.ts";
 
 const Navbar: React.FC = () => {
 
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
     const [windowWidth] = useWindowSize();
+    const {authData} = useAuth()
 
     useEffect(() => {
         if (windowWidth > 780) {
             setMobileDrawerOpen(false);
         }
     }, [windowWidth]);
-
 
     const toggleNavbar = (): void => {
         setMobileDrawerOpen((prevState) => !prevState);
@@ -45,13 +45,14 @@ const Navbar: React.FC = () => {
                         })}
                     </ul>
                     <div className="hidden lg:flex justify-center space-x-12 items-center ">
-                        <Link to="/login" className='py-2 px-3 border rounded-md'>
-                            Zaloguj
-                        </Link>
-                        <Link to="/register"
-                              className='bg-button_primary text-neutral-50 font-semibold py-2 px-4 rounded-md'>
-                            Dołącz
-                        </Link>
+                        {authData.token ? <p>{authData.email}</p> : <>
+                            <Link to="/login" className='py-2 px-3 border rounded-md'>
+                                Zaloguj
+                            </Link>
+                            <Link to="/register"
+                                  className='bg-button_primary text-neutral-50 font-semibold py-2 px-4 rounded-md'>
+                                Dołącz
+                            </Link></>}
                     </div>
                     <div className="lg:hidden md:flex flex-col justify-end">
                         <button onClick={toggleNavbar}>

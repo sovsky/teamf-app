@@ -4,17 +4,7 @@ import {useState} from "react";
 import FirstStepForm from "@/components/forms/register/FirstStepForm.tsx";
 import SecondStepForm from "@/components/forms/register/SecondStepForm.tsx";
 import {motion} from "framer-motion";
-
-export interface IRegisterForm {
-    accountType: "inNeed" | "helper";
-    name: string;
-    email: string;
-    password: string;
-    age: number;
-    phone: string;
-    city: string;
-    helpTypes: string[];
-}
+import useRegister from "@/hooks/useRegister.ts";
 
 export interface ICity {
     id: number,
@@ -44,30 +34,21 @@ export default function Register() {
     ]
 
     const [actualStep, setActualStep] = useState(1)
-    const [fullFromData, setFullFormData] = useState<IRegisterForm>({
-        accountType: "inNeed",
-        name: "",
-        email: "",
-        password: "",
-        age: 0,
-        phone: "",
-        city: "",
-        helpTypes: []
-    })
+    const {formData, setFormData, submitHandler, status} = useRegister()
 
     const multiForm = [
         {
             title: "Uzupełnij dane 1 / 2",
-            form: <FirstStepForm setActualStep={setActualStep} setFullFormData={setFullFormData}
-                                 fullFormData={fullFromData}/>,
+            form: <FirstStepForm setActualStep={setActualStep} setFullFormData={setFormData}
+                                 fullFormData={formData}/>,
         },
         {
             title: "Uzupełnij dane 2 / 2",
-            form: <SecondStepForm setActualStep={setActualStep} setFullFormData={setFullFormData}
-                                  fullFormData={fullFromData} cities={Cities} helpTypes={HelpTypes}/>
+            form: <SecondStepForm submitHandler={submitHandler} setActualStep={setActualStep}
+                                  setFullFormData={setFormData} status={status}
+                                  fullFormData={formData} cities={Cities} helpTypes={HelpTypes}/>
         }
     ]
-
 
     const MotionCard = motion.create(Card)
 

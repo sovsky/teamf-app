@@ -4,27 +4,28 @@ import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Dispatch, SetStateAction, useRef} from "react";
 import {useForm} from "react-hook-form";
-import {IRegisterForm} from "@/pages/Register.tsx";
 import {ErrorMessage} from "@hookform/error-message";
-
+import {IRegisterData} from "@/hooks/useRegister.ts";
 
 interface Inputs {
     name: string;
     password: string;
+    confirm_password: string;
     email: string;
-    age: number;
-    phone: string;
+    age: string;
+    phone_number: string;
 }
 
 interface IFirstStepForm {
     setActualStep: Dispatch<SetStateAction<number>>,
-    setFullFormData: Dispatch<SetStateAction<IRegisterForm>>,
-    fullFormData: IRegisterForm
+    setFullFormData: Dispatch<SetStateAction<IRegisterData>>,
+    fullFormData: IRegisterData
 }
 
 export default function FirstStepForm({setActualStep, setFullFormData, fullFormData}: IFirstStepForm) {
 
-    const {register, handleSubmit, formState} = useForm<Inputs>()
+    const maxDate = new Date().toISOString().split("T")[0]
+    const {register, handleSubmit, formState, getValues} = useForm<Inputs>()
     const {errors} = formState
     const inNeedTabRef = useRef<HTMLButtonElement | null>(null)
 
@@ -91,49 +92,57 @@ export default function FirstStepForm({setActualStep, setFullFormData, fullFormD
                            type="password" {...register("password", {
                         required: "Uzupełnij hasło",
                         minLength: {
-                            value: 8,
-                            message: "Hasło musi mieć co najmniej 8 znaków"
+                            value: 6,
+                            message: "Hasło musi mieć co najmniej 6 znaków"
                         },
-                        pattern: {
-                            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                            message: "Hasło musi zawierać co najmniej jedną literę i jedną cyfrę"
-                        }
                     })}/>
                     <ErrorMessage name="password" errors={errors}
                                   render={({message}) => <p className="text-red-500">{message}</p>}/>
                 </div>
             </div>
             <div className="grid sm:grid-flow-col gap-6">
-                <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="age">Wiek</Label>
-                    <Input defaultValue={fullFormData.age} id="age" type="number" min="0" max="99" {...register("age", {
+                <div className="grid w-full items-center gap-1.5">
+                    <Label htmlFor="confirmPassword">Powtórz Hasło</Label>
+                    <Input id="confirmPassword" type="password" {...register("confirm_password", {
+                        required: "Powtórz hasło",
+                        validate: value => value === getValues("password") || "Hasła nie są takie same"
+                    })}/>
+                    <ErrorMessage name="confirm_password" errors={errors}
+                                  render={({message}) => <p className="text-red-500">{message}</p>}/>
+                </div>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-6">
+                <div className="grid w-full items-center gap-1.5">
+                    <Label htmlFor="age">Data urodzenia</Label>
+                    <Input defaultValue={fullFormData.age} id="age" type="date" min="1899-01-01"
+                           max={maxDate} {...register("age", {
                         required: "Uzupełnij wiek",
                         min: {
-                            value: 1,
+                            value: "1899-01-01",
                             message: "Wprowadź poprawny wiek"
                         },
                         max: {
-                            value: 99,
+                            value: maxDate,
                             message: "Wprowadź poprawny wiek"
                         }
                     })}/>
                 </div>
-                <div className="grid w-full max-w-sm items-center gap-1.5">
+                <div className="grid w-full items-center gap-1.5">
                     <Label htmlFor="phone">Numer Telefonu</Label>
-                    <Input defaultValue={fullFormData.phone} id="phone" type="tel" {...register("phone", {
+                    <Input defaultValue={fullFormData.phone_number} id="phone" type="tel" {...register("phone_number", {
                         required: "Uzupełnij numer telefonu",
+                        minLength: 10,
                         pattern: {
-                            value: /^[0-9]{9,15}$/,
+                            value: /^([0-9\s-+()]*)$/,
                             message: "Wprowadź poprawny numer telefonu (9-15 cyfr)"
                         }
                     })} />
-
                 </div>
             </div>
             <div>
                 <ErrorMessage name="age" errors={errors}
                               render={({message}) => <p className="text-red-500">{message}</p>}/>
-                <ErrorMessage name="phone" errors={errors}
+                <ErrorMessage name="phone_number" errors={errors}
                               render={({message}) => <p className="text-red-500">{message}</p>}/>
             </div>
             <Button

@@ -1,19 +1,22 @@
-import {Routes, Route} from "react-router-dom";
+import {Routes, Route, Navigate} from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
 import Home from "./pages/Home";
 import Register from "@/pages/Register.tsx";
 import Login from "@/pages/Login.tsx";
 import FormsLayout from "@/layouts/FormsLayout.tsx";
+import useAuth from "@/hooks/useAuth.ts";
 
 
 const App = () => {
+
+    const {authData} = useAuth()
 
     return (
         <Routes>
             <Route path="/" element={<RootLayout/>}>
                 <Route index element={<Home/>}/>
             </Route>
-            <Route path="/" element={<FormsLayout/>}>
+            <Route path="/" element={authData.token ? <Navigate to={"/"}/> : <FormsLayout/>}>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/login" element={<Login/>}/>
             </Route>

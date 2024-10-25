@@ -2,10 +2,11 @@ import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {Dispatch, SetStateAction, useRef} from "react";
+import {Dispatch, SetStateAction} from "react";
 import {useForm} from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
-import {IRegisterData} from "@/hooks/useRegister.ts";
+import {AccountType, IRegisterData} from "@/hooks/useRegister.ts";
+import {useSearchParams} from "react-router-dom";
 
 interface Inputs {
     name: string;
@@ -24,21 +25,22 @@ interface IFirstStepForm {
 
 export default function FirstStepForm({setActualStep, setFullFormData, fullFormData}: IFirstStepForm) {
 
+    const [searchParams, setSearchParams] = useSearchParams()
+
     const maxDate = new Date().toISOString().split("T")[0]
     const {register, handleSubmit, formState, getValues} = useForm<Inputs>()
     const {errors} = formState
-    const inNeedTabRef = useRef<HTMLButtonElement | null>(null)
 
-    const getAccountType = (): "inNeed" | "helper" => {
-        if (inNeedTabRef.current?.getAttribute("data-state") === "active") {
-            return "inNeed"
-        }
+    const getRole = (): AccountType => {
+        return searchParams.get("role") === "inNeed" ? "inNeed" : "volunteer"
+    }
 
-        return "helper"
+    const setRole = (role: AccountType) => {
+        setSearchParams({role})
     }
 
     const onSubmit = (data: Inputs) => {
-        const accountType = getAccountType()
+        const accountType = getRole()
 
         // save data from first step form to fullFormData state
         setFullFormData(prevState => {
@@ -55,12 +57,12 @@ export default function FirstStepForm({setActualStep, setFullFormData, fullFormD
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-            <Tabs defaultValue={fullFormData.accountType} className="py-2">
+            <Tabs defaultValue={getRole()} className="py-2">
                 <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger ref={inNeedTabRef} className="data-[state=active]:bg-violet-300"
+                    <TabsTrigger onClick={() => setRole("inNeed")} className="data-[state=active]:bg-violet-300"
                                  value="inNeed">Potrzebujący</TabsTrigger>
-                    <TabsTrigger className="data-[state=active]:bg-violet-300"
-                                 value="helper">Wolontariusz</TabsTrigger>
+                    <TabsTrigger onClick={() => setRole("volunteer")} className="data-[state=active]:bg-violet-300"
+                                 value="volunteer">Wolontariusz</TabsTrigger>
                 </TabsList>
             </Tabs>
             <div className="grid sm:grid-flow-col gap-6">

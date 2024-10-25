@@ -3,8 +3,10 @@ import {useMutation} from "@tanstack/react-query";
 import register from "@/lib/api/register.ts";
 import useAuth from "@/hooks/useAuth.ts";
 
+export type AccountType = "inNeed" | "volunteer";
+
 export interface IRegisterData {
-    accountType: "inNeed" | "helper";
+    accountType: AccountType;
     name: string;
     email: string;
     password: string;

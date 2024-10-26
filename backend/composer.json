@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "8.2",
+        "darkaonline/l5-swagger": "^8.6",
         "laravel/framework": "v11.28.1",
         "laravel/sanctum": "v4.0.3",
         "laravel/tinker": "v2.10.0"

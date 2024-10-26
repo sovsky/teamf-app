@@ -4,6 +4,7 @@ import { LuHelpingHand } from "react-icons/lu";
 import { PiUsers } from "react-icons/pi";
 import { FaRegComments } from "react-icons/fa6";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { MdOutlineDashboard } from "react-icons/md";
 
 export const navItems = [
     { label: "O nas", href: "#" },
@@ -64,7 +65,13 @@ export const navItems = [
       avatar: "/avatars/shadcn.jpg",
     },
     navMain: [
-     
+     {
+      title:"Dashboard",
+      url:"/admin",
+      icon: MdOutlineDashboard,
+      isActive:true,
+      
+     },
       {
         title: "Użytkownicy",
         url: "#",
@@ -89,15 +96,15 @@ export const navItems = [
         items: [
           {
             title: "Materialna",
-            url: "/meterial",
+            url: "/admin/meterial-help",
           },
           {
             title: "Medyczna",
-            url: "#",
+            url: "/admin/medical-help",
           },
           {
             title: "Psychologiczna",
-            url: "#",
+            url: "/admin/psychological-help",
           },
         ],
       },

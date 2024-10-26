@@ -35,10 +35,12 @@ const Navbar: React.FC = () => {
                         <span className='text-xl tracking-tight text-slate-600 font-semibold'>SąsiadWPotrzebie </span>
 
                     </div>
-                    <ul className='hidden lg:flex ml-14 space-x-12 font-semibold text-gray-700 text-lg'>
+                    <ul className='hidden lg:flex ml-14 space-x-12  text-gray-700 text-lg font-medium dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
                         {navItems.map((item, index) => {
                             return (
-                                <li key={index}>
+                                <li 
+                                className='block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent'
+                                key={index}>
                                     <a href={item.href}>{item.label}</a>
                                 </li>
                             )

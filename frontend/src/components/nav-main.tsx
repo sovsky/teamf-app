@@ -20,12 +20,9 @@ import {
 } from "@/components/ui/sidebar"
 import { Link } from "react-router-dom"
 
-export function SidebarItem({
+export function NavMain({
   items,
-  label,
-  cn
 }: {
-  label?:string,
   items: {
     title: string
     url: string
@@ -38,33 +35,44 @@ export function SidebarItem({
   }[]
 }) {
   return (
-    <SidebarGroup className={cn}>
-      <SidebarGroupLabel>{label}</SidebarGroupLabel>
-      <SidebarMenu >
+    <SidebarGroup>
+      <SidebarGroupLabel className="text-gray-300/70 text-xs">Zarządzaj</SidebarGroupLabel>
+      <SidebarMenu className="">
         {items.map((item) => (
-          <Collapsible key={item.title} asChild defaultOpen={item.isActive} >
+          <Collapsible key={item.title} asChild defaultOpen={item.isActive}>
             <SidebarMenuItem >
-              <SidebarMenuButton asChild tooltip={item.title} >
-                <a href={item.url} >
-                  <item.icon />
-                  <span >{item.title}</span>
-                </a>
+            <CollapsibleTrigger asChild className=" py-5 " >
+              <SidebarMenuButton asChild tooltip={item.title} className="cursor-pointer ">
+             {item.items?.length ? (
+                 <div className="hover:bg-gray-500">
+                 <item.icon />
+                 <span>{item.title}</span>
+               </div>
+             ):
+             (<Link to={item.url} className="hover:bg-gray-500">
+             
+              <item.icon />
+              <span>{item.title}</span>
+           
+         </Link>)
+             }
               </SidebarMenuButton>
+              </CollapsibleTrigger>
               {item.items?.length ? (
                 <>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuAction className={`${cn} data-[state=open]:rotate-90 `}>
+                
+                    <SidebarMenuAction className="data-[state=open]:rotate-90">
                       <ChevronRight />
                       <span className="sr-only">Toggle</span>
                     </SidebarMenuAction>
-                  </CollapsibleTrigger>
+                
                   <CollapsibleContent>
                     <SidebarMenuSub>
                       {item.items?.map((subItem) => (
-                        <SidebarMenuSubItem key={subItem.title} className="" >
-                          <SidebarMenuSubButton asChild >
-                            <Link to={subItem.url} >
-                              <span className="text-neutral-200" >{subItem.title}</span>
+                        <SidebarMenuSubItem key={subItem.title}>
+                          <SidebarMenuSubButton asChild>
+                            <Link to={subItem.url} className="hover:bg-gray-600">
+                              <span className="text-gray-200">{subItem.title}</span>
                             </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>

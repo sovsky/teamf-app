@@ -1,12 +1,64 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use Illuminate\Http\Request;
-use App\Http\Controllers\API\BaseController as BaseController;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Validator;
+use App\Models\User;
+use Illuminate\Http\Request;
+use OpenApi\Attributes as OA;
+use OpenApi\Attributes\Schema;
+use OpenApi\Attributes\Property;
 use Illuminate\Http\JsonResponse;
+use OpenApi\Attributes\MediaType;
+use OpenApi\Attributes\RequestBody;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Controllers\API\BaseController as BaseController;
+
+#[OA\Post(
+    path: "/api/register",
+    summary: "Registration of platform users",
+    requestBody: new RequestBody(required: true,
+            content: new MediaType(mediaType: "application/json",
+            schema: new Schema(required: ["name", "email", "password", "password_confirm", "age", "phone_number", "city"],
+                    properties: [
+                        new Property(property: 'name', description: "User name", type: "string"),
+                        new Property(property: 'email', description: "User email", type: "string"),
+                        new OA\Property(property: 'password', description: "User password", type: "string"),
+                        new OA\Property(property: 'password_confirm', description: "User password confirmation", type: "string"),
+                        new Property(property: 'age', description: "User age", type: "datetime"),
+                        new OA\Property(property: 'phone_number', description: "User phone_number", type: "string"),
+                        new OA\Property(property: 'city', description: "User city", type: "string"),
+                    ]))),
+    tags: ["Users"],
+    responses: [
+        new OA\Response(response: Response::HTTP_CREATED, description: "User register successfully."),
+        new OA\Response(response: Response::HTTP_UNPROCESSABLE_ENTITY, description: "Unprocessable entity"),
+        new OA\Response(response: Response::HTTP_BAD_REQUEST, description: "Bad Request"),
+        new OA\Response(response: Response::HTTP_INTERNAL_SERVER_ERROR, description: "Server Error")
+    ]
+)]
+
+#[OA\Post(
+    path: "/api/login",
+    summary: "Login of platform users",
+    requestBody: new OA\RequestBody(required: true,
+            content: new OA\MediaType(mediaType: "application/x-www-form-urlencoded",
+            schema: new OA\Schema(required: [ "token", "email", "password"],
+                    properties: [
+                        new Property(property: 'token', description: "Generated token", type: "string"),
+                        new OA\Property(property: 'email', description: "User email", type: "string"),
+                        new OA\Property(property: 'password', description: "User password", type: "string"),
+                    ]))),
+    tags: ["Users"],
+    responses: [
+        new OA\Response(response: Response::HTTP_CREATED, description: "User login successfully."),
+        new OA\Response(response: Response::HTTP_UNPROCESSABLE_ENTITY, description: "Unprocessable entity"),
+        new OA\Response(response: Response::HTTP_BAD_REQUEST, description: "Bad Request"),
+        new OA\Response(response: Response::HTTP_INTERNAL_SERVER_ERROR, description: "Server Error")
+    ]
+)]
+
+
 class RegisterController extends BaseController
 {
     /**

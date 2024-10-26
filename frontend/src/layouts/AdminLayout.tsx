@@ -14,18 +14,18 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { adminNavbarOptions } from "@/constants"
+import { adminNavbarOptions, breadcrumbTranslations } from "@/constants"
 import { Link, Outlet, useLocation } from "react-router-dom"
 
-export default function AdminLayout() {
+const AdminLayout:React.FC = () => {
   const {pathname} =useLocation();
   const pathSegments = pathname.replace(/^\/admin/, "").split("/").filter(Boolean);
-  console.log(pathname)
+
   return (
 
 <SidebarProvider >
       <AppSidebar />
-      <SidebarInset className="">
+      <SidebarInset className="bg-zinc-100">
         <header className="flex h-16 shrink-0  items-center gap-2 justify-between">
  
           <div className="flex items-center gap-2 px-4">
@@ -35,7 +35,7 @@ export default function AdminLayout() {
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
                   <BreadcrumbLink >
-                  <Link to="/admin">  Admin</Link>
+                  <Link to="/admin">Pulpit</Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
@@ -44,7 +44,7 @@ export default function AdminLayout() {
                   {pathSegments.map((segment, index) => {
                   // Construct the path up to the current segment
                   const to = `/admin/${pathSegments.slice(0, index + 1).join("/")}`;
-
+                  const translatedSegment = breadcrumbTranslations[segment] || segment; // Użyj tłumaczenia lub oryginalnej nazwy
                   return (
                   
          
@@ -53,7 +53,7 @@ export default function AdminLayout() {
                         <BreadcrumbLink>
                           <Link to={to}>
                             {/* Capitalize and show segment */}
-                            {segment.charAt(0).toUpperCase() + segment.slice(1)}
+                            {translatedSegment.charAt(0).toUpperCase() + translatedSegment.slice(1)}
                           </Link>
                         </BreadcrumbLink>
                       </BreadcrumbItem>
@@ -79,3 +79,4 @@ export default function AdminLayout() {
 
   )
 }
+export default  AdminLayout;

@@ -44,12 +44,12 @@ export function SidebarItem({
         {items.map((item) => (
           <Collapsible key={item.title} asChild defaultOpen={item.isActive} >
             <SidebarMenuItem >
-              <SidebarMenuButton asChild tooltip={item.title} >
+              {/* <SidebarMenuButton asChild tooltip={item.title} >
                 <a href={item.url} >
                   <item.icon />
                   <span >{item.title}</span>
                 </a>
-              </SidebarMenuButton>
+              </SidebarMenuButton> */}
               {item.items?.length ? (
                 <>
                   <CollapsibleTrigger asChild>
@@ -64,7 +64,7 @@ export function SidebarItem({
                         <SidebarMenuSubItem key={subItem.title} className="" >
                           <SidebarMenuSubButton asChild >
                             <Link to={subItem.url} >
-                              <span className="text-neutral-200" >{subItem.title}</span>
+                              <span className="text-neutral-200 " >{subItem.title}</span>
                             </Link>
                           </SidebarMenuSubButton>
                         </SidebarMenuSubItem>

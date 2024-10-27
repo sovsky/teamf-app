@@ -25,7 +25,7 @@ const PeopleInNeed:React.FC = () => {
   return key.charAt(0).toUpperCase() + key.slice(1); // Pozostałe klucze w formie PascalCase
 }).filter(Boolean).map((key)=>{
   return(
-    <div className={key === "Name" ? "'shrink-0 flex-1' w-1/6": 'shrink-0 flex-1'}>{key}</div>
+    <div className={key === "Name" ? "'shrink-0 flex-1' w-1/6": 'shrink-0 flex-1 flex justify-center'}>{key}</div>
   )
 })}
 </div>
@@ -40,23 +40,23 @@ const PeopleInNeed:React.FC = () => {
    <span>{volunteer.lastName}</span>
    </div>
 
-<div className='shrink-0 flex-1'>
+<div className='shrink-0 flex-1 flex justify-center'>
   <span>{volunteer.nickname}</span>
 </div>
 
-<div className='shrink-0 flex-1'>
+<div className='shrink-0 flex-1 flex justify-center'>
   <span>{volunteer.email}</span>
 </div>
 
-<div className='shrink-0 flex-1'>
+<div className='shrink-0 flex-1 flex justify-center'>
   <span>{volunteer.age}</span>
 </div>
 
-<div className='shrink-0 flex-1'>
+<div className='shrink-0 flex-1 flex justify-center'>
   <span>{volunteer.city}</span>
 </div>
 
-<div className='w-fit cursor-pointer hover:text-teal-600'>
+<div className='w-fit cursor-pointer hover:text-teal-600 '>
   <IoIosMore className='w-6 h-6'/>
 </div>
     </div>

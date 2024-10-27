@@ -37,7 +37,7 @@ export function NavMain({
 
   return (
     <SidebarGroup>
-      <SidebarGroupLabel className="text-gray-300/70 text-xs">
+      <SidebarGroupLabel className="text-slate-500 text-xs">
         Zarządzaj
       </SidebarGroupLabel>
       <SidebarMenu className="">
@@ -91,8 +91,8 @@ export function NavMain({
                               <SidebarMenuSubButton asChild>
                                 <Link
                                   to={subItem.url}
-                                  className={`hover:bg-gray-600 ${
-                                    isSubItemActive ? "bg-teal-600 text-teal-50" : "text-gray-100"
+                                  className={`hover:bg-gray-600 text-gray-400 ${
+                                    isSubItemActive ? "bg-teal-600 text-gray-50" : "text-gray-100"
                                   }`}
                                 >
                                   <span>{subItem.title}</span>

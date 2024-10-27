@@ -12,6 +12,7 @@ import AdminPanel from "./pages/AdminPanel";
 import MaterialHelp from "./pages/Admin/MaterialHelp";
 import MedicalHelp from "./pages/Admin/MedicalHelp";
 import PsychologicalHelp from "./pages/Admin/PsychologicalHelp";
+import Comments from "./pages/Admin/Comments";
 
 
 const App = () => {
@@ -36,6 +37,7 @@ const App = () => {
                 <Route path="/admin/material-help" element={<MaterialHelp/>}/>
                 <Route path="/admin/medical-help" element={<MedicalHelp/>}/>
                 <Route path="/admin/psychological-help" element={<PsychologicalHelp/>}/>
+                <Route path="/admin/comments" element={<Comments/>}/>
             </Route>
 
         </Routes>

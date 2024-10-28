@@ -6,12 +6,13 @@ import {navItems} from '@/constants';
 import {useWindowSize} from '@react-hook/window-size';
 import {Link} from "react-router-dom";
 import useAuth from "@/hooks/useAuth.ts";
+import NavProfile from "@/components/NavProfile.tsx";
 
 const Navbar: React.FC = () => {
 
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
     const [windowWidth] = useWindowSize();
-    const {authData} = useAuth()
+    const {user, logoutHandler} = useAuth()
 
     useEffect(() => {
         if (windowWidth > 780) {
@@ -45,14 +46,16 @@ const Navbar: React.FC = () => {
                         })}
                     </ul>
                     <div className="hidden lg:flex justify-center space-x-12 items-center ">
-                        {authData.token ? <p>{authData.email}</p> : <>
-                            <Link to="/login" className='py-2 px-3 border rounded-md'>
-                                Zaloguj
-                            </Link>
-                            <Link to="/register"
-                                  className='bg-button_primary text-neutral-50 font-semibold py-2 px-4 rounded-md'>
-                                Dołącz
-                            </Link></>}
+                        {user.token ? <NavProfile user={user} logoutHandler={logoutHandler}/> :
+                            <>
+                                <Link to="/login" className='py-2 px-3 border rounded-md'>
+                                    Zaloguj
+                                </Link>
+                                <Link to="/register"
+                                      className='bg-button_primary text-neutral-50 font-semibold py-2 px-4 rounded-md'>
+                                    Dołącz
+                                </Link>
+                            </>}
                     </div>
                     <div className="lg:hidden md:flex flex-col justify-end">
                         <button onClick={toggleNavbar}>

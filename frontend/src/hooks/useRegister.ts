@@ -18,7 +18,7 @@ export interface IRegisterData {
 
 export default function useRegister() {
 
-    const {setAuthData} = useAuth()
+    const {setUserWithStorage} = useAuth()
     const [formData, setFormData] = useState<IRegisterData>({
         accountType: "inNeed",
         name: "",
@@ -33,8 +33,7 @@ export default function useRegister() {
     const {mutate, status, error} = useMutation({
         mutationFn: register,
         onSuccess: (data) => {
-            console.log(data.data.data)
-            setAuthData(data.data.data)
+            setUserWithStorage(data.data.data)
         }
     })
 

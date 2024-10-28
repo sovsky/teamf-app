@@ -4,11 +4,11 @@ import useAuth from "@/hooks/useAuth.ts";
 
 export default function useLogin() {
 
-    const {setAuthData} = useAuth()
+    const {setUserWithStorage} = useAuth()
     const {mutate, status, error} = useMutation({
         mutationFn: login,
         onSuccess: (data) => {
-            setAuthData(data.data.data)
+            setUserWithStorage(data.data.data)
         }
     })
 

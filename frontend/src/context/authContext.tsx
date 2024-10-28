@@ -1,33 +1,49 @@
-import {createContext, Dispatch, ReactNode, SetStateAction, useState} from "react";
+import {createContext, ReactNode, useEffect, useState} from "react";
 
-interface IAuthData {
+export interface IAuthData {
     email: string,
     token: string
 }
 
 interface ProviderProps {
-    authData: IAuthData,
-    setAuthData: Dispatch<SetStateAction<IAuthData>>,
+    user: IAuthData,
+    setUserWithStorage: (data: IAuthData) => void
     logoutHandler: () => void
 }
 
 export const AuthContext = createContext<ProviderProps | null>(null)
 
 export function AuthProvider({children}: { children: ReactNode }) {
-    const [authData, setAuthData] = useState<IAuthData>({
+    const [user, setUser] = useState<IAuthData>({
         email: "",
         token: ""
     })
 
+    useEffect(() => {
+        const auth = localStorage.getItem("auth")
+        if (auth) {
+            const data = JSON.parse(auth)
+
+            if (typeof data.token === "string" && typeof data.email === "string") {
+                setUser(data)
+            }
+        }
+    }, []);
+
+    const setUserWithStorage = (data: IAuthData) => {
+        setUser(data)
+        localStorage.setItem("auth", JSON.stringify(data))
+    }
+
     const logoutHandler = () => {
-        setAuthData({
+        setUser({
             email: "",
             token: ""
         })
     }
 
     return (
-        <AuthContext.Provider value={{authData, setAuthData, logoutHandler}}>
+        <AuthContext.Provider value={{user, setUserWithStorage, logoutHandler}}>
             {children}
         </AuthContext.Provider>
     )

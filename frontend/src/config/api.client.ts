@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const opts = {
-    baseURL: import.meta.env.VITE_BACKEND_BASE_URL,
     withCredentials: true,
+    withXSRFToken: true,
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',

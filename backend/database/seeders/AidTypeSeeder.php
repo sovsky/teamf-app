@@ -11,7 +11,7 @@ class AidTypeSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public static function run(): void
+    public function run(): void
     {
         DB::table('aid_types')->insert([
             ['name' => 'zdalna'],

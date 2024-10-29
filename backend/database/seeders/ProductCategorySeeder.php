@@ -11,7 +11,7 @@ class ProductCategorySeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public static function run(): void
+    public function run(): void
     {
         DB::table('product_categories')->insert([
             ['name' => 'Produkty spożywcze'],

@@ -11,7 +11,7 @@ class ProductSeeder extends Seeder
     /**
      * Run the database seeds.
      */
-    public static function run(): void
+    public function run(): void
     {
         $aidCategory = DB::table('aid_categories')->where('name', 'materialna')->first()->id;
 

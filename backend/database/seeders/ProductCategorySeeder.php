@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class ProductCategorySeeder extends Seeder
 {
@@ -13,9 +14,16 @@ class ProductCategorySeeder extends Seeder
     public function run(): void
     {
         DB::table('product_categories')->insert([
-            ['name' => 'Żywność'],
-            ['name' => 'Środki czystości'],
-            ['name' => 'Medycyna']
+            ['name' => 'Produkty spożywcze'],
+            ['name' => 'Artykuły dla zwierząt'],
+            ['name' => 'Książki'],
+            ['name' => 'Utrzymanie czystości'],
+            ['name' => 'Odzież męska'],
+            ['name' => 'Odzież damska'],
+            ['name' => 'Zabawki'],
+            ['name' => 'Elektronika'],
+            ['name' => 'Zdrowie'],
+            ['name' => 'Uroda'],
         ]);
     }
 }

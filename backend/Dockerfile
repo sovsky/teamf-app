@@ -26,4 +26,4 @@ RUN composer install --prefer-dist --no-interaction --verbose
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
 # Uruchom PHP-FPM
-CMD ["php-fpm"]
+CMD ["./run.sh"]

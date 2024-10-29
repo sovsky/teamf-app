@@ -62,7 +62,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 )]
 
 
-class RegisterController extends BaseController
+class UserController extends BaseController
 {
     /**
      * Register api
@@ -72,81 +72,41 @@ class RegisterController extends BaseController
     public function register(Request $request): JsonResponse
     {
         // Validate fields
-        $validator = Validator::make($request->all(), [
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:users,email',
             'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
             'age' => 'required|date',
             'phone_number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'city' => 'required|string|max:100'
         ]);
 
-        if ($validator->fails()) {
-            $errors = [];
-
-            // error handling for each field
-            if ($validator->errors()->has('name')) {
-                $errors['name'] = 'Name is required and should be a valid string with a maximum length of 255 characters.';
-            }
-
-            if ($validator->errors()->has('email')) {
-                $errors['email'] = 'A valid email is required and it must be unique.';
-            }
-
-            if ($validator->errors()->has('password')) {
-                $errors['password'] = 'Password is required and should have a minimum length of 6 characters.';
-            }
-
-            if ($validator->errors()->has('c_password')) {
-                $errors['confirm_password'] = 'Confirm password is required and must match the password.';
-            }
-
-            if ($validator->errors()->has('age')) {
-                $errors['age'] = 'Age is required, must be an date.';
-            }
-
-            if ($validator->errors()->has('phone_number')) {
-                $errors['phone_number'] = 'Phone number is required, must be at least 10 characters long, and should follow a valid format.';
-            }
-
-            if ($validator->errors()->has('city')) {
-                $errors['city'] = 'City is required and must be a valid string with a maximum length of 100 characters.';
-            }
-
-            return $this->sendError('Validation Error.', $errors);
-        }
-
-        $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
-        $user = User::create($input);
+        $validated['password'] = Hash::make($validated['password']);
+        $user = User::create($validated);
 
         // Generating a token and setting it in an HTTP-only cookie
-        $token = $user->createToken('AppToken')->plainTextToken;
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json(['message' => 'User registered successfully.'], Response::HTTP_CREATED)
-                         ->cookie('token', $token, 60 * 24, '/', null, true, true, false, 'Strict');
+                         ->cookie('token', $token, 60 * 24, '/', null, false, true, false);
     }
 
     public function login(Request $request): JsonResponse
     {
         // Field validation
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
+        $validated = $request->validate([
+            'email' => 'required|email|exists:users,email',
             'password' => 'required|min:8'
         ]);
 
-        if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
-        }
-
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($validated)) {
             $user = Auth::user();
-            $token = $user->createToken('AppToken')->plainTextToken;
+            $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json(['message' => 'User logged in successfully.'], Response::HTTP_OK)
-                             ->cookie('token', $token, 60 * 24, '/', null, true, true, false, 'Strict');
+                             ->cookie('token', $token, 60 * 24, '/', null, false, true, false);
         }
 
         return $this->sendError('Unauthorized', ['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);

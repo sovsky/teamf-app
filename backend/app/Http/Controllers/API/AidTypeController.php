@@ -29,9 +29,7 @@ class AidTypeController extends BaseController
      */
     public function getAidTypeById(int $aidTypeId): JsonResponse
     {
-        $aidType = AidType::find($aidTypeId);
-
-        if (is_null($aidType)) return $this->sendError('Aid type not found.');
+        $aidType = AidType::findOrFail($aidTypeId);
 
         return $this->sendResponse($aidType, 'Aid type by id.');
     }
@@ -47,9 +45,7 @@ class AidTypeController extends BaseController
             'name' => 'sometimes|required',
         ]);
 
-        $aidType = AidType::find($aidTypeId);
-
-        if (is_null($aidType)) return $this->sendError('Aid type not found.');
+        $aidType = AidType::findOrFail($aidTypeId);
 
         $aidType->update($validated);
 
@@ -63,9 +59,7 @@ class AidTypeController extends BaseController
      */
     public function deleteAidTypeById(int $aidTypeId): JsonResponse
     {
-        $aidType = AidType::find($aidTypeId);
-
-        if (is_null($aidType)) return $this->sendError('Aid type not found.');
+        $aidType = AidType::findOrFail($aidTypeId);
 
         $aidType->delete();
 

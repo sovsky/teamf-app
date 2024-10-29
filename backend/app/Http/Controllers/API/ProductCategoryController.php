@@ -29,9 +29,7 @@ class ProductCategoryController extends BaseController
      */
     public function getProductCategoryById(int $productCategoryId): JsonResponse
     {
-        $productCategory = ProductCategory::find($productCategoryId);
-
-        if (is_null($productCategory)) return $this->sendError('Product category not found.');
+        $productCategory = ProductCategory::findOrFail($productCategoryId);
 
         return $this->sendResponse($productCategory, 'Product category by id.');
     }
@@ -47,9 +45,7 @@ class ProductCategoryController extends BaseController
             'name' => 'sometimes|required',
         ]);
 
-        $productCategory = ProductCategory::find($productCategoryId);
-
-        if (is_null($productCategory)) return $this->sendError('Product category not found.');
+        $productCategory = ProductCategory::findOrFail($productCategoryId);
 
         $productCategory->update($validated);
 
@@ -63,9 +59,7 @@ class ProductCategoryController extends BaseController
      */
     public function deleteProductCategoryById(int $productCategoryId): JsonResponse
     {
-        $productCategory = ProductCategory::find($productCategoryId);
-
-        if (is_null($productCategory)) return $this->sendError('Product category not found.');
+        $productCategory = ProductCategory::findOrFail($productCategoryId);
 
         $productCategory->delete();
 

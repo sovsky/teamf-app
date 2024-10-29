@@ -29,9 +29,8 @@ class AidCategoryController extends BaseController
      */
     public function getAidCategoryById(int $aidCategoryId): JsonResponse
     {
-        $aidCategory = AidCategory::with('aidType')->find($aidCategoryId);
+        $aidCategory = AidCategory::with('aidType')->findOrFail($aidCategoryId);
 
-        if (is_null($aidCategory)) return $this->sendError('Aid category not found.');
 
         return $this->sendResponse($aidCategory, 'Aid category by id.');
     }
@@ -48,9 +47,8 @@ class AidCategoryController extends BaseController
             'aid_type_id' => 'sometimes|required|exists:aid_types,id',
         ]);
 
-        $aidCategory = AidCategory::with('aidType')->find($aidCategoryId);
+        $aidCategory = AidCategory::with('aidType')->findOrFail($aidCategoryId);
 
-        if (is_null($aidCategory)) return $this->sendError('Aid category not found.');
 
         $aidCategory->update($validated);
 
@@ -64,9 +62,7 @@ class AidCategoryController extends BaseController
      */
     public function deleteAidCategoryById(int $aidCategoryId): JsonResponse
     {
-        $aidCategory = AidCategory::with('aidType')->find($aidCategoryId);
-
-        if (is_null($aidCategory)) return $this->sendError('Aid category not found.');
+        $aidCategory = AidCategory::with('aidType')->findOrFail($aidCategoryId);
 
         $aidCategory->delete();
 

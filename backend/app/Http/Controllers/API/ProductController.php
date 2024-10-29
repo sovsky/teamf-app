@@ -29,9 +29,7 @@ class ProductController extends BaseController
      */
     public function getProductById(int $productId): JsonResponse
     {
-        $product = Product::with('aidCategory', 'productCategory')->find($productId);
-
-        if (is_null($product)) return $this->sendError('Product not found.');
+        $product = Product::with('aidCategory', 'productCategory')->findOrFail($productId);
 
         return $this->sendResponse($product, 'Product by id.');
     }
@@ -50,9 +48,7 @@ class ProductController extends BaseController
             'product_category_id' => 'sometimes|nullable|exists:product_categories,id',
         ]);
 
-        $product = Product::with('aidCategory', 'productCategory')->find($productId);
-
-        if (is_null($product)) return $this->sendError('Product not found.');
+        $product = Product::with('aidCategory', 'productCategory')->findOrFail($productId);
 
         $product->update($validated);
 
@@ -66,9 +62,7 @@ class ProductController extends BaseController
      */
     public function deleteProductById(int $productId): JsonResponse
     {
-        $product = Product::with('aidCategory', 'productCategory')->find($productId);
-
-        if (is_null($product)) return $this->sendError('Product not found.');
+        $product = Product::with('aidCategory', 'productCategory')->findOrFail($productId);
 
         $product->delete();
 

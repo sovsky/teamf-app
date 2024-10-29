@@ -19,7 +19,7 @@ Route::middleware(['api'])->group(function () {
     Route::post('/login', [RegisterController::class, 'login']);
 });
 
-Route::middleware(['api'])->group(function () {
+Route::middleware(['auth:sanctum'])->group(function () {
     # Product
     Route::get('/products', [ProductController::class, 'getProducts']);
     Route::get('/products/{id}', [ProductController::class, 'getProductById']);
@@ -47,4 +47,4 @@ Route::middleware(['api'])->group(function () {
     Route::post('/aid-categories/create', [AidCategoryController::class, 'createAidCategory']);
     Route::patch('/aid-categories/{id}/update', [AidCategoryController::class, 'updateAidCategoryById']);
     Route::delete('/aid-categories/{id}/delete', [AidCategoryController::class, 'deleteAidCategoryById']);
-})->middleware('auth:sanctum');
+});

@@ -4,6 +4,16 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller as Controller;
+use OpenApi\Attributes as OA;
+
+#[
+    OA\Info(version: "1.0.0", description: "sasiadwpotrzebie api", title: "Documentation about projekt SasiadWPotrzebie"),
+    OA\Server(url: 'http://localhost:9000', description: "local server"),
+    OA\Server(url: 'http://localhost:9000', description: "staging server"),
+    OA\Server(url: 'http://localhost:9000', description: "production server"),
+    OA\SecurityScheme( securityScheme: 'sanctum', type: "http", name: "Authorization", in: "header", scheme: "bearer"),
+]
+
 
 class BaseController extends Controller
 {

@@ -7,6 +7,7 @@ use App\Http\Controllers\API\ProductController;
 use \App\Http\Controllers\API\AidTypeController;
 use \App\Http\Controllers\API\ProductCategoryController;
 use \App\Http\Controllers\API\AidCategoryController;
+use App\Http\Controllers\API\VoivodeshipController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -16,7 +17,9 @@ Route::middleware(['api'])->group(function () {
     # User
     Route::post('/register', [RegisterController::class, 'register']);
     Route::post('/login', [RegisterController::class, 'login']);
+});
 
+Route::middleware(['api'])->group(function () {
     # Product
     Route::get('/products', [ProductController::class, 'getProducts']);
     Route::get('/products/{id}', [ProductController::class, 'getProductById']);
@@ -44,4 +47,4 @@ Route::middleware(['api'])->group(function () {
     Route::post('/aid-categories/create', [AidCategoryController::class, 'createAidCategory']);
     Route::patch('/aid-categories/{id}/update', [AidCategoryController::class, 'updateAidCategoryById']);
     Route::delete('/aid-categories/{id}/delete', [AidCategoryController::class, 'deleteAidCategoryById']);
-});
+})->middleware('auth:sanctum');

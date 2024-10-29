@@ -68,42 +68,38 @@ class RegisterController extends BaseController
      */
     public function register(Request $request): JsonResponse
     {
-        //validate fields
+        // validate fields
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required',
-            'confirm_password' => 'required|same:password',
-            'age' => 'required|date', 
-            'phone_number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10', 
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6|confirmed',
+            'age' => 'required|date',
+            'phone_number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
             'city' => 'required|string|max:100'
         ]);
+
         if ($validator->fails()) {
             $errors = [];
 
-            // error handling for each field
+            // Error handling for each field
             if ($validator->errors()->has('name')) {
                 $errors['name'] = 'Name is required and should be a valid string with a maximum length of 255 characters.';
             }
 
             if ($validator->errors()->has('email')) {
-                $errors['email'] = 'A valid email is required and it must be unique.';
+                $errors['email'] = 'A valid, unique email is required.';
             }
 
             if ($validator->errors()->has('password')) {
-                $errors['password'] = 'Password is required and should have a minimum length of 6 characters.';
-            }
-
-            if ($validator->errors()->has('c_password')) {
-                $errors['confirm_password'] = 'Confirm password is required and must match the password.';
+                $errors['password'] = 'Password is required, must be at least 6 characters long, and should match confirmation.';
             }
 
             if ($validator->errors()->has('age')) {
-                $errors['age'] = 'Age is required, must be an date.';
+                $errors['age'] = 'Age is required and must be a valid date.';
             }
 
             if ($validator->errors()->has('phone_number')) {
-                $errors['phone_number'] = 'Phone number is required, must be at least 10 characters long, and should follow a valid format.';
+                $errors['phone_number'] = 'Phone number is required, must be at least 10 characters, and should follow a valid format.';
             }
 
             if ($validator->errors()->has('city')) {
@@ -112,36 +108,69 @@ class RegisterController extends BaseController
 
             return $this->sendError('Validation Error.', $errors);
         }
+
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('AppTeamF')->plainTextToken;
-        $success['email'] =  $user->email;
-        return $this->sendResponse($success, 'User register successfully.');
+
+        // Generating a token and setting it in an HTTP-only cookie
+        $token = $user->createToken('AppToken')->plainTextToken;
+
+        return response()->json(['message' => 'User registered successfully.'], Response::HTTP_CREATED)
+                         ->cookie('token', $token, 60 * 24, '/', null, true, true);
     }
+
     /**
-     * Login api
-     *
-     * @return \Illuminate\Http\Response
+     * Login API
      */
     public function login(Request $request): JsonResponse
     {
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){ 
-            $user = Auth::user(); 
-            $success['token'] =  $user->createToken('MyApp')->plainTextToken; 
-            $success['email'] =  $user->email;
+        // Field validation
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|min:6'
+        ]);
 
-            if (!$success['token']) {
-                return $this->sendError('Missing token.', ['error' => 'Missing token.']);
-            }
-            
-            if (!$success['email']) {
-                return $this->sendError('Missing name.', ['error' => 'Missing email.']);
+        if ($validator->fails()) {
+            $errors = [];
+
+            // Error handling for each field
+            if ($validator->errors()->has('email')) {
+                $errors['email'] = 'A valid email is required.';
             }
 
-            return $this->sendResponse($success, 'User login successfully.');
-        }else{ 
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
-        } 
+            if ($validator->errors()->has('password')) {
+                $errors['password'] = 'Password is required and must be at least 6 characters long.';
+            }
+
+            return $this->sendError('Validation Error.', $errors);
+        }
+
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            // Generating a token and setting it in an HTTP-only cookie
+            $token = $user->createToken('AppToken')->plainTextToken;
+
+            return response()->json(['message' => 'User logged in successfully.'], Response::HTTP_OK)
+                             ->cookie('token', $token, 60 * 24, '/', null, true, true);
+        } else {
+            return $this->sendError('Unauthorized', ['error' => 'Invalid credentials'], Response::HTTP_UNAUTHORIZED);
+        }
+    }
+
+    /**
+     * Logout API
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        $user = Auth::user();
+        $user->currentAccessToken()->delete(); // Reference the current token
+
+        // Clearing the token cookie
+        return response()->json(['message' => 'Logged out successfully.'], Response::HTTP_OK)
+                         ->withCookie(cookie()->forget('token'));
     }
 }

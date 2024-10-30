@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\RegisterController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\ProductController;
 use \App\Http\Controllers\API\AidTypeController;
 use \App\Http\Controllers\API\ProductCategoryController;
@@ -13,11 +13,10 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::middleware(['api'])->group(function () {
-    # User
-    Route::post('/register', [RegisterController::class, 'register']);
-    Route::post('/login', [RegisterController::class, 'login']);
-});
+
+Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
+Route::post('/logout', [UserController::class, 'logout']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     # Product
@@ -48,3 +47,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::patch('/aid-categories/{id}/update', [AidCategoryController::class, 'updateAidCategoryById']);
     Route::delete('/aid-categories/{id}/delete', [AidCategoryController::class, 'deleteAidCategoryById']);
 });
+

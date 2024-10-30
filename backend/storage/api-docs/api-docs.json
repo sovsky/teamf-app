@@ -43,15 +43,15 @@
                                 ],
                                 "properties": {
                                     "name": {
-                                        "description": "User name",
+                                        "description": "User name must be max 255 characters",
                                         "type": "string"
                                     },
                                     "email": {
-                                        "description": "User email",
+                                        "description": "User email must be unique",
                                         "type": "string"
                                     },
                                     "password": {
-                                        "description": "User password",
+                                        "description": "User password, at least 8 characters with mixed cases, numbers, and symbols",
                                         "type": "string"
                                     },
                                     "password_confirm": {
@@ -59,16 +59,17 @@
                                         "type": "string"
                                     },
                                     "age": {
-                                        "description": "User age",
+                                        "description": "User age mus be a date type, in example: 1990-01-01",
                                         "type": "string",
                                         "format": "date-time"
                                     },
                                     "phone_number": {
-                                        "description": "User phone_number",
-                                        "type": "string"
+                                        "description": "User phone number in the format +1234567890",
+                                        "type": "string",
+                                        "pattern": "^[0-9\\s\\-\\+\\(\\)]*$"
                                     },
                                     "city": {
-                                        "description": "User city",
+                                        "description": "User city must be max 100 characters",
                                         "type": "string"
                                     }
                                 },
@@ -106,15 +107,10 @@
                         "application/x-www-form-urlencoded": {
                             "schema": {
                                 "required": [
-                                    "token",
                                     "email",
                                     "password"
                                 ],
                                 "properties": {
-                                    "token": {
-                                        "description": "Generated token",
-                                        "type": "string"
-                                    },
                                     "email": {
                                         "description": "User email",
                                         "type": "string"
@@ -141,6 +137,20 @@
                     },
                     "500": {
                         "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Logout of platform users",
+                "operationId": "53716fb5f115f1964700cf37eb93c2c0",
+                "responses": {
+                    "201": {
+                        "description": "User logout successfully."
                     }
                 }
             }

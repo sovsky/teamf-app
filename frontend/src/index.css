@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 .section_container {
-    @apply min-w-[1580px] mx-auto p-4; /* Użycie @apply do zastosowania klas Tailwind */
-  }
+    @apply min-w-[1580px] mx-auto p-4;
+    /* Użycie @apply do zastosowania klas Tailwind */
+}
 
 @layer base {
-  :root {
+    :root {
 
         --background: 0 0% 100%;
 
@@ -57,8 +58,7 @@
 
         --chart-5: 27 87% 67%;
 
-        --radius: 0.5rem
-    ;
+        --radius: 0.5rem;
 
         --sidebar-background: 0 0% 98%;
 
@@ -144,10 +144,24 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
+    * {
+        @apply border-border;
     }
-  body {
-    @apply bg-background text-foreground;
+
+    body {
+        @apply bg-background text-foreground;
     }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
 }

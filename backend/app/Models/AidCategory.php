@@ -14,11 +14,21 @@ class AidCategory extends Model
         'name'
     ];
 
-    public function aidType(): BelongsTo {
+    protected $hidden = ['created_at', 'updated_at', 'aid_type_id', 'aidType'];
+    protected $appends = ['aid_type'];
+
+    public function aidType(): BelongsTo
+    {
         return $this->belongsTo(AidType::class);
     }
 
-    public function products(): HasMany {
+    public function products(): HasMany
+    {
         return $this->hasMany(Product::class);
+    }
+
+    public function getAidTypeAttribute(): ?string
+    {
+        return $this->aidType() ? $this->aidType()->first()->name : null;
     }
 }

@@ -2,6 +2,8 @@
 
 use Laravel\Sanctum\Sanctum;
 use Illuminate\Cookie\Middleware\EncryptCookies;
+use Laravel\Sanctum\Http\Middleware\AuthenticateSession;
+use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 
 return [
@@ -19,7 +21,7 @@ return [
 
     'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
         '%s%s',
-        'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1, localhost:9000',
+        'localhost,localhost:9000,127.0.0.1,127.0.0.1:8000,::1',
         Sanctum::currentApplicationUrlWithPort()
     ))),
 
@@ -77,7 +79,8 @@ return [
     */
 
     'middleware' => [
-        'authenticate_session' => Laravel\Sanctum\Http\Middleware\AuthenticateSession::class,
+        'authenticate_session' => AuthenticateSession::class,
+        'add_cookies_to_response' => AddQueuedCookiesToResponse::class,
         'encrypt_cookies' => EncryptCookies::class,
         'validate_csrf_token' => ValidateCsrfToken::class,
     ],

@@ -5,6 +5,10 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\AidTypeSeeder;
+use Database\Seeders\ProductSeeder;
+use Database\Seeders\AidCategorySeeder;
+use Database\Seeders\ProductCategorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,9 +17,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        AidTypeSeeder::run();
-        AidCategorySeeder::run();
-        ProductCategorySeeder::run();
-        ProductSeeder::run();
+        $this->call([
+            AidTypeSeeder::class,
+            AidCategorySeeder::class,
+            ProductCategorySeeder::class,
+            ProductSeeder::class,
+        ]);
     }
 }

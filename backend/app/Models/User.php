@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Role;
+use App\Models\Rating;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
@@ -28,6 +30,9 @@ class User extends Authenticatable
         'age', 
         'phone_number',
         'city',
+        'picture',
+        'is_picture_public',
+        'role_id',
     ];
 
     /**
@@ -59,7 +64,7 @@ class User extends Authenticatable
     }
 
     public function role(): BelongsTo {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'users_roles');
     }
 
     //admin panel 

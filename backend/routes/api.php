@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAuthToken;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\AdminStatsController;
 use App\Http\Middleware\VerifyTokenMiddleware;
 use App\Http\Controllers\API\AidTypeController;
 use App\Http\Controllers\API\ProductController;
@@ -15,10 +16,12 @@ use App\Http\Controllers\API\ProductCategoryController;
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
-// Pathways that do require authorization
+// Pathways that do require authorization - admin + logout
 Route::middleware(['auth:sanctum'])->group(function () {
-  Route::get('/users-by-age', [UserController::class, 'getUsersByAge']);
   Route::post('/logout', [UserController::class, 'logout']);
+  Route::get('/users-by-age', [UserController::class, 'getUsersByAge']);
+  Route::get('/admin/volunteer-count', [AdminStatsController::class, 'getVolunteerCount']);
+  Route::get('/admin/deprived-person-count', [AdminStatsController::class, 'getDeprivedPersonCount']);
 });
 
 

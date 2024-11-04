@@ -4,10 +4,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAuthToken;
 use App\Http\Controllers\API\UserController;
-use App\Http\Controllers\API\AdminStatsController;
+use App\Http\Controllers\API\RatingController;
 use App\Http\Middleware\VerifyTokenMiddleware;
 use App\Http\Controllers\API\AidTypeController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\AdminStatsController;
 use App\Http\Controllers\API\AidCategoryController;
 use App\Http\Controllers\API\VoivodeshipController;
 use App\Http\Controllers\API\ProductCategoryController;
@@ -19,9 +20,12 @@ Route::post('/login', [UserController::class, 'login']);
 // Pathways that do require authorization - admin + logout
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::post('/logout', [UserController::class, 'logout']);
-  Route::get('/users-by-age', [UserController::class, 'getUsersByAge']);
+  Route::get('/users-by-age', [AdminStatsController::class, 'getUsersByAge']);
   Route::get('/admin/volunteer-count', [AdminStatsController::class, 'getVolunteerCount']);
   Route::get('/admin/deprived-person-count', [AdminStatsController::class, 'getDeprivedPersonCount']);
+  Route::get('/admin/deprived-person-count', [AdminStatsController::class, 'getDeprivedPersonCount']);
+  Route::delete('/admin/delete-user/{id}', [AdminStatsController::class, 'deleteUser']);
+  Route::delete('/admin/delete-comment/{id}', [AdminStatsController::class, 'deleteComment']);
 });
 
 
@@ -58,4 +62,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::post('/aid-categories/create', [AidCategoryController::class, 'createAidCategory']);
   Route::patch('/aid-categories/{id}/update', [AidCategoryController::class, 'updateAidCategoryById']);
   Route::delete('/aid-categories/{id}/delete', [AidCategoryController::class, 'deleteAidCategoryById']);
+
+  #Ratings
+  Route::apiResource('ratings', RatingController::class);
 });

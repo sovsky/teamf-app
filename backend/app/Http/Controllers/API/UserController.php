@@ -151,16 +151,5 @@ class UserController extends BaseController
         return response()->json(['message' => 'User logged out successfully.'], Response::HTTP_OK);
     }
 
-
-    //admin
-
-    public function getUsersByAge()
-    {
-        // Log::info('getUsersByAge method called');
-        // Log::info('Current user: ' . Auth::id());
-        $userModel = new User();
-        $usersByAge = $userModel->getUsersByAge();
-        return response()->json($usersByAge);
-    }
     
 }

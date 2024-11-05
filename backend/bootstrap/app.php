@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Foundation\Application;
+use App\Http\Middleware\CheckAdminRole;
 use App\Http\Middleware\VerifyTokenMiddleware;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -28,12 +29,14 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth.sanctum' => \Laravel\Sanctum\Http\Middleware\Authenticate::class,
             'verify.token' => VerifyTokenMiddleware::class,
+            'admin' => CheckAdminRole::class,
         ]);
 
         // group for api group middleware
         $middleware->group('auth.api', [
             'auth.sanctum',
             'verify.token',
+            'admin'
         ]);
 
         $middleware->statefulApi();

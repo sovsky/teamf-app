@@ -20,12 +20,16 @@ Route::post('/login', [UserController::class, 'login']);
 // Pathways that do require authorization - admin + logout
 Route::middleware(['auth:sanctum'])->group(function () {
   Route::post('/logout', [UserController::class, 'logout']);
-  Route::get('/users-by-age', [AdminStatsController::class, 'getUsersByAge']);
-  Route::get('/admin/volunteer-count', [AdminStatsController::class, 'getVolunteerCount']);
-  Route::get('/admin/deprived-person-count', [AdminStatsController::class, 'getDeprivedPersonCount']);
-  Route::get('/admin/deprived-person-count', [AdminStatsController::class, 'getDeprivedPersonCount']);
-  Route::delete('/admin/delete-user/{id}', [AdminStatsController::class, 'deleteUser']);
-  Route::delete('/admin/delete-comment/{id}', [AdminStatsController::class, 'deleteComment']);
+  //admin routes
+  Route::middleware('admin')->group(function () {
+    Route::get('/admin/users-by-age', [AdminStatsController::class, 'getUsersByAge']);
+    Route::get('/admin/volunteer-count', [AdminStatsController::class, 'getVolunteerCount']);
+    Route::get('/admin/deprived-person-count', [AdminStatsController::class, 'getDeprivedPersonCount']);
+    Route::get('/admin/deprived-person-count', [AdminStatsController::class, 'getDeprivedPersonCount']);
+    Route::post('/admin/create', [AdminStatsController::class, 'createAdmin']);
+    Route::delete('/admin/delete-user/{id}', [AdminStatsController::class, 'deleteUser']);
+    Route::delete('/admin/delete-comment/{id}', [AdminStatsController::class, 'deleteComment']);
+  });
 });
 
 

@@ -4,11 +4,13 @@
 namespace App\Http\Controllers\API;
 
 use Validator;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 use OpenApi\Attributes\Schema;
+use Illuminate\Validation\Rule;
 use OpenApi\Attributes\Property;
 use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes\MediaType;
@@ -79,10 +81,24 @@ class UserController extends BaseController
             'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
             'age' => 'required|date',
             'phone_number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            'city' => 'required|string|max:100'
+            'city' => 'required|string|max:100',
+            'role' => ['required', Rule::in(['volunteer', 'deprived person'])],
         ]);
 
+        // Hash password
         $validated['password'] = Hash::make($validated['password']);
+
+        // Find or create the role
+        $role = Role::where('name', $validated['role'])->first();
+        if (!$role) {
+            return response()->json(['message' => 'Invalid role specified.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        // Remove the role from validated data for user creation
+        $validated['role_id'] = $role->id;
+        unset($validated['role']);
+
+        // Create user with role_id
         $user = User::create($validated);
 
         // Generating a token and setting it in an HTTP-only cookie
@@ -135,16 +151,5 @@ class UserController extends BaseController
         return response()->json(['message' => 'User logged out successfully.'], Response::HTTP_OK);
     }
 
-
-    //admin
-
-    public function getUsersByAge()
-    {
-        // Log::info('getUsersByAge method called');
-        // Log::info('Current user: ' . Auth::id());
-        $userModel = new User();
-        $usersByAge = $userModel->getUsersByAge();
-        return response()->json($usersByAge);
-    }
     
 }

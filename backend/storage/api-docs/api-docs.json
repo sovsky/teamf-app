@@ -20,13 +20,175 @@
         }
     ],
     "paths": {
+        "/api/admin/create": {
+            "post": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Create admin account",
+                "description": "Create Admin account api",
+                "operationId": "da554fa7d664b5e334156aa858466413",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirm",
+                                    "age",
+                                    "phone_number",
+                                    "city"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "User name must be max 255 characters",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "User email must be unique",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "User password, at least 8 characters with mixed cases, numbers, and symbols",
+                                        "type": "string"
+                                    },
+                                    "password_confirm": {
+                                        "description": "User password confirmation",
+                                        "type": "string"
+                                    },
+                                    "age": {
+                                        "description": "User age mus be a date type, in example: 1990-01-01",
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "phone_number": {
+                                        "description": "User phone number in the format +1234567890",
+                                        "type": "string",
+                                        "pattern": "^[0-9\\s\\-\\+\\(\\)]*$"
+                                    },
+                                    "city": {
+                                        "description": "User city must be max 100 characters",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Admin account registered successfully."
+                    },
+                    "400": {
+                        "description": "Role 'admin' does not exist."
+                    }
+                }
+            }
+        },
+        "/api/users-by-age": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Retrieves information about the number of users relative to age",
+                "description": "Retrieves information about the number of users relative to age",
+                "operationId": "4ee6ba478ac9cbc4daeddb41db291399",
+                "responses": {
+                    "200": {
+                        "description": "View data"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/admin/volunteer-count": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Retrieves information about the number of users who are volunteers",
+                "description": "Retrieves information about the number of users who are volunteers",
+                "operationId": "84eff26caa78dfd167641fb379407e4a",
+                "responses": {
+                    "200": {
+                        "description": "View data"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/admin/deprived-person-count": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Retrieves information about the number of users who are people in need",
+                "description": "Retrieves information about the number of users who are volunteers",
+                "operationId": "97e9204c66047298e909511a0399db42",
+                "responses": {
+                    "200": {
+                        "description": "View data"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/users/{id}": {
+            "delete": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Delete a user",
+                "description": "Removes the user based on their ID.",
+                "operationId": "0c52a34ecb2ce50375bf8c7ca09c69df",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the user to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User deleted successfully."
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
                     "Users"
                 ],
                 "summary": "Registration of platform users",
-                "operationId": "17d569550a6f526e6d36d1af313a1f61",
+                "description": "Register api",
+                "operationId": "584a102470c054e585330c05f7da4bfc",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -100,7 +262,8 @@
                     "Users"
                 ],
                 "summary": "Login of platform users",
-                "operationId": "13789c6e8de56f03890c8e718282efb5",
+                "description": "Login api",
+                "operationId": "2526fe2d44c926504aa3663c8f10a15c",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -147,10 +310,11 @@
                     "Users"
                 ],
                 "summary": "Logout of platform users",
-                "operationId": "53716fb5f115f1964700cf37eb93c2c0",
+                "description": "Logout api",
+                "operationId": "b9c12342da1bfbec9f02fd4e3667ad52",
                 "responses": {
-                    "201": {
-                        "description": "User logout successfully."
+                    "200": {
+                        "description": "User logged out successfully."
                     }
                 }
             }
@@ -167,6 +331,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Admin",
+            "description": "Admin"
+        },
         {
             "name": "Users",
             "description": "Users"

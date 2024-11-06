@@ -12,7 +12,10 @@ class ProductCategory extends Model
         'name'
     ];
 
-    public function products(): HasMany {
+    protected $hidden = ['created_at', 'updated_at'];
+
+    public function products(): HasMany
+    {
         return $this->hasMany(Product::class);
     }
 }

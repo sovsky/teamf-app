@@ -3,7 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Role;
+use App\Models\Rating;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -27,6 +30,9 @@ class User extends Authenticatable
         'age', 
         'phone_number',
         'city',
+        'picture',
+        'is_picture_public',
+        'role_id',
     ];
 
     /**
@@ -38,6 +44,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
 
     /**
      * Get the attributes that should be cast.
@@ -57,6 +64,17 @@ class User extends Authenticatable
     }
 
     public function role(): BelongsTo {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'users_roles');
     }
-}
+
+    //admin panel 
+    //download users from database
+    public static function getUsersByAge()
+    {
+        return self::select(DB::raw('EXTRACT(YEAR FROM AGE(age)) AS age'), DB::raw('COUNT(*) as count'))
+            ->groupBy('age')
+            ->orderByDesc('count')
+            ->limit(10)
+            ->get();
+    }
+}    

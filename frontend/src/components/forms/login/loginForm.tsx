@@ -3,19 +3,23 @@ import {Button} from "@/components/ui/button.tsx";
 import {useForm} from "react-hook-form";
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
+import useLogin from "@/hooks/useLogin.ts";
+import CircleSpinner from "@/components/CircleSpinner.tsx";
 
-interface Inputs {
+export interface LoginInputs {
     email: string;
     password: string;
 }
 
 export default function LoginForm() {
 
-    const {register, formState, handleSubmit} = useForm<Inputs>()
+    const {register, formState, handleSubmit} = useForm<LoginInputs>()
     const {errors} = formState
+    const {mutate, status} = useLogin()
+    const disabled = status === "pending"
 
-    const onSubmit = (data: Inputs) => {
-        console.log(data)
+    const onSubmit = (data: LoginInputs) => {
+        mutate(data)
     }
 
     return (
@@ -39,21 +43,18 @@ export default function LoginForm() {
                     <Input id="password" type="password" {...register("password", {
                         required: "Uzupełnij hasło",
                         minLength: {
-                            value: 8,
-                            message: "Hasło musi mieć co najmniej 8 znaków"
+                            value: 6,
+                            message: "Hasło musi mieć co najmniej 6 znaków"
                         },
-                        pattern: {
-                            value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-                            message: "Hasło musi zawierać co najmniej jedną literę i jedną cyfrę"
-                        }
                     })}/>
                     <ErrorMessage name="password" errors={errors}
                                   render={({message}) => <p className="text-red-500">{message}</p>}/>
                 </div>
             </div>
-            <Button type="submit"
-                    className="w-full bg-violet-600 font-bold hover:bg-violet-700">Zarejestruj</Button>
-
+            <Button type="submit" disabled={disabled}
+                    className="w-full bg-violet-600 font-bold hover:bg-violet-700">
+                {disabled ? <CircleSpinner/> : "Zaloguj się"}
+            </Button>
         </form>
     )
 }

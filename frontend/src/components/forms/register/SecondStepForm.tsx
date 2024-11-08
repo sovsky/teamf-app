@@ -2,16 +2,21 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {MultiSelect} from "@/components/ui/multi-select.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Dispatch, SetStateAction} from "react";
-import {ICity, IHelpType, IRegisterForm} from "@/pages/Register.tsx";
+import {ICity, IHelpType} from "@/pages/Register.tsx";
 import {useForm} from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
+import {IRegisterData} from "@/hooks/useRegister.ts";
+import CircleSpinner from "@/components/CircleSpinner.tsx";
+
 
 interface ISecondStepForm {
     setActualStep: Dispatch<SetStateAction<number>>,
-    setFullFormData: Dispatch<SetStateAction<IRegisterForm>>,
-    fullFormData: IRegisterForm,
+    setFullFormData: Dispatch<SetStateAction<IRegisterData>>,
+    fullFormData: IRegisterData,
     cities: ICity[],
-    helpTypes: IHelpType[]
+    helpTypes: IHelpType[],
+    submitHandler: (data: IRegisterData) => void,
+    status: "success" | "error" | "pending" | "idle",
 }
 
 interface Inputs {
@@ -24,18 +29,24 @@ export default function SecondStepForm({
                                            setFullFormData,
                                            fullFormData,
                                            cities,
-                                           helpTypes
+                                           helpTypes,
+                                           submitHandler, status
                                        }: ISecondStepForm) {
 
     const {register, handleSubmit, formState, setValue} = useForm<Inputs>()
     const {errors} = formState
+    const disable = status === "pending"
 
     const onSubmit = (data: Inputs) => {
         setFullFormData(prevState => {
-            return {
+            const actualData = {
                 ...prevState,
                 ...data
             }
+
+            submitHandler(actualData)
+
+            return actualData
         })
     }
 
@@ -67,11 +78,14 @@ export default function SecondStepForm({
                               render={({message}) => <p className="text-red-500">{message}</p>}/>
             </div>
             <div className="flex gap-2">
-                <Button className="border-gray-400 hover:bg-gray-500 bg-gray-400 text-white font-semibold border-2" onClick={() => {
-                    setActualStep(prevState => prevState - 1)
-                }}>Cofnij</Button>
-                <Button type="submit"
-                        className="w-full bg-violet-600 font-bold hover:bg-violet-700">Zarejestruj</Button>
+                <Button className="border-gray-400 hover:bg-gray-500 bg-gray-400 text-white font-semibold border-2"
+                        onClick={() => {
+                            setActualStep(prevState => prevState - 1)
+                        }}>Cofnij</Button>
+                <Button type="submit" disabled={disable}
+                        className="w-full bg-violet-600 font-bold hover:bg-violet-700">
+                    {disable ? <CircleSpinner/> : "Zarejestruj"}
+                </Button>
             </div>
         </form>
     )

@@ -2,22 +2,23 @@ import React, {useEffect, useState} from 'react'
 import {SiHelpscout} from "react-icons/si";
 import {GiHamburgerMenu} from "react-icons/gi";
 import {IoClose} from "react-icons/io5";
-
 import {navItems} from '@/constants';
 import {useWindowSize} from '@react-hook/window-size';
 import {Link} from "react-router-dom";
+import useAuth from "@/hooks/useAuth.ts";
+import NavProfile from "@/components/NavProfile.tsx";
 
 const Navbar: React.FC = () => {
 
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
     const [windowWidth] = useWindowSize();
+    const {user, logoutHandler} = useAuth()
 
     useEffect(() => {
         if (windowWidth > 780) {
             setMobileDrawerOpen(false);
         }
     }, [windowWidth]);
-
 
     const toggleNavbar = (): void => {
         setMobileDrawerOpen((prevState) => !prevState);
@@ -35,23 +36,28 @@ const Navbar: React.FC = () => {
                         <span className='text-xl tracking-tight text-slate-600 font-semibold'>SąsiadWPotrzebie </span>
 
                     </div>
-                    <ul className='hidden lg:flex ml-14 space-x-12 font-semibold text-gray-700 text-lg'>
+                    <ul className='hidden lg:flex ml-14 space-x-12  text-gray-700 text-lg font-medium dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
                         {navItems.map((item, index) => {
                             return (
-                                <li key={index}>
+                                <li 
+                                className='block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent'
+                                key={index}>
                                     <a href={item.href}>{item.label}</a>
                                 </li>
                             )
                         })}
                     </ul>
-                    <div className="hidden lg:flex justify-center space-x-12 items-center ">
-                        <Link to="/login" className='py-2 px-3 border rounded-md'>
-                            Zaloguj
-                        </Link>
-                        <Link to="/register"
-                              className='bg-button_primary text-neutral-50 font-semibold py-2 px-4 rounded-md'>
-                            Dołącz
-                        </Link>
+                    <div className="hidden lg:flex justify-center space-x-7 items-center">
+                        {user.token ? <NavProfile user={user} logoutHandler={logoutHandler}/> :
+                            <>
+                                <Link to="/login" className='py-2 px-3 border rounded-md'>
+                                    Zaloguj
+                                </Link>
+                                <Link to="/register"
+                                      className='bg-button_primary text-neutral-50 border border-transparent font-semibold py-2 px-4 rounded-md'>
+                                    Dołącz
+                                </Link>
+                            </>}
                     </div>
                     <div className="lg:hidden md:flex flex-col justify-end">
                         <button onClick={toggleNavbar}>

@@ -8,6 +8,9 @@ use App\Http\Controllers\API\RatingController;
 use App\Http\Middleware\VerifyTokenMiddleware;
 use App\Http\Controllers\API\AidTypeController;
 use App\Http\Controllers\API\ProductController;
+use App\Http\Controllers\API\DistrictController;
+use App\Http\Controllers\API\CommuneController;
+use App\Http\Controllers\API\CityController;
 use App\Http\Controllers\API\AdminStatsController;
 use App\Http\Controllers\API\AidCategoryController;
 use App\Http\Controllers\API\VoivodeshipController;
@@ -73,5 +76,20 @@ Route::middleware(['auth:sanctum'])->group(function () {
   # Voivodeships
   Route::get('/voivodeships', [VoivodeshipController::class, 'getVoivodeships']);
   Route::get('/voivodeships/{id}', [VoivodeshipController::class, 'getVoivodeshipById']);
+  Route::get('/voivodeships/{id}/districts', [DistrictController::class, 'getDistrictsByVoivodeship']);
+
+  # Districts
+  Route::get('/districts', [CommuneController::class, 'getDistricts']);
+  Route::get('/districts/{id}', [DistrictController::class, 'getDistrictById']);
+  Route::get('/districts/{id}/communes', [CommuneController::class, 'getCommunesByDistrict']);
+
+  # Communes
+  Route::get('/communes', [CommuneController::class, 'getCommunes']);
+  Route::get('/communes/{id}', [CommuneController::class, 'getCommuneById']);
+  Route::get('/communes/{id}/cities', [CityController::class, 'getCitiesByCommune']);
+
+  # Cities
+  Route::get('/cities', [CityController::class, 'getCities']);
+  Route::get('/cities/{id}', [CityController::class, 'getCityById']);
 });
 

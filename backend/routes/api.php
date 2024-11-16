@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAuthToken;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\MatchController;
 use App\Http\Controllers\API\RatingController;
 use App\Http\Middleware\VerifyTokenMiddleware;
 use App\Http\Controllers\API\AidTypeController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\API\CommuneController;
 use App\Http\Controllers\API\CityController;
 use App\Http\Controllers\API\AdminStatsController;
 use App\Http\Controllers\API\AidCategoryController;
+use App\Http\Controllers\API\UserProductController;
 use App\Http\Controllers\API\VoivodeshipController;
 use App\Http\Controllers\API\ProductCategoryController;
 
@@ -72,6 +74,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
   #Ratings
   Route::apiResource('ratings', RatingController::class);
+
+  #Save products
+  Route::post('/save-products', [UserProductController::class, 'saveProducts']);
+  #Matching
+  Route::get('/matching-users', [MatchController::class, 'findMatchingUsers']);
 
   # Voivodeships
   Route::get('/voivodeships', [VoivodeshipController::class, 'getVoivodeships']);

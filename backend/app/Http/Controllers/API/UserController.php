@@ -164,5 +164,4 @@ class UserController extends BaseController
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'User logged out successfully.'], Response::HTTP_OK);
     }
-    
 }

@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Role;
 use App\Models\Rating;
+use App\Models\Product;
+use App\Models\AidCategory;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Notifications\Notifiable;
@@ -65,6 +67,17 @@ class User extends Authenticatable
 
     public function role(): BelongsTo {
         return $this->belongsTo(Role::class, 'users_roles');
+    }
+
+    //relation with table products
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'users_products');
+    }
+    //realtion with aidCategories table
+    public function aidCategories()
+    {
+        return $this->belongsToMany(AidCategory::class, Product::class, 'id', 'id', 'id', 'aid_category_id');
     }
 
     //admin panel 

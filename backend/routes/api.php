@@ -75,6 +75,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
   #Save products
   Route::post('/save-products', [UserProductController::class, 'saveProducts']);
   #Matching
-  Route::get('/matches', [MatchController::class, 'findMatches']);
+  Route::get('/matching-users', [MatchController::class, 'findMatchingUsers']);
 
 });

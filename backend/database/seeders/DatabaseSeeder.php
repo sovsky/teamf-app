@@ -24,12 +24,11 @@ class DatabaseSeeder extends Seeder
             AidCategorySeeder::class,
             ProductCategorySeeder::class,
             ProductSeeder::class,
-            UserProductSeeder::class,
-            UserSeeder::class,
             VoivodeshipSeeder::class,
             DistrictSeeder::class,
             CommuneSeeder::class,
             CitySeeder::class,
+            UserProductSeeder::class,
         ]);
     }
 }

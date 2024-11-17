@@ -3,15 +3,16 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAuthToken;
+use App\Http\Controllers\API\AidController;
+use App\Http\Controllers\API\CityController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\MatchController;
 use App\Http\Controllers\API\RatingController;
 use App\Http\Middleware\VerifyTokenMiddleware;
 use App\Http\Controllers\API\AidTypeController;
+use App\Http\Controllers\API\CommuneController;
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\DistrictController;
-use App\Http\Controllers\API\CommuneController;
-use App\Http\Controllers\API\CityController;
 use App\Http\Controllers\API\AdminStatsController;
 use App\Http\Controllers\API\AidCategoryController;
 use App\Http\Controllers\API\UserProductController;
@@ -75,11 +76,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
   #Ratings
   Route::apiResource('ratings', RatingController::class);
 
-  #Save products
-  Route::post('/save-products', [UserProductController::class, 'saveProducts']);
-  #Matching
-  Route::get('/matching-users', [MatchController::class, 'findMatchingUsers']);
-
   # Voivodeships
   Route::get('/voivodeships', [VoivodeshipController::class, 'getVoivodeships']);
   Route::get('/voivodeships/{id}', [VoivodeshipController::class, 'getVoivodeshipById']);
@@ -98,5 +94,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
   # Cities
   Route::get('/cities', [CityController::class, 'getCities']);
   Route::get('/cities/{id}', [CityController::class, 'getCityById']);
+
+  #Save data from form after the registration
+  Route::post('/aid', [AidController::class, 'store']);
+   
+  #Matching
+  Route::get('/matching-users', [MatchController::class, 'findMatchingUsers']);
 });
 

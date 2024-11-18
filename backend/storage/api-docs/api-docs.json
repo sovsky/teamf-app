@@ -181,6 +181,146 @@
                 }
             }
         },
+        "/api/aid": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Store user aid selection from form after register",
+                "operationId": "1f068925ac5a8b0cb3f1f4cb6ab558de",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "aid_type_id": {
+                                        "description": "ID of the aid type (required)",
+                                        "type": "integer"
+                                    },
+                                    "aid_category_id": {
+                                        "description": "ID of the aid category (required)",
+                                        "type": "integer"
+                                    },
+                                    "product_category_id": {
+                                        "description": "ID of the product category (optional)",
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "products": {
+                                        "type": "array",
+                                        "items": {
+                                            "description": "IDs of selected products (optional)",
+                                            "type": "integer"
+                                        },
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data successfully saved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data successfully saved."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/matching-users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Retrieve matching users with their latest selection details",
+                "operationId": "84ad48435c86f8a13d9cdf910ba69565",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved matching users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string"
+                                                    },
+                                                    "city": {
+                                                        "type": "string"
+                                                    },
+                                                    "latest_selection": {
+                                                        "properties": {
+                                                            "aid_type": {
+                                                                "type": "string"
+                                                            },
+                                                            "aid_category": {
+                                                                "type": "string"
+                                                            },
+                                                            "product_category": {
+                                                                "type": "string"
+                                                            },
+                                                            "products": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer"
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
@@ -198,41 +338,50 @@
                                     "name",
                                     "email",
                                     "password",
-                                    "password_confirm",
+                                    "password_confirmation",
                                     "age",
                                     "phone_number",
-                                    "city"
+                                    "city_id",
+                                    "role"
                                 ],
                                 "properties": {
                                     "name": {
-                                        "description": "User name must be max 255 characters",
+                                        "description": "User name, max 255 characters",
                                         "type": "string"
                                     },
                                     "email": {
-                                        "description": "User email must be unique",
+                                        "description": "User email, must be unique",
                                         "type": "string"
                                     },
                                     "password": {
                                         "description": "User password, at least 8 characters with mixed cases, numbers, and symbols",
                                         "type": "string"
                                     },
-                                    "password_confirm": {
-                                        "description": "User password confirmation",
+                                    "password_confirmation": {
+                                        "description": "Password confirmation",
                                         "type": "string"
                                     },
                                     "age": {
-                                        "description": "User age mus be a date type, in example: 1990-01-01",
+                                        "description": "User's date of birth in format YYYY-MM-DD",
                                         "type": "string",
-                                        "format": "date-time"
+                                        "format": "date"
                                     },
                                     "phone_number": {
-                                        "description": "User phone number in the format +1234567890",
+                                        "description": "Phone number in format +1234567890",
                                         "type": "string",
                                         "pattern": "^[0-9\\s\\-\\+\\(\\)]*$"
                                     },
-                                    "city": {
-                                        "description": "User city must be max 100 characters",
-                                        "type": "string"
+                                    "city_id": {
+                                        "description": "ID of the user's city",
+                                        "type": "integer"
+                                    },
+                                    "role": {
+                                        "description": "Role of the user",
+                                        "type": "string",
+                                        "enum": [
+                                            "volunteer",
+                                            "deprived person"
+                                        ]
                                     }
                                 },
                                 "type": "object"
@@ -242,16 +391,33 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "User register successfully."
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User registered successfully."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "your-token-here"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "422": {
-                        "description": "Unprocessable entity"
+                        "description": "Validation errors"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Invalid role specified"
                     },
                     "500": {
-                        "description": "Server Error"
+                        "description": "Server error"
                     }
                 }
             }
@@ -267,7 +433,7 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/x-www-form-urlencoded": {
+                        "application/json": {
                             "schema": {
                                 "required": [
                                     "email",
@@ -276,10 +442,11 @@
                                 "properties": {
                                     "email": {
                                         "description": "User email",
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "email"
                                     },
                                     "password": {
-                                        "description": "User password",
+                                        "description": "User password, minimum 8 characters",
                                         "type": "string"
                                     }
                                 },
@@ -289,17 +456,68 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "User login successfully."
+                    "200": {
+                        "description": "User logged in successfully",
+                        "headers": {
+                            "Set-Cookie": {
+                                "description": "HTTP-only cookie containing the authentication token",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "token=your-token; HttpOnly; Max-Age=1440; Path=/; SameSite=Lax"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged in successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "422": {
-                        "description": "Unprocessable entity"
-                    },
-                    "400": {
-                        "description": "Bad Request"
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The email field is required."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Server Error"
+                        "description": "Server error"
                     }
                 }
             }

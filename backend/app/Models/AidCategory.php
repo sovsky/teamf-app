@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\AidType;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class AidCategory extends Model
 {
@@ -19,12 +21,12 @@ class AidCategory extends Model
 
     public function aidType(): BelongsTo
     {
-        return $this->belongsTo(AidType::class);
+        return $this->belongsTo(AidType::class, 'aid_type_id');
     }
 
-    public function products(): HasMany
+    public function products()
     {
-        return $this->hasMany(Product::class);
+        return $this->hasMany(Product::class, 'aid_category_id');
     }
 
     public function getAidTypeAttribute(): ?string

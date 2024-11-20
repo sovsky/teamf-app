@@ -2,7 +2,7 @@ import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/c
 import {MultiSelect} from "@/components/ui/multi-select.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Dispatch, SetStateAction} from "react";
-import {ICity, IHelpType} from "@/pages/Register.tsx";
+import {ICity, IHelpType, IVoivodeship} from "@/pages/Register.tsx";
 import {useForm} from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
 import {IRegisterData} from "@/hooks/useRegister.ts";
@@ -14,18 +14,21 @@ interface ISecondStepForm {
     setFullFormData: Dispatch<SetStateAction<IRegisterData>>,
     fullFormData: IRegisterData,
     cities: ICity[],
+    voivodeships:IVoivodeship[],
     helpTypes: IHelpType[],
     submitHandler: (data: IRegisterData) => void,
     status: "success" | "error" | "pending" | "idle",
 }
 
 interface Inputs {
-    city: string,
-    helpTypes: string[]
+    voivodeship:string;
+    city: string;
+    helpTypes: string[];
 }
 
 export default function SecondStepForm({
                                            setActualStep,
+                                           voivodeships,
                                            setFullFormData,
                                            fullFormData,
                                            cities,
@@ -52,6 +55,21 @@ export default function SecondStepForm({
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+                        <Select onValueChange={(value) => setValue("voivodeship", value)}
+                    defaultValue={fullFormData.voivodeship} {...register("voivodeship", {required: "Wybierz województwo"})}>
+                <SelectTrigger>
+                    <SelectValue className="placeholder:text-muted-foreground"
+                                 placeholder="Wybierz województwo"/>
+                </SelectTrigger>
+                <SelectContent>
+                    {voivodeships.map((voivodeship) => {
+                        const isDisabled = voivodeship.value ==="Brak danych"
+                        return (
+                            <SelectItem disabled={isDisabled} key={voivodeship.id} value={voivodeship.value}>{voivodeship.value}</SelectItem>
+                        )
+                    })}
+                </SelectContent>
+            </Select>
             <Select onValueChange={(value) => setValue("city", value)}
                     defaultValue={fullFormData.city} {...register("city", {required: "Wybierz miasto"})}>
                 <SelectTrigger>

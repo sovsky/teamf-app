@@ -27,6 +27,7 @@ Route::get('/products', [ProductController::class, 'getProducts']);
 Route::get('/aid-types', [AidTypeController::class, 'getAidTypes']);
 Route::get('/product-categories', [ProductCategoryController::class, 'getProductCategories']);
 Route::get('/aid-categories', [AidCategoryController::class, 'getAidCategories']);
+Route::post('/aid', [AidController::class, 'store']);
 
 Route::get('/voivodeships', [VoivodeshipController::class, 'getVoivodeships']);
 Route::get('/voivodeships/{id}', [VoivodeshipController::class, 'getVoivodeshipById']);
@@ -59,8 +60,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/admin/delete-user/{id}', [AdminStatsController::class, 'deleteUser']);
     Route::delete('/admin/delete-comment/{id}', [AdminStatsController::class, 'deleteComment']);
   });
-
-  Route::post('/aid', [AidController::class, 'store']);
+  
   Route::get('/matching-users', [MatchController::class, 'findMatchingUsers']);
 
   Route::get('/products/{id}', [ProductController::class, 'getProductById']);

@@ -9,6 +9,7 @@ export interface IRegisterData {
     accountType: AccountType;
     name: string;
     email: string;
+    voivodeship:string;
     password: string;
     age: string;
     phone_number: string;
@@ -24,6 +25,7 @@ export default function useRegister() {
         name: "",
         email: "",
         password: "",
+        voivodeship:"",
         age: "",
         phone_number: "",
         city: "",

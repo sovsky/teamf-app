@@ -5,8 +5,15 @@ import FirstStepForm from "@/components/forms/register/FirstStepForm.tsx";
 import SecondStepForm from "@/components/forms/register/SecondStepForm.tsx";
 import {motion} from "framer-motion";
 import useRegister from "@/hooks/useRegister.ts";
+import { useQuery } from "@tanstack/react-query";
+import getVoivodeships from "@/lib/api/getVoivodeships";
 
 export interface ICity {
+    id: number,
+    value: string
+}
+
+export interface IVoivodeship {
     id: number,
     value: string
 }
@@ -18,6 +25,13 @@ export interface IHelpType {
 }
 
 export default function Register() {
+
+    const {data:voivodeships = [{id:1, value:"Brak danych"}]} = useQuery<IVoivodeship[], Error>({
+        queryKey:["voivodeships"],
+        queryFn:()=>{
+            return getVoivodeships();
+        }
+    })
 
     const Cities: ICity[] = [
         {id: 1, value: "Warszawa"},
@@ -46,7 +60,7 @@ export default function Register() {
             title: "Uzupełnij dane 2 / 2",
             form: <SecondStepForm submitHandler={submitHandler} setActualStep={setActualStep}
                                   setFullFormData={setFormData} status={status}
-                                  fullFormData={formData} cities={Cities} helpTypes={HelpTypes}/>
+                                  fullFormData={formData} voivodeships={voivodeships} cities={Cities} helpTypes={HelpTypes}/>
         }
     ]
 

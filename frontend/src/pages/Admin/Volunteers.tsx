@@ -3,12 +3,23 @@ import { MdVolunteerActivism } from "react-icons/md";
 import React from 'react'
 import { usersObjectHeaderTranslations, volunteers } from '@/constants';
 import { IoIosMore } from "react-icons/io";
+import { useQuery } from '@tanstack/react-query';
+import getUsersByAge from '@/lib/api/getUsersByAge';
 
 
 
 
 
 const Volunteers:React.FC = () => {
+
+const {data} =useQuery({
+  queryKey:["volunteers"],
+  queryFn:()=>{
+    return getUsersByAge()
+  }
+})
+
+
   return (
     <div className="flex flex-1 flex-col gap-4 px-10 py-5  ">
 <div className='flex items-center justify-between'>

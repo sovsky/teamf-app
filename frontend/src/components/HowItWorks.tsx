@@ -8,16 +8,6 @@ import { itemsNeedy, itemsVolunteer } from '@/constants';
 import {Link} from "react-router-dom";
 
 
-const HowItWorks: React.FC = () => {
-    return (
-        <div className='py-16  rounded-3xl' id="how_it_works">
-            <div className='text-4xl flex items-center gap-0.5 justify-center font-bold mb-20'>
-                <FaHandsHelping/>
-                Jak to działa
-            </div>
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-11 px-7 max-w-[1540px] mx-auto '>
-                {/* Kolumna dla wolontariusza */}
-                <div className='bg-neutral-50 py-10 pl-3 pr-8 rounded-xl shadow'>
 
 
 const HowItWorks:React.FC = () => {
@@ -66,6 +56,8 @@ const HowItWorks:React.FC = () => {
                             <Button className='py-6'>Załóż konto</Button>
                         </Link>
    </div>
+        </div>
+        </div>
         </div>
     )
 }

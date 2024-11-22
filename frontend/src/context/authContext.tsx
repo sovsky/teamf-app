@@ -19,20 +19,20 @@ export function AuthProvider({children}: { children: ReactNode }) {
         token: ""
     })
 
-    useEffect(() => {
-        const auth = localStorage.getItem("auth")
-        if (auth) {
-            const data = JSON.parse(auth)
+    // useEffect(() => {
+    //     const auth = localStorage.getItem("auth")
+    //     if (auth) {
+    //         const data = JSON.parse(auth)
 
-            if (typeof data.token === "string" && typeof data.email === "string") {
-                setUser(data)
-            }
-        }
-    }, []);
+    //         if (typeof data.token === "string" && typeof data.email === "string") {
+    //             setUser(data)
+    //         }
+    //     }
+    // }, []);
 
     const setUserWithStorage = (data: IAuthData) => {
         setUser(data)
-        localStorage.setItem("auth", JSON.stringify(data))
+        // localStorage.setItem("auth", JSON.stringify(data))
     }
 
     const logoutHandler = () => {

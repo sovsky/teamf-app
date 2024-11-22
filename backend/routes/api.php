@@ -29,9 +29,19 @@ Route::get('/product-categories', [ProductCategoryController::class, 'getProduct
 Route::get('/aid-categories', [AidCategoryController::class, 'getAidCategories']);
 
 Route::get('/voivodeships', [VoivodeshipController::class, 'getVoivodeships']);
+Route::get('/voivodeships/{id}', [VoivodeshipController::class, 'getVoivodeshipById']);
+Route::get('/voivodeships/{id}/districts', [DistrictController::class, 'getDistrictsByVoivodeship']);
+
 Route::get('/districts', [CommuneController::class, 'getDistricts']);
+Route::get('/districts/{id}', [DistrictController::class, 'getDistrictById']);
+Route::get('/districts/{id}/communes', [CommuneController::class, 'getCommunesByDistrict']);
+
 Route::get('/communes', [CommuneController::class, 'getCommunes']);
+Route::get('/communes/{id}', [CommuneController::class, 'getCommuneById']);
+Route::get('/communes/{id}/cities', [CityController::class, 'getCitiesByCommune']);
+
 Route::get('/cities', [CityController::class, 'getCities']);
+Route::get('/cities/{id}', [CityController::class, 'getCityById']);
 
 // Pathways that require authorization
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -74,15 +84,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
   Route::delete('/aid-categories/{id}/delete', [AidCategoryController::class, 'deleteAidCategoryById']);
 
   Route::apiResource('ratings', RatingController::class);
-
-  Route::get('/voivodeships/{id}', [VoivodeshipController::class, 'getVoivodeshipById']);
-  Route::get('/voivodeships/{id}/districts', [DistrictController::class, 'getDistrictsByVoivodeship']);
-
-  Route::get('/districts/{id}', [DistrictController::class, 'getDistrictById']);
-  Route::get('/districts/{id}/communes', [CommuneController::class, 'getCommunesByDistrict']);
-
-  Route::get('/communes/{id}', [CommuneController::class, 'getCommuneById']);
-  Route::get('/communes/{id}/cities', [CityController::class, 'getCitiesByCommune']);
-
-  Route::get('/cities/{id}', [CityController::class, 'getCityById']);
 });

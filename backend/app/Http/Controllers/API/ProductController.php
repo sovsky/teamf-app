@@ -15,6 +15,26 @@ class ProductController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
+    #[OA\Get(
+    path: "/api/products",
+    summary: "Get all products",
+    description: "Fetches a list of all products, including their associated aid categories and product categories.",
+    tags: ["Products"],
+    responses: [
+        new OA\Response(
+            response: 200,
+            description: "List of all products",
+            content: new OA\JsonContent(
+                type: "array",
+                items: new OA\Items(ref: "#/components/schemas/Product")
+            )
+        ),
+        new OA\Response(
+            response: 500,
+            description: "Internal server error"
+        )
+    ]
+)]
     public function getProducts(): JsonResponse
     {
         $products = Product::with('aidCategory', 'productCategory')->get();
@@ -27,6 +47,7 @@ class ProductController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function getProductById(int $productId): JsonResponse
     {
         $product = Product::with('aidCategory', 'productCategory')->findOrFail($productId);
@@ -39,6 +60,7 @@ class ProductController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
+    
     public function updateProductById(Request $request, int $productId): JsonResponse
     {
         $validated = $request->validate([

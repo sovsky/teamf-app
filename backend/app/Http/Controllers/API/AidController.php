@@ -4,20 +4,20 @@
 namespace App\Http\Controllers\API;
 
 
+use App\Http\Controllers\API\BaseController;
 use App\Models\AidType;
 use App\Models\Product;
 use App\Models\AidCategory;
+use App\Models\ProductUserSelection;
+use App\Models\ProductCategory;
+use App\Models\UserAidSelection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 use OpenApi\Attributes\Schema;
-use App\Models\ProductCategory;
-use App\Models\UserAidSelection;
 use OpenApi\Attributes\Property;
 use OpenApi\Attributes\MediaType;
 use OpenApi\Attributes\RequestBody;
-use App\Models\ProductUserSelection;
-use App\Http\Controllers\API\BaseController;
 
 class AidController extends BaseController
 {
@@ -29,9 +29,9 @@ class AidController extends BaseController
             content: new OA\JsonContent(
                 type: "object",
                 properties: [
-                    new OA\Property(property: "aid_type_id", type: "integer", description: "ID of the aid type (required)"),
-                    new OA\Property(property: "aid_category_id", type: "integer", description: "ID of the aid category (required)"),
-                    new OA\Property(property: "product_category_id", type: "integer", nullable: true, description: "ID of the product category (optional)"),
+                    new OA\Property(property: "aid_type_id", type: "integer", description: "ID of the aid type (required)", example: 1),
+                    new OA\Property(property: "aid_category_id", type: "integer", description: "ID of the aid category (required)", example: 1),
+                    new OA\Property(property: "product_category_id", type: "integer", nullable: true, description: "ID of the product category (optional)", example: 1),
                     new OA\Property(
                         property: "products",
                         type: "array",
@@ -64,7 +64,6 @@ class AidController extends BaseController
      */
     public function store(Request $request)
     {
-       //validate data
         $request->validate([
             'aid_type_id' => 'required|exists:aid_types,id',
             'aid_category_id' => 'required|exists:aid_categories,id',
@@ -73,7 +72,7 @@ class AidController extends BaseController
             'products.*' => 'exists:products,id',
         ]);
 
-        // Create a record for the user and their choices
+
         $userAidSelection = UserAidSelection::create([
             'user_id' => auth()->id(), 
             'aid_type_id' => $request->aid_type_id,
@@ -81,7 +80,7 @@ class AidController extends BaseController
             'product_category_id' => $request->product_category_id,
         ]);
 
-        // Save selected products (if selected)
+
         if ($request->has('products') && count($request->products) > 0) {
             foreach ($request->products as $productId) {
                 ProductUserSelection::create([

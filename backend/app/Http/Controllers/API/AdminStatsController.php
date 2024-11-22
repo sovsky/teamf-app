@@ -28,13 +28,13 @@ class AdminStatsController extends BaseController
                 content: new MediaType(mediaType: "application/json",
                 schema: new Schema(required: ["name", "email", "password", "password_confirm", "age", "phone_number", "city"],
                         properties: [
-                            new Property(property: 'name', description: "User name must be max 255 characters", type: "string"),
-                            new Property(property: 'email', description: "User email must be unique", type: "string"),
-                            new Property(property: 'password', description: "User password, at least 8 characters with mixed cases, numbers, and symbols", type: "string"),
-                            new OA\Property(property: 'password_confirm', description: "User password confirmation", type: "string"),
-                            new Property(property: 'age', description: "User age mus be a date type, in example: 1990-01-01", type: "datetime"),
-                            new Property(property: 'phone_number', description: "User phone number in the format +1234567890", type: "string", pattern: "^[0-9\\s\\-\\+\\(\\)]*$"),
-                            new OA\Property(property: 'city', description: "User city must be max 100 characters", type: "string"),
+                            new Property(property: 'name', description: "User name must be max 255 characters", type: "string", example: "John Doe"),
+                            new Property(property: 'email', description: "User email must be unique", type: "string", example: "johndoe@example.com"),
+                            new Property(property: 'password', description: "User password, at least 8 characters with mixed cases, numbers, and symbols", type: "string", example: "Mkanj12mkanj"),
+                            new Property(property: 'password_confirm', description: "User password confirmation", type: "string", example: "Mkanj12mkanj"),
+                            new Property(property: 'age', description: "User age must be a date type, in example: 1990-01-01", type: "datetime", example: "1990-01-01"),
+                            new Property(property: 'phone_number', description: "User phone number in the format +1234567890", type: "string", pattern: "^[0-9\\s\\-\\+\\(\\)]*$", example: "+1234567890"),
+                            new Property(property: 'city', description: "User city must be max 100 characters", type: "string", example: "New York")                            
                         ]))),
         tags: ["Admin"],
         responses: [
@@ -42,6 +42,7 @@ class AdminStatsController extends BaseController
             new OA\Response(response: Response::HTTP_BAD_REQUEST, description: "Role 'admin' does not exist."),
         ]
     )]
+
     public function createAdmin(Request $request): JsonResponse {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -53,19 +54,13 @@ class AdminStatsController extends BaseController
             'picture' => 'nullable|string',
             'is_picture_public' => 'nullable|boolean',
         ]);
-
-        //add admin role
         $role = Role::where('name', 'admin')->first();
         if (!$role) {
             return response()->json(['message' => 'Role "admin" does not exist.'], Response::HTTP_BAD_REQUEST);
         }
-        // hashed password
         $validated['password'] = Hash::make($validated['password']);
-
-        // add role_id to validated data
         $validated['role_id'] = $role->id;
 
-        // create user
         $user = User::create($validated);
 
         return response()->json(['message' => 'Admin account registered successfully.'], Response::HTTP_CREATED);

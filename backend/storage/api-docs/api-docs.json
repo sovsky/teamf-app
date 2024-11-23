@@ -1776,6 +1776,76 @@
                     }
                 }
             }
+        },
+        "/api/verifiedToken": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Verify token validity",
+                "description": "Checks if the provided token in the cookie is valid and returns the authenticated user's information.",
+                "operationId": "7c47e75fb530d84a5c41fe3a1b1b4a21",
+                "responses": {
+                    "200": {
+                        "description": "Token is valid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token is valid"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "format": "email",
+                                                    "example": "johndoe@example.com"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "volunteer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid or expired token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
@@ -1820,6 +1890,10 @@
         {
             "name": "Product Categories",
             "description": "Product Categories"
+        },
+        {
+            "name": "Authentication",
+            "description": "Authentication"
         }
     ]
 }

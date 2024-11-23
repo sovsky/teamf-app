@@ -85,3 +85,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
   Route::apiResource('ratings', RatingController::class);
 });
+
+Route::middleware('verify.token')->group(function () {
+  Route::get('/verifiedToken', [UserController::class, 'verifiedToken']);
+});
+

@@ -23,10 +23,34 @@ use App\Http\Controllers\API\ProductCategoryController;
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
 
-// Pathways that do require authorization - admin + logout
+Route::get('/products', [ProductController::class, 'getProducts']);
+Route::get('/aid-types', [AidTypeController::class, 'getAidTypes']);
+Route::get('/product-categories', [ProductCategoryController::class, 'getProductCategories']);
+Route::get('/aid-categories', [AidCategoryController::class, 'getAidCategories']);
+Route::post('/aid', [AidController::class, 'store']);
+
+Route::get('/voivodeships', [VoivodeshipController::class, 'getVoivodeships']);
+Route::get('/voivodeships/{id}', [VoivodeshipController::class, 'getVoivodeshipById']);
+Route::get('/voivodeships/{id}/districts', [DistrictController::class, 'getDistrictsByVoivodeship']);
+
+Route::get('/districts', [CommuneController::class, 'getDistricts']);
+Route::get('/districts/{id}', [DistrictController::class, 'getDistrictById']);
+Route::get('/districts/{id}/communes', [CommuneController::class, 'getCommunesByDistrict']);
+
+Route::get('/communes', [CommuneController::class, 'getCommunes']);
+Route::get('/communes/{id}', [CommuneController::class, 'getCommuneById']);
+Route::get('/communes/{id}/cities', [CityController::class, 'getCitiesByCommune']);
+
+Route::get('/cities', [CityController::class, 'getCities']);
+Route::get('/cities/{id}', [CityController::class, 'getCityById']);
+
+// Pathways that require authorization
 Route::middleware(['auth:sanctum'])->group(function () {
+  Route::get('/user', function (Request $request) {
+    return $request->user();
+  });
   Route::post('/logout', [UserController::class, 'logout']);
-  //admin routes
+
   Route::middleware('admin')->group(function () {
     Route::get('/admin/users-by-age', [AdminStatsController::class, 'getUsersByAge']);
     Route::get('/admin/volunteer-count', [AdminStatsController::class, 'getVolunteerCount']);
@@ -36,69 +60,33 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/admin/delete-user/{id}', [AdminStatsController::class, 'deleteUser']);
     Route::delete('/admin/delete-comment/{id}', [AdminStatsController::class, 'deleteComment']);
   });
-});
+  
+  Route::get('/matching-users', [MatchController::class, 'findMatchingUsers']);
 
-
-Route::get('/user', function (Request $request) {
-  return $request->user();
-})->middleware('auth:sanctum');
-
-
-Route::middleware(['auth:sanctum'])->group(function () {
-  # Product
-  Route::get('/products', [ProductController::class, 'getProducts']);
   Route::get('/products/{id}', [ProductController::class, 'getProductById']);
   Route::post('/products/create', [ProductController::class, 'createProduct']);
   Route::patch('/products/{id}/update', [ProductController::class, 'updateProductById']);
   Route::delete('/products/{id}/delete', [ProductController::class, 'deleteProductById']);
 
-  # Aid type
-  Route::get('/aid-types', [AidTypeController::class, 'getAidTypes']);
   Route::get('/aid-types/{id}', [AidTypeController::class, 'getAidTypeById']);
   Route::post('/aid-types/create', [AidTypeController::class, 'createAidType']);
   Route::patch('/aid-types/{id}/update', [AidTypeController::class, 'updateAidTypeById']);
   Route::delete('/aid-types/{id}/delete', [AidTypeController::class, 'deleteAidTypeById']);
 
-  # Product category
-  Route::get('/product-categories', [ProductCategoryController::class, 'getProductCategories']);
   Route::get('/product-categories/{id}', [ProductCategoryController::class, 'getProductCategoryById']);
   Route::post('/product-categories/create', [ProductCategoryController::class, 'createProductCategory']);
   Route::patch('/product-categories/{id}/update', [ProductCategoryController::class, 'updateProductCategoryById']);
   Route::delete('/product-categories/{id}/delete', [ProductCategoryController::class, 'deleteProductCategoryById']);
 
-  # Aid category
-  Route::get('/aid-categories', [AidCategoryController::class, 'getAidCategories']);
   Route::get('/aid-categories/{id}', [AidCategoryController::class, 'getAidCategoryById']);
   Route::post('/aid-categories/create', [AidCategoryController::class, 'createAidCategory']);
   Route::patch('/aid-categories/{id}/update', [AidCategoryController::class, 'updateAidCategoryById']);
   Route::delete('/aid-categories/{id}/delete', [AidCategoryController::class, 'deleteAidCategoryById']);
 
-  #Ratings
   Route::apiResource('ratings', RatingController::class);
+});
 
-  # Voivodeships
-  Route::get('/voivodeships', [VoivodeshipController::class, 'getVoivodeships']);
-  Route::get('/voivodeships/{id}', [VoivodeshipController::class, 'getVoivodeshipById']);
-  Route::get('/voivodeships/{id}/districts', [DistrictController::class, 'getDistrictsByVoivodeship']);
-
-  # Districts
-  Route::get('/districts', [CommuneController::class, 'getDistricts']);
-  Route::get('/districts/{id}', [DistrictController::class, 'getDistrictById']);
-  Route::get('/districts/{id}/communes', [CommuneController::class, 'getCommunesByDistrict']);
-
-  # Communes
-  Route::get('/communes', [CommuneController::class, 'getCommunes']);
-  Route::get('/communes/{id}', [CommuneController::class, 'getCommuneById']);
-  Route::get('/communes/{id}/cities', [CityController::class, 'getCitiesByCommune']);
-
-  # Cities
-  Route::get('/cities', [CityController::class, 'getCities']);
-  Route::get('/cities/{id}', [CityController::class, 'getCityById']);
-
-  #Save data from form after the registration
-  Route::post('/aid', [AidController::class, 'store']);
-   
-  #Matching
-  Route::get('/matching-users', [MatchController::class, 'findMatchingUsers']);
+Route::middleware('verify.token')->group(function () {
+  Route::get('/verifiedToken', [UserController::class, 'verifiedToken']);
 });
 

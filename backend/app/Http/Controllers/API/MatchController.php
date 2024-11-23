@@ -31,18 +31,18 @@ class MatchController extends BaseController
                         new OA\Property(property: "data", type: "array", items: new OA\Items(
                             type: "object", properties: [
                                 new OA\Property(property: "id", type: "integer"), 
-                                new OA\Property(property: "name", type: "string"), 
-                                new OA\Property(property: "city", type: "string"),
+                                new OA\Property(property: "name", type: "string", example: "John"), 
+                                new OA\Property(property: "city", type: "string", example: "Warszawa"),
                                 new OA\Property(property: "latest_selection", type: "object", properties: [
-                                    new OA\Property(property: "aid_type", type: "string"), 
-                                    new OA\Property(property: "aid_category", type: "string"), 
-                                    new OA\Property(property: "product_category", type: "string"), 
+                                    new OA\Property(property: "aid_type", type: "string", example: "zdalna/osobista"), 
+                                    new OA\Property(property: "aid_category", type: "string", example: "materialna/psychologiczna/medyczna/budowlana/logicznyczna"), 
+                                    new OA\Property(property: "product_category", type: "string", example: "żywność"), 
                                     new OA\Property(property: "products", type: "array", items: new OA\Items(
                                         type: "object", properties: [
                                             new OA\Property(property: "id", type: "integer"), 
                                             new OA\Property(property: "name", type: "string")
                                         ]
-                                    ))
+                                        ), example: "ryż")
                                 ])
                             ]
                         ))

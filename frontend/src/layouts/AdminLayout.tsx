@@ -15,7 +15,8 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { adminNavbarOptions, breadcrumbTranslations } from "@/constants"
-import { Link, Outlet, useLocation } from "react-router-dom"
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { Toaster } from "@/components/ui/toaster"
 
 const AdminLayout:React.FC = () => {
   const {pathname} =useLocation();
@@ -75,6 +76,7 @@ const AdminLayout:React.FC = () => {
 <Outlet/>
 
       </SidebarInset>
+      <Toaster/>
     </SidebarProvider>
 
   )

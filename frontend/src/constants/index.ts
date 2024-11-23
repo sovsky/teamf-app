@@ -89,6 +89,10 @@ export const navItems = [
             title: "Potrzebujący",
             url: "/admin/peopleInNeed",
           },
+          {
+            title: "Administratorzy",
+            url: "/admin/admins",
+          },
       
         ],
       },
@@ -224,6 +228,20 @@ export const navItems = [
       city: "Katowice",
     },
   ];
+
+
+  export const admins = [
+    {
+
+      name: "Janek",
+      email: "jan.kowalski@example.com",
+      age: 29,
+      city: "Warszawa",
+    },
+
+  
+  ];
+
   
   export const usersObjectHeaderTranslations: Record<string, string> = {
     firstName: "Imię",       // Tłumaczenie dla firstName

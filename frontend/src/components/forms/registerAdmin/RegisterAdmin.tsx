@@ -7,14 +7,17 @@ import {useForm} from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
 import {AccountType, IRegisterData} from "@/hooks/useRegister.ts";
 import {useSearchParams} from "react-router-dom";
+import useRegisterAdmin from "@/hooks/useRegisterAdmin";
+import CircleSpinner from "@/components/CircleSpinner";
 
 interface Inputs {
     name: string;
     password: string;
-    confirm_password: string;
+    password_confirmation: string;
     email: string;
     age: string;
     phone_number: string;
+    city:string;
 }
 
 interface IFirstStepForm {
@@ -25,35 +28,24 @@ interface IFirstStepForm {
 
 export default function RegisterAdmin({setActualStep, setFullFormData, fullFormData}: IFirstStepForm) {
 
-    const [searchParams, setSearchParams] = useSearchParams()
 
+const {submitHandler,errorMessage,isPending}= useRegisterAdmin();
     const maxDate = new Date().toISOString().split("T")[0]
     const {register, handleSubmit, formState, getValues} = useForm<Inputs>()
     const {errors} = formState
 
-    const getRole = (): AccountType => {
-        return searchParams.get("role") === "inNeed" ? "inNeed" : "volunteer"
-    }
 
-    const setRole = (role: AccountType) => {
-        setSearchParams({role})
-    }
+
+   
 
     const onSubmit = (data: Inputs) => {
-        const accountType = getRole()
+    
+        submitHandler(data)
 
-        // save data from first step form to fullFormData state
-        setFullFormData(prevState => {
-            return {
-                ...prevState,
-                ...data,
-                accountType
-            }
-        })
+        }
 
-        // go to next form step
-        setActualStep(prevState => prevState + 1)
-    }
+
+    
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 py-5 px-2">
@@ -106,22 +98,25 @@ export default function RegisterAdmin({setActualStep, setFullFormData, fullFormD
             <div className="grid sm:grid-flow-col gap-6">
                 <div className="grid w-full items-center gap-1.5">
                     <Label htmlFor="confirmPassword">Powtórz Hasło</Label>
-                    <Input id="confirmPassword" type="password" {...register("confirm_password", {
+                    <Input id="confirmPassword" type="password" {...register("password_confirmation", {
                         required: "Powtórz hasło",
                         validate: value => value === getValues("password") || "Hasła nie są takie same"
                     })}/>
-                    <ErrorMessage name="confirm_password" errors={errors}
+                    <ErrorMessage name="password_confirmation" errors={errors}
                                   render={({message}) => <p className="text-red-500 text-sm">{message}</p>}/>
                 </div>
             </div>
             <div className="grid sm:grid-flow-col gap-6">
                 <div className="grid w-full items-center gap-1.5">
-                    <Label htmlFor="confirmPassword">Miejscowość</Label>
-                    <Input id="confirmPassword" type="password" {...register("confirm_password", {
-                        required: "Powtórz hasło",
-                        validate: value => value === getValues("password") || "Hasła nie są takie same"
+                    <Label htmlFor="city">Miejscowość</Label>
+                    <Input id="city" {...register("city",  {
+                        required: "Uzupełnij miejscowość",
+                        minLength: {
+                            value: 2,
+                            message: "Miejscowość musi mieć co najmniej 6 znaków"
+                        },
                     })}/>
-                    <ErrorMessage name="confirm_password" errors={errors}
+                    <ErrorMessage name="city" errors={errors}
                                   render={({message}) => <p className="text-red-500 text-sm">{message}</p>}/>
                 </div>
             </div>
@@ -159,10 +154,13 @@ export default function RegisterAdmin({setActualStep, setFullFormData, fullFormD
                 <ErrorMessage name="phone_number" errors={errors}
                               render={({message}) => <p className="text-red-500 text-sm">{message}</p>}/>
             </div>
+          
             <Button
-                className="bg-violet-600 font-bold hover:bg-violet-700">
-             Utwórz konto
+            disabled={isPending}
+              >
+          {isPending ? <CircleSpinner/> : "   Utwórz konto"}
             </Button>
+ { errorMessage &&  <span className="text-center text-red-600 text-sm bg-red-100 rounded-lg p-2">{errorMessage}</span>}
         </form>
     )
 }

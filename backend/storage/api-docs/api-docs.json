@@ -75,9 +75,9 @@
                                         "pattern": "^[0-9\\s\\-\\+\\(\\)]*$",
                                         "example": "+1234567890"
                                     },
-                                    "city": {
-                                        "description": "User city must be max 100 characters",
-                                        "type": "string",
+                                    "city_id": {
+                                        "description": "City_id must be pass with database",
+                                        "type": "integer",
                                         "example": "New York"
                                     }
                                 },
@@ -184,6 +184,118 @@
                     },
                     "404": {
                         "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/api/admin/role/{roleName}": {
+            "get": {
+                "tags": [
+                    "Admin"
+                ],
+                "summary": "Get users by role",
+                "description": "Retrieves all users by their role.",
+                "operationId": "57e4175bd35527b0af0d6aee40ddbeed",
+                "parameters": [
+                    {
+                        "name": "roleName",
+                        "in": "path",
+                        "description": "The name of the role to filter users by.",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved users by role.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "users": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "testusers12@example.com"
+                                                    },
+                                                    "email_verified_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": null
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "User2"
+                                                    },
+                                                    "age": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "1995-05-01"
+                                                    },
+                                                    "phone_number": {
+                                                        "type": "string",
+                                                        "example": "48123456789"
+                                                    },
+                                                    "picture": {
+                                                        "type": "string",
+                                                        "example": null,
+                                                        "nullable": true
+                                                    },
+                                                    "is_picture_public": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-11-17"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-11-17"
+                                                    },
+                                                    "role_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "city_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Role not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Role not found."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }

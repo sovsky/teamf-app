@@ -214,8 +214,10 @@ class UserController extends BaseController
     )]
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->currentAccessToken()->delete();
-        return response()->json(['message' => 'User logged out successfully.'], Response::HTTP_OK);
+        $cookie = cookie()->forget('token');
+        return response()
+        ->json(['message' => 'User logged out successfully.'], Response::HTTP_OK)
+        ->withCookie($cookie);
     }
 
 

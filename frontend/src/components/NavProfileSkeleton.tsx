@@ -10,8 +10,7 @@ export default function NavProfileSkeleton() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger
-                className="bg-slate-400/90 text-white py-2 px-4 font-bold rounded-lg shadow-sm text-slate-400/90 ">Zordon@wp.pl</DropdownMenuTrigger>
-
+                className="bg-violet-400/90 text-white py-2 px-4 font-bold rounded-lg shadow-sm text-transparent ">aaaaaaa@wp.pl</DropdownMenuTrigger>
         </DropdownMenu>
     )
 }

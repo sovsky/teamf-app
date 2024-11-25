@@ -10,6 +10,7 @@ export interface IAuthData {
 
 interface ProviderProps {
     user: IAuthData,
+    isLoading:boolean,
     setUser: Dispatch<SetStateAction<IAuthData>>
     logoutHandler: () => void
 }
@@ -23,7 +24,7 @@ export function AuthProvider({children}: { children: ReactNode }) {
         role: ""
     })
 
-    const {mutate} = useMutation({
+    const {mutate,isPending} = useMutation({
         mutationKey: ["verifyToken"], 
         mutationFn: verifyToken, 
         onSuccess: (res) => {
@@ -48,7 +49,7 @@ export function AuthProvider({children}: { children: ReactNode }) {
     }
 
     return (
-        <AuthContext.Provider value={{user, setUser, logoutHandler}}>
+        <AuthContext.Provider value={{user, isLoading:isPending, setUser, logoutHandler}}>
             {children}
         </AuthContext.Provider>
     )

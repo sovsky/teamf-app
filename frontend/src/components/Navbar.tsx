@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
 
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
     const [windowWidth] = useWindowSize();
-    const {user, isLoading, logoutHandler} = useAuth()
+    const {user, isLoading} = useAuth()
 
     useEffect(() => {
         if (windowWidth > 780) {

@@ -2,9 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\User;
+use App\Models\Commune;
+use App\Models\District;
+use App\Models\Voivodeship;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class City extends Model
 {
@@ -22,5 +26,9 @@ class City extends Model
     public function commune(): BelongsTo
     {
         return $this->belongsTo(Commune::class);
+    }
+    public function users()
+    {
+        return $this->hasMany(User::class);
     }
 }

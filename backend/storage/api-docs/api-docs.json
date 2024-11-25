@@ -45,33 +45,40 @@
                                 "properties": {
                                     "name": {
                                         "description": "User name must be max 255 characters",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "John Doe"
                                     },
                                     "email": {
                                         "description": "User email must be unique",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "johndoe@example.com"
                                     },
                                     "password": {
                                         "description": "User password, at least 8 characters with mixed cases, numbers, and symbols",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Mkanj12mkanj"
                                     },
                                     "password_confirm": {
                                         "description": "User password confirmation",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Mkanj12mkanj"
                                     },
                                     "age": {
-                                        "description": "User age mus be a date type, in example: 1990-01-01",
+                                        "description": "User age must be a date type, in example: 1990-01-01",
                                         "type": "string",
-                                        "format": "date-time"
+                                        "format": "date-time",
+                                        "example": "1990-01-01"
                                     },
                                     "phone_number": {
                                         "description": "User phone number in the format +1234567890",
                                         "type": "string",
-                                        "pattern": "^[0-9\\s\\-\\+\\(\\)]*$"
+                                        "pattern": "^[0-9\\s\\-\\+\\(\\)]*$",
+                                        "example": "+1234567890"
                                     },
                                     "city": {
                                         "description": "User city must be max 100 characters",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "New York"
                                     }
                                 },
                                 "type": "object"
@@ -181,6 +188,1369 @@
                 }
             }
         },
+        "/api/aid-categories": {
+            "get": {
+                "tags": [
+                    "Aid Categories"
+                ],
+                "summary": "Retrieve all aid categories",
+                "description": "Get all aidCategories",
+                "operationId": "82ce2573ea384e69090603ed0fed8baa",
+                "responses": {
+                    "200": {
+                        "description": "List of all aid categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Emergency Aid"
+                                            },
+                                            "aid_type_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-22T10:20:30Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-23T15:30:45Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/aid-categories/{id}": {
+            "get": {
+                "tags": [
+                    "Aid Categories"
+                ],
+                "summary": "Retrieve an aid category by its ID",
+                "description": "Get aid category by id",
+                "operationId": "da5343b73ed367c2afbe5b44da3114a7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Aid category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aid category details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Emergency Aid"
+                                        },
+                                        "aid_type_id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aid category not found"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/aid-categories/{id}/update": {
+            "put": {
+                "tags": [
+                    "Aid Categories"
+                ],
+                "summary": "Update an aid category by ID",
+                "description": "Update aid category by id",
+                "operationId": "5977013580ad48353d2f1e34a56a039a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Aid category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Updated Aid Category"
+                                    },
+                                    "aid_type_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Aid category updated successfully"
+                    },
+                    "404": {
+                        "description": "Aid category not found"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/aid-categories/{id}/delete": {
+            "delete": {
+                "tags": [
+                    "Aid Categories"
+                ],
+                "summary": "Delete an aid category by ID",
+                "description": "Delete aid category by id",
+                "operationId": "1617c3003bf1d809848ac84abe560399",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Aid category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aid category deleted successfully"
+                    },
+                    "404": {
+                        "description": "Aid category not found"
+                    }
+                }
+            }
+        },
+        "/api/aid-categories/create": {
+            "post": {
+                "tags": [
+                    "Aid Categories"
+                ],
+                "summary": "Create a new aid category",
+                "description": "Create aid category",
+                "operationId": "7aac40c75857e931c176403744a0cdb2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "New Aid Category"
+                                    },
+                                    "aid_type_id": {
+                                        "type": "integer",
+                                        "example": 4
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Aid category created successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/aid": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Store user aid selection from form after register",
+                "description": "Download data from the form after registration and save it",
+                "operationId": "1f068925ac5a8b0cb3f1f4cb6ab558de",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "aid_type_id": {
+                                        "description": "ID of the aid type (required)",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "aid_category_id": {
+                                        "description": "ID of the aid category (required)",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "product_category_id": {
+                                        "description": "ID of the product category (optional)",
+                                        "type": "integer",
+                                        "example": 1,
+                                        "nullable": true
+                                    },
+                                    "products": {
+                                        "type": "array",
+                                        "items": {
+                                            "description": "IDs of selected products (optional)",
+                                            "type": "integer"
+                                        },
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data successfully saved.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Data successfully saved."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/aid-types": {
+            "get": {
+                "tags": [
+                    "Aid Types"
+                ],
+                "summary": "Retrieve all aid types",
+                "description": "Get all aid types",
+                "operationId": "e27d7e9c721b7717a7d473ba4299ac6f",
+                "responses": {
+                    "200": {
+                        "description": "List of all aid types",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Financial Aid"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-22T10:20:30Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-23T15:30:45Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/aid-types/{id}": {
+            "get": {
+                "tags": [
+                    "Aid Types"
+                ],
+                "summary": "Retrieve an aid type by its ID",
+                "description": "Get aid type by id",
+                "operationId": "316dd313e236067db43a430388537d1b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Aid type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aid type details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Financial Aid"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-09-22T10:20:30Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-09-23T15:30:45Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aid type not found"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/aid-types/{id}/update": {
+            "patch": {
+                "tags": [
+                    "Aid Types"
+                ],
+                "summary": "Update an aid type by ID",
+                "description": "Update aid type by id",
+                "operationId": "0f0420ee87e418fff2b3c31452ab7b77",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Aid type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Updated Aid Type"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Aid type updated successfully"
+                    },
+                    "404": {
+                        "description": "Aid type not found"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/aid-types/{id}/delete": {
+            "delete": {
+                "tags": [
+                    "Aid Types"
+                ],
+                "summary": "Delete an aid type by ID",
+                "description": "Delete aid type by id",
+                "operationId": "ff6cf81f61c1a7aa78a96a8679f831d3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Aid type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Aid type deleted successfully"
+                    },
+                    "404": {
+                        "description": "Aid type not found"
+                    }
+                }
+            }
+        },
+        "/api/aid-types/create": {
+            "post": {
+                "tags": [
+                    "Aid Types"
+                ],
+                "summary": "Create a new aid type",
+                "description": "Create aid type",
+                "operationId": "c9f41e997c96065ef5cf66d9d8690fd2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "New Aid Type"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Aid type created successfully"
+                    },
+                    "400": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/cities": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Retrieve all cities",
+                "description": "Get all cities",
+                "operationId": "702928da5dbd036fe945b2c774e18a3f",
+                "responses": {
+                    "200": {
+                        "description": "List of all cities",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Warsaw"
+                                            },
+                                            "commune_id": {
+                                                "type": "integer",
+                                                "example": 101
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-22T10:20:30Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-23T15:30:45Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/cities/{id}": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Retrieve a city by its ID",
+                "description": "Get city by id",
+                "operationId": "7368586a528b201d1537cd877dd5cca7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "City ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "City details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Warsaw"
+                                        },
+                                        "commune_id": {
+                                            "type": "integer",
+                                            "example": 101
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-09-22T10:20:30Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-09-23T15:30:45Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "City not found"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/communes/{id}/cities": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Retrieve cities by commune ID",
+                "description": "Get cities by commune",
+                "operationId": "67c4451ea3e5d0f65fa06b78cfb2947d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Commune ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of cities in the commune",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Krakow"
+                                            },
+                                            "commune_id": {
+                                                "type": "integer",
+                                                "example": 102
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-25T11:15:00Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-26T17:45:00Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Commune not found"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/communes": {
+            "get": {
+                "tags": [
+                    "Communes"
+                ],
+                "summary": "Retrieve all communes",
+                "description": "Get all communes",
+                "operationId": "a94ea9d4353d0743eacc3a91e67095ad",
+                "responses": {
+                    "200": {
+                        "description": "List of all communes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Commune Alpha"
+                                            },
+                                            "district_id": {
+                                                "type": "integer",
+                                                "example": 10
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-22T10:20:30Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-23T15:30:45Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/communes/{id}": {
+            "get": {
+                "tags": [
+                    "Communes"
+                ],
+                "summary": "Retrieve a commune by its ID",
+                "description": "Get commune by id",
+                "operationId": "c4a597b9a1678543121955e440f75230",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Commune ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Commune details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Commune Beta"
+                                        },
+                                        "district_id": {
+                                            "type": "integer",
+                                            "example": 20
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-09-22T10:20:30Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-09-23T15:30:45Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Commune not found"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/districts/{id}/communes": {
+            "get": {
+                "tags": [
+                    "Communes"
+                ],
+                "summary": "Retrieve communes by district ID",
+                "description": "Get communes by district",
+                "operationId": "3d22538bdce5cfaeabb9edb121b76a7b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "District ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of communes in the district",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 3
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Commune Gamma"
+                                            },
+                                            "district_id": {
+                                                "type": "integer",
+                                                "example": 30
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-25T11:15:00Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-26T17:45:00Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "District not found"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/districts": {
+            "get": {
+                "tags": [
+                    "Districts"
+                ],
+                "summary": "Retrieve all districts",
+                "description": "Get all districts",
+                "operationId": "1c71efc60766c3b318ab1efa5720b46c",
+                "responses": {
+                    "200": {
+                        "description": "List of all districts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "District Alpha"
+                                            },
+                                            "voivodeship_id": {
+                                                "type": "integer",
+                                                "example": 5
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-22T10:20:30Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-23T15:30:45Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/districts/{id}": {
+            "get": {
+                "tags": [
+                    "Districts"
+                ],
+                "summary": "Retrieve a district by its ID",
+                "description": "Get district by id",
+                "operationId": "2492e982d4d97620731be86e4f772003",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "District ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "District details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "District Beta"
+                                        },
+                                        "voivodeship_id": {
+                                            "type": "integer",
+                                            "example": 8
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-09-25T11:15:00Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-09-26T17:45:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "District not found"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/voivodeships/{id}/districts": {
+            "get": {
+                "tags": [
+                    "Districts"
+                ],
+                "summary": "Retrieve districts by voivodeship ID",
+                "description": "Get districts by voivodeship",
+                "operationId": "e28475f87c425b1c54bc408ef8e3b30b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Voivodeship ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of districts in the specified voivodeship",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 4
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "District Gamma"
+                                            },
+                                            "voivodeship_id": {
+                                                "type": "integer",
+                                                "example": 12
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-27T12:00:00Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-28T14:30:00Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Voivodeship not found"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/matching-users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Retrieve matching users with their latest selection details",
+                "description": "Search function for people with specific criteria",
+                "operationId": "84ad48435c86f8a13d9cdf910ba69565",
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved matching users",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "John"
+                                                    },
+                                                    "city": {
+                                                        "type": "string",
+                                                        "example": "Warszawa"
+                                                    },
+                                                    "latest_selection": {
+                                                        "properties": {
+                                                            "aid_type": {
+                                                                "type": "string",
+                                                                "example": "zdalna/osobista"
+                                                            },
+                                                            "aid_category": {
+                                                                "type": "string",
+                                                                "example": "materialna/psychologiczna/medyczna/budowlana/logicznyczna"
+                                                            },
+                                                            "product_category": {
+                                                                "type": "string",
+                                                                "example": "żywność"
+                                                            },
+                                                            "products": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer"
+                                                                        },
+                                                                        "name": {
+                                                                            "type": "string"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                },
+                                                                "example": "ryż"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/product-categories": {
+            "get": {
+                "tags": [
+                    "Product Categories"
+                ],
+                "summary": "Retrieve all product categories",
+                "description": "Get all product categories",
+                "operationId": "dc793ac98441da2fcda6b5d04eb78104",
+                "responses": {
+                    "200": {
+                        "description": "List of all product categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Electronics"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-22T10:20:30Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-09-23T15:30:45Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/product-categories/{id}": {
+            "get": {
+                "tags": [
+                    "Product Categories"
+                ],
+                "summary": "Retrieve a product category by its ID",
+                "description": "Get product category by id",
+                "operationId": "9a78d43b83a21694ba25959e9f34d872",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product category details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Clothing"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-09-25T11:15:00Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-09-26T17:45:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product category not found"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/product-categories/create": {
+            "post": {
+                "tags": [
+                    "Product Categories"
+                ],
+                "summary": "Create a new product category",
+                "description": "Create product category",
+                "operationId": "0db2c2c902778ea7b21b381067147b86",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Books"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Product category created successfully"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/product-categories/{id}/update": {
+            "patch": {
+                "tags": [
+                    "Product Categories"
+                ],
+                "summary": "Update a product category by its ID",
+                "description": "Update product category by id",
+                "operationId": "ac6adfb5c74c91c32d6f8e298dfbcb73",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Updated Category"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Product category updated successfully"
+                    },
+                    "404": {
+                        "description": "Product category not found"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
+        "/api/product-categories/{id}/delete": {
+            "delete": {
+                "tags": [
+                    "Product Categories"
+                ],
+                "summary": "Delete a product category by its ID",
+                "description": "Delete product category by id",
+                "operationId": "a725d8122b982fa04aa569b99ac76e21",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Product Category ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Product category deleted successfully"
+                    },
+                    "404": {
+                        "description": "Product category not found"
+                    },
+                    "500": {
+                        "description": "Server Error"
+                    }
+                }
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
@@ -198,41 +1568,58 @@
                                     "name",
                                     "email",
                                     "password",
-                                    "password_confirm",
+                                    "password_confirmation",
                                     "age",
                                     "phone_number",
-                                    "city"
+                                    "city_id",
+                                    "role"
                                 ],
                                 "properties": {
                                     "name": {
-                                        "description": "User name must be max 255 characters",
-                                        "type": "string"
+                                        "description": "User name, max 255 characters",
+                                        "type": "string",
+                                        "example": "Michael Remo"
                                     },
                                     "email": {
-                                        "description": "User email must be unique",
-                                        "type": "string"
+                                        "description": "User email, must be unique",
+                                        "type": "string",
+                                        "example": "michaelremo@example.com"
                                     },
                                     "password": {
                                         "description": "User password, at least 8 characters with mixed cases, numbers, and symbols",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "Km!2mkaj#1sawd"
                                     },
-                                    "password_confirm": {
-                                        "description": "User password confirmation",
-                                        "type": "string"
+                                    "password_confirmation": {
+                                        "description": "Password confirmation",
+                                        "type": "string",
+                                        "example": "Km!2mkaj#1sawd"
                                     },
                                     "age": {
-                                        "description": "User age mus be a date type, in example: 1990-01-01",
+                                        "description": "User's date of birth in format YYYY-MM-DD",
                                         "type": "string",
-                                        "format": "date-time"
+                                        "format": "date",
+                                        "example": "1990-05-15"
                                     },
                                     "phone_number": {
-                                        "description": "User phone number in the format +1234567890",
+                                        "description": "Phone number in format +1234567890",
                                         "type": "string",
-                                        "pattern": "^[0-9\\s\\-\\+\\(\\)]*$"
+                                        "pattern": "^[0-9\\s\\-\\+\\(\\)]*$",
+                                        "example": "+48600600600"
                                     },
-                                    "city": {
-                                        "description": "User city must be max 100 characters",
-                                        "type": "string"
+                                    "city_id": {
+                                        "description": "ID of the user's city",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "role": {
+                                        "description": "Role of the user",
+                                        "type": "string",
+                                        "enum": [
+                                            "volunteer",
+                                            "deprived person"
+                                        ],
+                                        "example": "volunteer"
                                     }
                                 },
                                 "type": "object"
@@ -242,16 +1629,33 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "User register successfully."
+                        "description": "User registered successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "User registered successfully."
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "your-token-here"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "422": {
-                        "description": "Unprocessable entity"
+                        "description": "Validation errors"
                     },
                     "400": {
-                        "description": "Bad Request"
+                        "description": "Invalid role specified"
                     },
                     "500": {
-                        "description": "Server Error"
+                        "description": "Server error"
                     }
                 }
             }
@@ -267,7 +1671,7 @@
                 "requestBody": {
                     "required": true,
                     "content": {
-                        "application/x-www-form-urlencoded": {
+                        "application/json": {
                             "schema": {
                                 "required": [
                                     "email",
@@ -276,11 +1680,14 @@
                                 "properties": {
                                     "email": {
                                         "description": "User email",
-                                        "type": "string"
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "michaelremo@example.com"
                                     },
                                     "password": {
-                                        "description": "User password",
-                                        "type": "string"
+                                        "description": "User password, minimum 8 characters",
+                                        "type": "string",
+                                        "example": "Mk!@mkanj$3mk2"
                                     }
                                 },
                                 "type": "object"
@@ -289,17 +1696,68 @@
                     }
                 },
                 "responses": {
-                    "201": {
-                        "description": "User login successfully."
+                    "200": {
+                        "description": "User logged in successfully",
+                        "headers": {
+                            "Set-Cookie": {
+                                "description": "HTTP-only cookie containing the authentication token",
+                                "schema": {
+                                    "type": "string",
+                                    "example": "token=your-token; HttpOnly; Max-Age=1440; Path=/; SameSite=Lax"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged in successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid credentials",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "422": {
-                        "description": "Unprocessable entity"
-                    },
-                    "400": {
-                        "description": "Bad Request"
+                        "description": "Validation errors",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The email field is required."
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "500": {
-                        "description": "Server Error"
+                        "description": "Server error"
                     }
                 }
             }
@@ -317,6 +1775,76 @@
                         "description": "User logged out successfully."
                     }
                 }
+            }
+        },
+        "/api/verifiedToken": {
+            "get": {
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Verify token validity",
+                "description": "Checks if the provided token in the cookie is valid and returns the authenticated user's information.",
+                "operationId": "7c47e75fb530d84a5c41fe3a1b1b4a21",
+                "responses": {
+                    "200": {
+                        "description": "Token is valid",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token is valid"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "John Doe"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "format": "email",
+                                                    "example": "johndoe@example.com"
+                                                },
+                                                "role": {
+                                                    "type": "string",
+                                                    "example": "volunteer"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid or expired token"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         }
     },
@@ -336,8 +1864,36 @@
             "description": "Admin"
         },
         {
+            "name": "Aid Categories",
+            "description": "Aid Categories"
+        },
+        {
             "name": "Users",
             "description": "Users"
+        },
+        {
+            "name": "Aid Types",
+            "description": "Aid Types"
+        },
+        {
+            "name": "Cities",
+            "description": "Cities"
+        },
+        {
+            "name": "Communes",
+            "description": "Communes"
+        },
+        {
+            "name": "Districts",
+            "description": "Districts"
+        },
+        {
+            "name": "Product Categories",
+            "description": "Product Categories"
+        },
+        {
+            "name": "Authentication",
+            "description": "Authentication"
         }
     ]
 }

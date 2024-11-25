@@ -5,25 +5,26 @@ import {
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu.tsx";
 import {IAuthData} from "@/context/authContext.tsx";
+import useLogout from "@/hooks/useLogout";
 import { useNavigate } from "react-router-dom";
 
 interface INavProfile {
     user: IAuthData
-    logoutHandler: () => void
+
 }
 
 
 
 
 
-export default function NavProfile({user, logoutHandler}: INavProfile) {
+export default function NavProfile({user}: INavProfile) {
 
 const navigate = useNavigate();
-
+const {handleLogout} = useLogout();
     const NavProfileItems = [
       
         {label:"Moj profil", type:"link", onClick:()=>navigate('/profile')},
-        {label:"Wyloguj", type:"logout", onClick:()=>logoutHandler()},
+        {label:"Wyloguj", type:"logout", onClick:()=>handleLogout()},
     
     ]
 

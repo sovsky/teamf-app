@@ -4,17 +4,18 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Role;
 use App\Models\User;
-use App\Http\Controllers\API\BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\Rules\Password;
 use OpenApi\Attributes as OA;
 use OpenApi\Attributes\Schema;
 use OpenApi\Attributes\Property;
+use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes\MediaType;
 use OpenApi\Attributes\RequestBody;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
+use App\Http\Controllers\API\BaseController;
 
 class AdminStatsController extends BaseController
 {
@@ -34,7 +35,7 @@ class AdminStatsController extends BaseController
                             new Property(property: 'password_confirm', description: "User password confirmation", type: "string", example: "Mkanj12mkanj"),
                             new Property(property: 'age', description: "User age must be a date type, in example: 1990-01-01", type: "datetime", example: "1990-01-01"),
                             new Property(property: 'phone_number', description: "User phone number in the format +1234567890", type: "string", pattern: "^[0-9\\s\\-\\+\\(\\)]*$", example: "+1234567890"),
-                            new Property(property: 'city', description: "User city must be max 100 characters", type: "string", example: "New York")                            
+                            new Property(property: 'city_id', description: "City_id must be pass with database", type: "int", example: "New York")                            
                         ]))),
         tags: ["Admin"],
         responses: [
@@ -50,7 +51,7 @@ class AdminStatsController extends BaseController
             'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
             'age' => 'required|date',
             'phone_number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10',
-            'city' => 'required|string|max:100',
+            'city_id' => 'required|integer|exists:cities,id', 
             'picture' => 'nullable|string',
             'is_picture_public' => 'nullable|boolean',
         ]);
@@ -167,5 +168,84 @@ class AdminStatsController extends BaseController
         }
         $user->delete();
         return response()->json(['message' => 'User deleted successfuly'],  Response::HTTP_OK);
-    }   
+    }  
+    
+    /**
+     * Retrieves all users by their role.
+     *
+     * @param string $roleName The name of the role to filter users by.
+     * @return JsonResponse
+     */
+    #[OA\Get(
+        path: "/api/admin/role/{roleName}",
+        summary: "Get users by role",
+        tags: ["Admin"],
+        parameters: [
+            new OA\Parameter(
+                name: "roleName",
+                in: "path",
+                required: true,
+                description: "The name of the role to filter users by.",
+                schema: new OA\Schema(type: "string")
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: Response::HTTP_OK, 
+                description: "Successfully retrieved users by role.",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(
+                            property: "users",
+                            type: "array",
+                            items: new OA\Items(
+                                type: "object",
+                                properties: [
+                                    new OA\Property(property: "id", type: "integer", example: 5),
+                                    new OA\Property(property: "email", type: "string", example: "testusers12@example.com"),
+                                    new OA\Property(property: "email_verified_at", type: "string", format: "date-time", example: null),
+                                    new OA\Property(property: "name", type: "string", example: "User2"),
+                                    new OA\Property(property: "age", type: "string", format: "date-time", example: "1995-05-01"),
+                                    new OA\Property(property: "phone_number", type: "string", example: "48123456789"),
+                                    new OA\Property(property: "picture", type: "string", nullable: true, example: null),
+                                    new OA\Property(property: "is_picture_public", type: "boolean", example: false),
+                                    new OA\Property(property: "created_at", type: "string", format: "date-time", example: "2024-11-17"),
+                                    new OA\Property(property: "updated_at", type: "string", format: "date-time", example: "2024-11-17"),
+                                    new OA\Property(property: "role_id", type: "integer", example: 2),
+                                    new OA\Property(property: "city_id", type: "integer", example: 1)
+                                ]
+                            )
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: Response::HTTP_NOT_FOUND, 
+                description: "Role not found.",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Role not found.")
+                    ]
+                )
+            )
+        ]
+    )]
+
+    public function getUsersByRole(string $roleName): JsonResponse
+    {
+        $role = Role::where('name', $roleName)->first();
+    
+        if (!$role) {
+            return response()->json(['message' => 'Role not found.'], 404);
+        }
+    
+        $users = User::where('role_id', $role->id)->get();
+    
+        return response()->json([
+            'users' => $users
+        ]);
+    }
+    
 }

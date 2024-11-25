@@ -33,7 +33,7 @@ export default function Register() {
             title: "Uzupełnij dane 2 / 2",
             form: <SecondStepForm submitHandler={submitHandler} setActualStep={setActualStep}
                                   setFullFormData={setFormData} status={status}
-                                  fullFormData={formData} voivodeshipsRes={voivodeshipsRes}/>
+                                  voivodeshipsRes={voivodeshipsRes}/>
         }
     ]
 

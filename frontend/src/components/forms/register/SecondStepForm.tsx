@@ -1,22 +1,21 @@
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {Dispatch, SetStateAction, useEffect} from "react";
+import {Dispatch, SetStateAction} from "react";
 import {useForm} from "react-hook-form";
 import {ErrorMessage} from "@hookform/error-message";
 import {IRegisterData} from "@/hooks/useRegister.ts";
 import CircleSpinner from "@/components/CircleSpinner.tsx";
 import {AxiosResponse} from "axios";
 import {IVoivodeship} from "@/pages/Register.tsx";
-import {useMutation} from "@tanstack/react-query";
 import getDistricts from "@/lib/api/getDistricts.ts";
 import getCommunes from "@/lib/api/getCommunes.ts";
 import getCities from "@/lib/api/getCities.ts";
+import useAdministrationPlace from "@/hooks/useAdministrationPlace.ts";
 
 
 interface ISecondStepForm {
     setActualStep: Dispatch<SetStateAction<number>>,
     setFullFormData: Dispatch<SetStateAction<IRegisterData>>,
-    fullFormData: IRegisterData,
     voivodeshipsRes: AxiosResponse | undefined,
     submitHandler: (data: IRegisterData) => void,
     status: "success" | "error" | "pending" | "idle",
@@ -33,11 +32,10 @@ export default function SecondStepForm({
                                            setActualStep,
                                            voivodeshipsRes,
                                            setFullFormData,
-                                           fullFormData,
                                            submitHandler, status
                                        }: ISecondStepForm) {
 
-    const {register, handleSubmit, formState, setValue, watch} = useForm<Inputs>()
+    const {register, handleSubmit, formState, setValue, clearErrors, watch} = useForm<Inputs>()
     const {errors} = formState
     const disable = status === "pending"
 
@@ -45,37 +43,21 @@ export default function SecondStepForm({
     const watchDistrict = watch("district")
     const watchCommune = watch("commune")
 
-    const {mutate: districtsMutate, data: districtsRes} = useMutation({
+    const {res: districtsRes} = useAdministrationPlace({
         mutationKey: ['districts'],
-        mutationFn: getDistricts
+        mutationFn: getDistricts,
+        watchValue: watchVoivodeship
     })
-
-    const {mutate: communesMutate, data: communesRes} = useMutation({
+    const {res: communesRes} = useAdministrationPlace({
         mutationKey: ["communes"],
-        mutationFn: getCommunes
+        mutationFn: getCommunes,
+        watchValue: watchDistrict
     })
-
-    const {mutate: citiesMutate, data: citiesRes} = useMutation({
+    const {res: citiesRes} = useAdministrationPlace({
         mutationKey: ["cities"],
-        mutationFn: getCities
+        mutationFn: getCities,
+        watchValue: watchCommune
     })
-
-    useEffect(() => {
-        if (!watchVoivodeship || watchVoivodeship === "0") return
-        districtsMutate(watchVoivodeship)
-    }, [districtsMutate, watchVoivodeship]);
-
-
-    useEffect(() => {
-        if (!watchDistrict || watchDistrict === "0") return
-        communesMutate(watchDistrict)
-    }, [watchDistrict, communesMutate]);
-
-
-    useEffect(() => {
-        if (!watchCommune || watchCommune === "0") return
-        citiesMutate(watchCommune)
-    }, [watchCommune, citiesMutate]);
 
     const onSubmit = (data: Inputs) => {
         setFullFormData(prevState => {
@@ -96,8 +78,14 @@ export default function SecondStepForm({
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
-            <Select onValueChange={(value) => setValue("voivodeship", value)}
-                    defaultValue={fullFormData.voivodeship} {...register("voivodeship", {required: "Wybierz województwo"})}>
+            <Select onValueChange={(value) => {
+                clearErrors("voivodeship")
+                setValue("voivodeship", value)
+                setValue("district", "")
+                setValue("commune", "")
+                setValue("city", "")
+            }}
+                    {...register("voivodeship", {required: "Wybierz województwo"})}>
                 <SelectTrigger>
                     <SelectValue className="placeholder:text-muted-foreground"
                                  placeholder="Wybierz województwo"/>
@@ -113,7 +101,12 @@ export default function SecondStepForm({
                 </SelectContent>
             </Select>
 
-            <Select onValueChange={(value) => setValue("district", value)}
+            <Select disabled={!watchVoivodeship} onValueChange={(value) => {
+                clearErrors("district")
+                setValue("district", value)
+                setValue("commune", "")
+                setValue("city", "")
+            }}
                     {...register("district", {required: "Wybierz powiat"})}>
                 <SelectTrigger>
                     <SelectValue className="placeholder:text-muted-foreground"
@@ -130,7 +123,11 @@ export default function SecondStepForm({
                 </SelectContent>
             </Select>
 
-            <Select onValueChange={(value) => setValue("commune", value)}
+            <Select disabled={!watchDistrict} onValueChange={(value) => {
+                clearErrors("commune")
+                setValue("commune", value)
+                setValue("city", "")
+            }}
                     {...register("commune", {required: "Wybierz gminę"})}>
                 <SelectTrigger>
                     <SelectValue className="placeholder:text-muted-foreground"
@@ -147,7 +144,10 @@ export default function SecondStepForm({
                 </SelectContent>
             </Select>
 
-            <Select onValueChange={(value) => setValue("city", value)}
+            <Select disabled={!watchCommune} onValueChange={(value) => {
+                clearErrors("city")
+                setValue("city", value)
+            }}
                     {...register("city", {required: "Wybierz miejscowość"})}>
                 <SelectTrigger>
                     <SelectValue className="placeholder:text-muted-foreground"
@@ -165,6 +165,12 @@ export default function SecondStepForm({
             </Select>
 
             <div>
+                <ErrorMessage name="voivodeship" errors={errors}
+                              render={({message}) => <p className="text-red-500">{message}</p>}/>
+                <ErrorMessage name="district" errors={errors}
+                              render={({message}) => <p className="text-red-500">{message}</p>}/>
+                <ErrorMessage name="commune" errors={errors}
+                              render={({message}) => <p className="text-red-500">{message}</p>}/>
                 <ErrorMessage name="city" errors={errors}
                               render={({message}) => <p className="text-red-500">{message}</p>}/>
             </div>

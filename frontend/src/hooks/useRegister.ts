@@ -18,7 +18,7 @@ export interface IRegisterData {
 
 export default function useRegister() {
 
-    const {setUserWithStorage} = useAuth()
+    const {setUser} = useAuth()
     const [formData, setFormData] = useState<IRegisterData>({
         role: "inNeed",
         name: "",
@@ -32,8 +32,8 @@ export default function useRegister() {
 
     const {mutate, status, error} = useMutation({
         mutationFn: register,
-        onSuccess: (data) => {
-            setUserWithStorage(data.data.data)
+        onSuccess: (_, variables) => {
+            setUser({email: variables.email, name: variables.name, role: variables.role})
         }
     })
 

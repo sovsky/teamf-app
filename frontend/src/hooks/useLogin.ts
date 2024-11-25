@@ -5,12 +5,12 @@ import {useNavigate} from "react-router-dom";
 
 export default function useLogin() {
     const navigate = useNavigate();
+    const {setUser} = useAuth()
 
-    const {setUserWithStorage} = useAuth()
     const {mutate, status, error} = useMutation({
         mutationFn: login,
-        onSuccess: () => {
-            setUserWithStorage({email: "email@email.com", token: "12345"})
+        onSuccess: (res) => {
+            setUser({...res.data.user})
             navigate('/')
         }
     })

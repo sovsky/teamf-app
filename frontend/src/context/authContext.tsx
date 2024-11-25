@@ -24,7 +24,9 @@ export function AuthProvider({children}: { children: ReactNode }) {
     })
 
     const {mutate} = useMutation({
-        mutationKey: ["verifyToken"], mutationFn: verifyToken, onSuccess: (res) => {
+        mutationKey: ["verifyToken"], 
+        mutationFn: verifyToken, 
+        onSuccess: (res) => {
             setUser({
                 ...res.data.user
             })

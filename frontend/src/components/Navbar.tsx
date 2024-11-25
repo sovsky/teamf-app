@@ -6,13 +6,15 @@ import {navItems} from '@/constants';
 import {useWindowSize} from '@react-hook/window-size';
 import {Link} from "react-router-dom";
 import useAuth from "@/hooks/useAuth.ts";
-import NavProfile from "@/components/NavProfile.tsx";
+import NavProfileSkeleton from './NavProfileSkeleton';
+import NavProfile from './NavProfile';
+
 
 const Navbar: React.FC = () => {
 
     const [mobileDrawerOpen, setMobileDrawerOpen] = useState<boolean>(false);
     const [windowWidth] = useWindowSize();
-    const {user, logoutHandler} = useAuth()
+    const {user, isLoading, logoutHandler} = useAuth()
 
     useEffect(() => {
         if (windowWidth > 780) {
@@ -23,6 +25,8 @@ const Navbar: React.FC = () => {
     const toggleNavbar = (): void => {
         setMobileDrawerOpen((prevState) => !prevState);
     }
+
+
 
     return (
         <nav className='sticky top-0 z-50 py-5 backdrop-blur-lg bg-main'
@@ -48,7 +52,11 @@ const Navbar: React.FC = () => {
                         })}
                     </ul>
                     <div className="hidden lg:flex justify-center space-x-7 items-center">
-                        {user.email ? <NavProfile user={user} logoutHandler={logoutHandler}/> :
+                
+                        {
+                                isLoading  ? (<NavProfileSkeleton />):
+                        
+                        user ? (<NavProfile user={user} />) :
                             <>
                                 <Link to="/login" className='py-2 px-3 border rounded-md'>
                                     Zaloguj

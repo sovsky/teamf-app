@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
                         })}
                     </ul>
                     <div className="hidden lg:flex justify-center space-x-7 items-center">
-                        {user.token ? <NavProfile user={user} logoutHandler={logoutHandler}/> :
+                        {user.email ? <NavProfile user={user} logoutHandler={logoutHandler}/> :
                             <>
                                 <Link to="/login" className='py-2 px-3 border rounded-md'>
                                     Zaloguj

@@ -27,7 +27,7 @@ const App = () => {
             <Route path="/" element={<RootLayout/>}>
                 <Route index element={<Home/>}/>
             </Route>
-              <Route path="/" element={user.token ? <Navigate to={"/"}/> : <FormsLayout/>}>
+              <Route path="/" element={user.email ? <Navigate to={"/"}/> : <FormsLayout/>}>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/login" element={<Login/>}/>
             </Route>

@@ -1,13 +1,16 @@
-import {createContext, ReactNode, useEffect, useState} from "react";
+import {createContext, Dispatch, ReactNode, SetStateAction, useEffect, useState} from "react";
+import {useMutation} from "@tanstack/react-query";
+import verifyToken from "@/lib/api/verifyToken.ts";
 
 export interface IAuthData {
     email: string,
-    token: string
+    name: string,
+    role: string
 }
 
 interface ProviderProps {
     user: IAuthData,
-    setUserWithStorage: (data: IAuthData) => void
+    setUser: Dispatch<SetStateAction<IAuthData>>
     logoutHandler: () => void
 }
 
@@ -16,34 +19,34 @@ export const AuthContext = createContext<ProviderProps | null>(null)
 export function AuthProvider({children}: { children: ReactNode }) {
     const [user, setUser] = useState<IAuthData>({
         email: "",
-        token: ""
+        name: "",
+        role: ""
     })
 
-    // useEffect(() => {
-    //     const auth = localStorage.getItem("auth")
-    //     if (auth) {
-    //         const data = JSON.parse(auth)
+    const {mutate} = useMutation({
+        mutationKey: ["verifyToken"], mutationFn: verifyToken, onSuccess: (res) => {
+            setUser({
+                ...res.data.user
+            })
+        }
+    })
 
-    //         if (typeof data.token === "string" && typeof data.email === "string") {
-    //             setUser(data)
-    //         }
-    //     }
-    // }, []);
-
-    const setUserWithStorage = (data: IAuthData) => {
-        setUser(data)
-        // localStorage.setItem("auth", JSON.stringify(data))
-    }
+    useEffect(() => {
+        if (!user.email) {
+            mutate()
+        }
+    }, []);
 
     const logoutHandler = () => {
         setUser({
             email: "",
-            token: ""
+            name: "",
+            role: ""
         })
     }
 
     return (
-        <AuthContext.Provider value={{user, setUserWithStorage, logoutHandler}}>
+        <AuthContext.Provider value={{user, setUser, logoutHandler}}>
             {children}
         </AuthContext.Provider>
     )

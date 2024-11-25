@@ -11,7 +11,7 @@ import {useSearchParams} from "react-router-dom";
 interface Inputs {
     name: string;
     password: string;
-    confirm_password: string;
+    password_confirmation: string;
     email: string;
     age: string;
     phone_number: string;
@@ -47,7 +47,7 @@ export default function FirstStepForm({setActualStep, setFullFormData, fullFormD
             return {
                 ...prevState,
                 ...data,
-                accountType
+                role: accountType
             }
         })
 
@@ -105,11 +105,11 @@ export default function FirstStepForm({setActualStep, setFullFormData, fullFormD
             <div className="grid sm:grid-flow-col gap-6">
                 <div className="grid w-full items-center gap-1.5">
                     <Label htmlFor="confirmPassword">Powtórz Hasło</Label>
-                    <Input id="confirmPassword" type="password" {...register("confirm_password", {
+                    <Input id="confirmPassword" type="password" {...register("password_confirmation", {
                         required: "Powtórz hasło",
                         validate: value => value === getValues("password") || "Hasła nie są takie same"
                     })}/>
-                    <ErrorMessage name="confirm_password" errors={errors}
+                    <ErrorMessage name="password_confirmation" errors={errors}
                                   render={({message}) => <p className="text-red-500">{message}</p>}/>
                 </div>
             </div>

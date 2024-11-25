@@ -6,30 +6,28 @@ import useAuth from "@/hooks/useAuth.ts";
 export type AccountType = "inNeed" | "volunteer";
 
 export interface IRegisterData {
-    accountType: AccountType;
+    role: AccountType;
     name: string;
     email: string;
-    voivodeship:string;
+    voivodeship: string;
     password: string;
     age: string;
     phone_number: string;
-    city: string;
-    helpTypes: string[];
+    city_id: number
 }
 
 export default function useRegister() {
 
     const {setUserWithStorage} = useAuth()
     const [formData, setFormData] = useState<IRegisterData>({
-        accountType: "inNeed",
+        role: "inNeed",
         name: "",
         email: "",
         password: "",
-        voivodeship:"",
+        voivodeship: "",
         age: "",
         phone_number: "",
-        city: "",
-        helpTypes: []
+        city_id: 0,
     })
 
     const {mutate, status, error} = useMutation({

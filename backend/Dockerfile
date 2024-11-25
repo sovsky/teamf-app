@@ -24,6 +24,7 @@ RUN composer install --prefer-dist --no-interaction --verbose
 
 # Ustaw odpowiednie uprawnienia do katalogów storage i bootstrap
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chmod 777 ./run.sh
 
 # Uruchom PHP-FPM
 CMD ["./run.sh"]

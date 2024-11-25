@@ -5,47 +5,20 @@ import FirstStepForm from "@/components/forms/register/FirstStepForm.tsx";
 import SecondStepForm from "@/components/forms/register/SecondStepForm.tsx";
 import {motion} from "framer-motion";
 import useRegister from "@/hooks/useRegister.ts";
-import { useQuery } from "@tanstack/react-query";
+import {useQuery} from "@tanstack/react-query";
 import getVoivodeships from "@/lib/api/getVoivodeships";
-
-export interface ICity {
-    id: number,
-    value: string
-}
 
 export interface IVoivodeship {
     id: number,
-    value: string
-}
-
-export interface IHelpType {
-    id: number,
-    value: string,
-    label: string,
+    name: string
 }
 
 export default function Register() {
 
-    const {data:voivodeships = [{id:1, value:"Brak danych"}]} = useQuery<IVoivodeship[], Error>({
-        queryKey:["voivodeships"],
-        queryFn:()=>{
-            return getVoivodeships();
-        }
+    const {data: voivodeshipsRes} = useQuery({
+        queryKey: ["voivodeships"],
+        queryFn: getVoivodeships
     })
-
-    const Cities: ICity[] = [
-        {id: 1, value: "Warszawa"},
-        {id: 2, value: "Kraków"},
-        {id: 3, value: "Wrocław"}
-    ]
-
-    const HelpTypes: IHelpType[] = [
-        {id: 1, value: "food", label: "Żywność"},
-        {id: 2, value: "clean products", label: "Środki czystości"},
-        {id: 3, value: "clothes", label: "Odzież"},
-        {id: 4, value: "psychological", label: "Psychologiczna"},
-        {id: 5, value: "medical", label: "Medyczna"}
-    ]
 
     const [actualStep, setActualStep] = useState(1)
     const {formData, setFormData, submitHandler, status} = useRegister()
@@ -60,7 +33,7 @@ export default function Register() {
             title: "Uzupełnij dane 2 / 2",
             form: <SecondStepForm submitHandler={submitHandler} setActualStep={setActualStep}
                                   setFullFormData={setFormData} status={status}
-                                  fullFormData={formData} voivodeships={voivodeships} cities={Cities} helpTypes={HelpTypes}/>
+                                  fullFormData={formData} voivodeshipsRes={voivodeshipsRes}/>
         }
     ]
 

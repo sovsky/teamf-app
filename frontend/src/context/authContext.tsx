@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useEffect, useState} from "react";
+import {createContext, ReactNode,useState} from "react";
 
 export interface IAuthData {
     email: string,

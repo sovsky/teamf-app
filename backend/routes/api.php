@@ -59,6 +59,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/admin/create', [AdminStatsController::class, 'createAdmin']);
     Route::delete('/admin/delete-user/{id}', [AdminStatsController::class, 'deleteUser']);
     Route::delete('/admin/delete-comment/{id}', [AdminStatsController::class, 'deleteComment']);
+    Route::get('/admin/role/{roleName}', [AdminStatsController::class, 'getUsersByRole']);
   });
   
   Route::get('/matching-users', [MatchController::class, 'findMatchingUsers']);

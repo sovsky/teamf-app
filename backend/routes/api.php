@@ -28,6 +28,7 @@ Route::get('/aid-types', [AidTypeController::class, 'getAidTypes']);
 Route::get('/product-categories', [ProductCategoryController::class, 'getProductCategories']);
 Route::get('/aid-categories', [AidCategoryController::class, 'getAidCategories']);
 Route::post('/aid', [AidController::class, 'store']);
+Route::get('/user/{id}/aid-info', [AidController::class, 'getAidInfoByUserId']);
 
 Route::get('/voivodeships', [VoivodeshipController::class, 'getVoivodeships']);
 Route::get('/voivodeships/{id}', [VoivodeshipController::class, 'getVoivodeshipById']);
@@ -43,6 +44,7 @@ Route::get('/communes/{id}/cities', [CityController::class, 'getCitiesByCommune'
 
 Route::get('/cities', [CityController::class, 'getCities']);
 Route::get('/cities/{id}', [CityController::class, 'getCityById']);
+Route::get('/all-cities/{cityName}', [CityController::class, 'search']);
 
 // Pathways that require authorization
 Route::middleware(['auth:sanctum'])->group(function () {

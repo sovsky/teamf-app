@@ -594,6 +594,88 @@
                 }
             }
         },
+        "/api/user/{userId}/aid-info": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get aid information for a specific user by their ID",
+                "description": "This endpoint retrieves the aid type and aid category names associated with a specific user by their user ID.",
+                "operationId": "051ee83127791b5b5e84f46151e4996e",
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of the user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully retrieved the aid information.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "aid_info": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "aid_type_name": {
+                                                        "description": "Name of the aid type",
+                                                        "type": "string",
+                                                        "example": "Financial Assistance"
+                                                    },
+                                                    "aid_category_name": {
+                                                        "description": "Name of the aid category",
+                                                        "type": "string",
+                                                        "example": "Emergency"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No aid selections found for the user.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No aid selections found for this user."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error occurred.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "An error occurred on the server."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/aid-types": {
             "get": {
                 "tags": [
@@ -808,6 +890,43 @@
                     },
                     "400": {
                         "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/api/all-cities/{cityName}": {
+            "get": {
+                "tags": [
+                    "Cities"
+                ],
+                "summary": "Retrieve all cities",
+                "operationId": "4b83fc48515b184577f468ae6bae054b",
+                "responses": {
+                    "200": {
+                        "description": "List of cities by search phrase (maximum 20)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "name": {
+                                                "type": "string",
+                                                "example": "Warsaw"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server Error"
                     }
                 }
             }

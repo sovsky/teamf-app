@@ -241,7 +241,9 @@ class AdminStatsController extends BaseController
             return response()->json(['message' => 'Role not found.'], 404);
         }
     
-        $users = User::where('role_id', $role->id)->get();
+        $users = User::where('role_id', $role->id)
+                ->select('name', 'email', 'password', 'age', 'phone_number')
+                ->get();
     
         return response()->json([
             'users' => $users

@@ -3,18 +3,57 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\City;
-use App\Http\Controllers\API\BaseController as BaseController;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 use OpenApi\Attributes\Schema;
 use OpenApi\Attributes\Property;
+use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes\MediaType;
 use OpenApi\Attributes\RequestBody;
+use App\Repositories\CityRepository;
+use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\API\BaseController as BaseController;
 
 class CityController extends BaseController
 {
+    protected $cityRepository;
+
+    public function __construct(CityRepository $cityRepository)
+    {
+        $this->cityRepository = $cityRepository;
+    }
+
+    #[OA\Get(
+        path: "/api/all-cities/{cityName}",
+        summary: "Retrieve all cities",
+        tags: ["Cities"],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: "List of cities by search phrase (maximum 20)",
+                content: new OA\JsonContent(
+                    type: "array",
+                    items: new OA\Items(
+                        properties: [
+                            new OA\Property(property: "id", type: "integer", example: 1),
+                            new OA\Property(property: "name", type: "string", example: "Warsaw"),
+                        ]
+                    )
+                )
+            ),
+            new OA\Response(response: 500, description: "Server Error")
+        ]
+    )]
+    public function search($cityName): JsonResponse
+    {
+        if(!$cityName) {
+            return response()->json(['error' => 'City name is required'], 400);
+        }
+
+        $cities = $this->cityRepository->searchCities($cityName);
+
+        return response()->json($cities);
+    } 
     /**
      * Get all cities
      *
@@ -126,5 +165,5 @@ class CityController extends BaseController
         $cities = City::where('commune_id', $communeId)->get();
 
         return $this->sendResponse($cities, 'Cities by commune.');
-    }
+    } 
 }

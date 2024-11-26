@@ -13,6 +13,7 @@ use App\Models\ProductCategory;
 use App\Models\UserAidSelection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use OpenApi\Attributes as OA;
 use OpenApi\Attributes\Schema;
 use OpenApi\Attributes\Property;
@@ -94,4 +95,101 @@ class AidController extends BaseController
             'message' => 'Data successfully saved.',
         ]);
     }
+
+
+    #[OA\Get(
+        path: "/api/user/{userId}/aid-info",
+        summary: "Get aid information for a specific user by their ID",
+        description: "This endpoint retrieves the aid type and aid category names associated with a specific user by their user ID.",
+        parameters: [
+            new OA\Parameter(
+                name: "userId",
+                in: "path",
+                required: true,
+                description: "ID of the user",
+            )
+        ],
+        tags: ["Users"],
+        responses: [
+            new OA\Response(
+                response: Response::HTTP_OK,
+                description: "Successfully retrieved the aid information.",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(
+                            property: "aid_info",
+                            type: "array",
+                            items: new OA\Items(
+                                type: "object",
+                                properties: [
+                                    new OA\Property(
+                                        property: "aid_type_name",
+                                        type: "string",
+                                        description: "Name of the aid type",
+                                        example: "Financial Assistance"
+                                    ),
+                                    new OA\Property(
+                                        property: "aid_category_name",
+                                        type: "string",
+                                        description: "Name of the aid category",
+                                        example: "Emergency"
+                                    )
+                                ]
+                            )
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: Response::HTTP_NOT_FOUND,
+                description: "No aid selections found for the user.",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(
+                            property: "message",
+                            type: "string",
+                            example: "No aid selections found for this user."
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: Response::HTTP_INTERNAL_SERVER_ERROR,
+                description: "Server error occurred.",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(
+                            property: "message",
+                            type: "string",
+                            example: "An error occurred on the server."
+                        )
+                    ]
+                )
+            )
+        ]
+    )]
+
+    public function getAidInfoByUserId($userId): JsonResponse
+    {
+        $userAidSelections = UserAidSelection::with(['aidType', 'aidCategory'])
+            ->where('user_id', $userId)
+            ->get();
+
+        if ($userAidSelections->isEmpty()) {
+            return response()->json(['message' => 'No aid selections found for this user.'], 404);
+        }
+
+        $data = $userAidSelections->map(function ($selection) {
+            return [
+                'aid_type_name' => $selection->aidType->name ?? null,
+                'aid_category_name' => $selection->aidCategory->name ?? null,
+            ];
+        });
+
+        return response()->json(['aid_info' => $data]);
+    }
+
 }

@@ -11,7 +11,7 @@ const {logoutHandler} = useAuth();
  
     const {mutate, status, error} = useMutation({
         mutationFn: ()=>logout(),
-        onSuccess: (data) => {
+        onSuccess: () => {
             logoutHandler();
             navigate('/');
         }

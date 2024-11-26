@@ -5,12 +5,11 @@ import React from 'react'
 import { MdAdminPanelSettings } from "react-icons/md";
 import { IoIosMore } from 'react-icons/io';
 import { PopupBox } from '@/components/PopupBox';
-import useRegister from '@/hooks/useRegister';
 import usePopup from '@/hooks/usePopup';
 import RegisterAdmin from '@/components/forms/registerAdmin/RegisterAdmin';
 import { MdAddModerator } from "react-icons/md";
 const Admins:React.FC = () => {
-    const {popup,openPopup} = usePopup()
+    const {openPopup} = usePopup()
     const headerColums = Object.keys(admins[0]).length
 
   return (

@@ -1,4 +1,4 @@
-import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card.tsx";
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.tsx";
 import {AxiosResponse} from "axios";
 import {IMatchingResponse} from "@/lib/api/getMatchingUsers.ts";
 import CircleSpinner from "@/components/CircleSpinner.tsx";
@@ -10,12 +10,17 @@ interface IMatchingUserCard {
 
 export default function MatchingUserCard({data, status}: IMatchingUserCard) {
 
+    const matchingHeader = (
+        <CardHeader>
+            <CardTitle>Wyszukiwarka dopasowań</CardTitle>
+            <CardDescription>Tutaj znajdują się dopasowani użytkownicy do twojego profilu</CardDescription>
+        </CardHeader>
+    )
+
     if (status === "pending") {
         return (
             <Card className="col-start-1 col-end-3">
-                <CardHeader>
-                    <CardTitle>Wyszukane dopasowania</CardTitle>
-                </CardHeader>
+                {matchingHeader}
                 <CardContent>
                     <CircleSpinner/>
                 </CardContent>
@@ -26,11 +31,9 @@ export default function MatchingUserCard({data, status}: IMatchingUserCard) {
     if (status === "error") {
         return (
             <Card className="col-start-1 col-end-3">
-                <CardHeader>
-                    <CardTitle>Wyszukane dopasowania</CardTitle>
-                </CardHeader>
+                {matchingHeader}
                 <CardContent>
-                    <p>Błąd przy pobieraniu dopasowań</p>
+                    <p className="text-red-600 font-semibold">Błąd przy pobieraniu dopasowań</p>
                 </CardContent>
             </Card>
         )
@@ -38,9 +41,7 @@ export default function MatchingUserCard({data, status}: IMatchingUserCard) {
 
     return (
         <Card className="col-start-1 col-end-3">
-            <CardHeader>
-                <CardTitle>Wyszukane dopasowania</CardTitle>
-            </CardHeader>
+            {matchingHeader}
             <CardContent>
                 {data!.data.data.map((matchedUser) => {
                     console.log(matchedUser)

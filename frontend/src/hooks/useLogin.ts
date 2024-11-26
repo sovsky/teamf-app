@@ -11,7 +11,7 @@ export default function useLogin() {
         mutationFn: login,
         onSuccess: (res) => {
             setUser({...res.data.user})
-            navigate('/')
+            navigate('/panel')
         }
     })
 

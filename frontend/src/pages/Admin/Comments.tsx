@@ -1,7 +1,6 @@
 import ReviewCard from '@/components/Admin/ReviewCard';
-import { Button } from '@/components/ui/button';
-import { images, peopleReviews, volunteers } from '@/constants';
-import React, { useState } from 'react'
+import { images, peopleReviews} from '@/constants';
+import { useState } from 'react'
 import { FaComments } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 

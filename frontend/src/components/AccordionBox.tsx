@@ -14,9 +14,6 @@ import {
           {item.content}
           </AccordionContent>
         </AccordionItem>
-
-
-
       </Accordion>
     )
   }

@@ -5,6 +5,10 @@ import { usersObjectHeaderTranslations, volunteers } from '@/constants';
 import { IoIosMore } from "react-icons/io";
 import { useQuery } from '@tanstack/react-query';
 import getUsersByAge from '@/lib/api/getUsersByAge';
+import { getUsersByRole } from '@/lib/api/getUsersByRole';
+import { calculateAge } from '@/lib/utils';
+import { IoCheckmarkCircle } from "react-icons/io5";
+import { FaCircleXmark } from "react-icons/fa6";
 
 
 
@@ -12,10 +16,10 @@ import getUsersByAge from '@/lib/api/getUsersByAge';
 
 const Volunteers:React.FC = () => {
 
-const {data} =useQuery({
-  queryKey:["volunteers"],
+const {data:users} =useQuery({
+  queryKey:["wolonatriusze"],
   queryFn:()=>{
-    return getUsersByAge()
+    return getUsersByRole({role:"volunteer"})
   }
 })
 
@@ -34,42 +38,43 @@ const {data} =useQuery({
   {/* HEADER */}
 <div className='text-xs text-slate-800 font-semibold w flex items-center justify-between px-3.5 py-2 b  '>
 {Object.keys(volunteers[0]).map((key) => {
-  if (key === "firstName") return "Name"; // Zamiana firstName na Name
-  if (key === "lastName") return null;    // Pominięcie lastName w nagłówkach
+
   return key.charAt(0).toUpperCase() + key.slice(1); // Pozostałe klucze w formie PascalCase
 }).filter(Boolean).map((key)=>{
   return(
-    <div className={key === "Name" ? "'shrink-0 flex-1' w-1/6": 'shrink-0 flex-1 flex justify-center'}>{usersObjectHeaderTranslations[key] || key}</div>
+    <div className={key === "Imię" ? "'shrink-0 flex-1' w-1/5 ": 'shrink-0 flex-1 flex justify-center'}>{key}</div>
   )
 })}
 </div>
 {/* END OF HEADER */}
 
-{volunteers.map((volunteer)=>{
+{users?.users?.map((volunteer)=>{
   return(
     <div className='bg-neutral-50 text-gray-800/90 shadow flex items-center justify-between px-7 p-3.5 rounded-lg '>
 
-   <div className='flex flex-col shrink-0 w-1/6'>
-   <span>{volunteer.firstName+ " "}</span>
-   <span>{volunteer.lastName}</span>
+   <div className='flex flex-col shrink-0 w-1/5'>
+   <span>{volunteer?.name}</span>
+   {/* <span>{volunteer.lastName}</span> */}
    </div>
 
-<div className='shrink-0 flex-1 flex justify-center'>
-  <span>{volunteer.nickname}</span>
+   <div className='shrink-0 flex-1 flex justify-center'>
+  <span>{volunteer?.email_verified_at ? <IoCheckmarkCircle className='text-green-400'/>:<FaCircleXmark className='text-rose-400'/>}</span>
+
 </div>
 
 <div className='shrink-0 flex-1 flex justify-center'>
-  <span>{volunteer.email}</span>
+  <span>{volunteer?.email}</span>
+</div>
+
+
+
+<div className='shrink-0 flex-1 flex justify-center'>
+<span>{calculateAge(volunteer.age)}</span>
 </div>
 
 <div className='shrink-0 flex-1 flex justify-center'>
-  <span>{volunteer.age}</span>
+  <span>{volunteer.city_id}</span>
 </div>
-
-<div className='shrink-0 flex-1 flex justify-center'>
-  <span>{volunteer.city}</span>
-</div>
-
 <div className='w-fit cursor-pointer hover:text-teal-600'>
   <IoIosMore className='w-6 h-6'/>
 </div>
@@ -80,6 +85,9 @@ const {data} =useQuery({
 
   </div>
   )
+
+
+
 }
 
 export default Volunteers

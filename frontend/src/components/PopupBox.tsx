@@ -1,24 +1,19 @@
-import { Button } from "@/components/ui/button"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import RegisterAdmin from "./forms/registerAdmin/RegisterAdmin"
 import useRegister from "@/hooks/useRegister"
 import usePopup from "@/hooks/usePopup"
 
 export function PopupBox() {
 
-    const {popup,openPopup, closePopup} = usePopup()
+    const {popup, closePopup} = usePopup()
 
-    const {formData, setFormData, submitHandler, status} = useRegister()
+    const {formData, setFormData} = useRegister()
   return (
     <Dialog open={popup.isOpen} onOpenChange={(open) => open ? null : closePopup()} >
       {/* <DialogTrigger asChild>

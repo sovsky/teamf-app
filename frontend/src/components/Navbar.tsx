@@ -28,11 +28,8 @@ const Navbar: React.FC = () => {
 console.log("USER")
 console.log(user)
 
-
     return (
-        <nav className='sticky top-0 z-50 py-5 backdrop-blur-lg bg-main'
-
-        >
+        <nav className='sticky top-0 z-50 py-5 backdrop-blur-lg bg-main'>
             <div className="container px-4 mx-auto relative text-sm">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center flex-shrink-0">
@@ -44,29 +41,29 @@ console.log(user)
                     <ul className='hidden lg:flex ml-14 space-x-12  text-gray-700 text-lg font-medium dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
                         {navItems.map((item, index) => {
                             return (
-                                <li 
-                                className='block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent'
-                                key={index}>
+                                <li
+                                    className='block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent'
+                                    key={index}>
                                     <a href={item.href}>{item.label}</a>
                                 </li>
                             )
                         })}
                     </ul>
                     <div className="hidden lg:flex justify-center space-x-7 items-center">
-                
+
                         {
-                                isLoading  ? (<NavProfileSkeleton />):
-                        
-                        user?.email ? (<NavProfile user={user} />) :
-                            <>
-                                <Link to="/login" className='py-2 px-3 border rounded-md'>
-                                    Zaloguj
-                                </Link>
-                                <Link to="/register"
-                                      className='bg-button_primary text-neutral-50 border border-transparent font-semibold py-2 px-4 rounded-md'>
-                                    Dołącz
-                                </Link>
-                            </>}
+                            isLoading ? (<NavProfileSkeleton/>) :
+
+                                user.name ? (<NavProfile user={user}/>) :
+                                    <>
+                                        <Link to="/login" className='py-2 px-3 border rounded-md'>
+                                            Zaloguj
+                                        </Link>
+                                        <Link to="/register"
+                                              className='bg-button_primary text-neutral-50 border border-transparent font-semibold py-2 px-4 rounded-md'>
+                                            Dołącz
+                                        </Link>
+                                    </>}
                     </div>
                     <div className="lg:hidden md:flex flex-col justify-end">
                         <button onClick={toggleNavbar}>

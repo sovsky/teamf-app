@@ -32,7 +32,7 @@ export default function FirstStepForm({setActualStep, setFullFormData, fullFormD
     const {errors} = formState
 
     const getRole = (): AccountType => {
-        return searchParams.get("role") === "inNeed" ? "inNeed" : "volunteer"
+        return searchParams.get("role") === "deprived person" ? "deprived person" : "volunteer"
     }
 
     const setRole = (role: AccountType) => {
@@ -59,7 +59,8 @@ export default function FirstStepForm({setActualStep, setFullFormData, fullFormD
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
             <Tabs defaultValue={getRole()} className="py-2">
                 <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger onClick={() => setRole("inNeed")} className="data-[state=active]:bg-violet-300"
+                    <TabsTrigger onClick={() => setRole("deprived person")}
+                                 className="data-[state=active]:bg-violet-300"
                                  value="inNeed">Potrzebujący</TabsTrigger>
                     <TabsTrigger onClick={() => setRole("volunteer")} className="data-[state=active]:bg-violet-300"
                                  value="volunteer">Wolontariusz</TabsTrigger>

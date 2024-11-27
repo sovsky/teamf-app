@@ -6,7 +6,7 @@ import Login from "@/pages/Login.tsx";
 import FormsLayout from "@/layouts/FormsLayout.tsx";
 import useAuth from "@/hooks/useAuth.ts";
 import UserAuthLayout from "./layouts/UserAuthLayout";
-import UserPanel from "./pages/AdminPanel";
+import UserPanel from "./pages/UserPanel";
 import AdminLayout from "./layouts/AdminLayout";
 import Volunteers from "./pages/Admin/Volunteers";
 import PeopleInNeed from "./pages/Admin/PeopleInNeed";
@@ -27,7 +27,7 @@ const App = () => {
             <Route path="/" element={<RootLayout/>}>
                 <Route index element={<Home/>}/>
             </Route>
-              <Route path="/" element={user.email ? <Navigate to={"/"}/> : <FormsLayout/>}>
+            <Route path="/" element={user.email ? <Navigate to={"/"}/> : <FormsLayout/>}>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/login" element={<Login/>}/>
             </Route>
@@ -46,7 +46,6 @@ const App = () => {
                 <Route path="/admin/medical-help" element={<MedicalHelp/>}/>
                 <Route path="/admin/psychological-help" element={<PsychologicalHelp/>}/>
                 <Route path="/admin/comments" element={<Comments/>}/>
-          
             </Route>
         </Routes>
     )

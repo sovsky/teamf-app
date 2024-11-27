@@ -15,7 +15,7 @@ class UserMatchingService
         $currentUserSelection = $this->getCurrentUserSelection($currentUser);
         
         if (!$currentUserSelection) {
-            return collect();
+            return new Collection();
         }
         
         return $this->buildMatchingUsersQuery($currentUser, $currentUserSelection);

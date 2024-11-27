@@ -91,5 +91,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::middleware('verify.token')->group(function () {
   Route::get('/verifiedToken', [UserController::class, 'verifiedToken']);
+  Route::get('/verifiedAdminToken', [AdminStatsController::class, 'verifiedToken']);
 });
 

@@ -17,14 +17,15 @@ export default function UserInfoCard({user}: IUserInfoCard) {
                 <CardTitle>Profil</CardTitle>
                 <CardDescription>Podstawowe informacje o twoim profilu.</CardDescription>
             </CardHeader>
-            <CardContent>
+            <CardContent className="flex flex-col justify-between">
                 <p>Nazwa: {user.name}</p>
                 <p>Email: {user.email}</p>
                 <p>Rola: {user.role === "deprived person" ? "osoba potrzebująca" : "wolontariusz"}</p>
+
             </CardContent>
-            <CardFooter className="flex justify-end">
+            <CardFooter className="mt-auto">
                 <Button disabled={disabled} onClick={() => handleLogout()}
-                        className="bg-red-600 hover:bg-red-700 font-semibold">Wyloguj</Button>
+                        className="bg-red-600 hover:bg-red-700 font-semibold w-fit">Wyloguj</Button>
             </CardFooter>
         </Card>
     )

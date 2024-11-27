@@ -2,6 +2,7 @@ import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/compo
 import {AxiosResponse} from "axios";
 import {IMatchingResponse} from "@/lib/api/getMatchingUsers.ts";
 import CircleSpinner from "@/components/CircleSpinner.tsx";
+import MatchedUserCard from "@/components/UserPanel/MatchedUserCard.tsx";
 
 interface IMatchingUserCard {
     data: AxiosResponse<IMatchingResponse, string> | undefined,
@@ -44,10 +45,8 @@ export default function MatchingUserCard({data, status}: IMatchingUserCard) {
             {matchingHeader}
             <CardContent>
                 {data!.data.data.map((matchedUser) => {
-                    console.log(matchedUser)
-
                     return (
-                        <div></div>
+                        <MatchedUserCard user={matchedUser} key={matchedUser.id}/>
                     )
                 })}
             </CardContent>

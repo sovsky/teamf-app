@@ -25,8 +25,7 @@ const Navbar: React.FC = () => {
     const toggleNavbar = (): void => {
         setMobileDrawerOpen((prevState) => !prevState);
     }
-console.log("USER")
-console.log(user)
+
 
     return (
         <nav className='sticky top-0 z-50 py-5 backdrop-blur-lg bg-main'>

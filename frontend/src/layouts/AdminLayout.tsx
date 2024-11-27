@@ -17,10 +17,12 @@ import {
 import { adminNavbarOptions, breadcrumbTranslations } from "@/constants"
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { Toaster } from "@/components/ui/toaster"
+import useAuth from "@/hooks/useAuth"
 
 const AdminLayout:React.FC = () => {
   const {pathname} =useLocation();
   const pathSegments = pathname.replace(/^\/admin/, "").split("/").filter(Boolean);
+  const {user} = useAuth()
 
   return (
 
@@ -69,7 +71,7 @@ const AdminLayout:React.FC = () => {
             </Breadcrumb>
           </div>
          <div>
-         <NavUser user={adminNavbarOptions.user} />
+         <NavUser user={user} />
          </div>
         </header>
 

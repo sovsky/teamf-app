@@ -249,5 +249,70 @@ class AdminStatsController extends BaseController
             'users' => $users
         ]);
     }
+
+     /**
+     * Verify the authenticity of the token.
+     */
+    #[OA\Get(
+        path: "/api/verifiedAdminToken",
+        summary: "Verify token validity",
+        description: "Checks if the provided token in the cookie is valid and returns the authenticated user's information.",
+        tags: ["Authentication"],
+        security: [["sanctum" => []]],
+        responses: [
+            new OA\Response(
+                response: Response::HTTP_OK,
+                description: "Token is valid",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Token is valid"),
+                        new OA\Property(
+                            property: "user",
+                            type: "object",
+                            properties: [
+                                new OA\Property(property: "name", type: "string", example: "John Doe"),
+                                new OA\Property(property: "email", type: "string", format: "email", example: "johndoe@example.com"),
+                                new OA\Property(property: "role", type: "string", example: "admin")
+                            ]
+                        )
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: Response::HTTP_UNAUTHORIZED,
+                description: "Invalid or expired token",
+                content: new OA\JsonContent(
+                    type: "object",
+                    properties: [
+                        new OA\Property(property: "message", type: "string", example: "Invalid or expired token")
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: Response::HTTP_INTERNAL_SERVER_ERROR,
+                description: "Server error"
+            )
+        ]
+    )]
+    public function verifiedToken (Request $request): JsonResponse
+    {
+            $user = Auth::user();
+            $roleName = $user->role->name;
+
+            if($roleName != 'admin') {
+                return response()->json(['error' => "You don't have access"], 403);
+            }
+         
+            return response()
+                ->json([
+                'message' => 'Token is valid',
+                'user' => [
+                        'name' => $user->name, 
+                        'email' => $user->email,
+                        'role' => $roleName,
+                ]
+            ]);
+    }
     
 }

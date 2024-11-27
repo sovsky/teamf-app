@@ -25,7 +25,8 @@ const Navbar: React.FC = () => {
     const toggleNavbar = (): void => {
         setMobileDrawerOpen((prevState) => !prevState);
     }
-
+console.log("USER")
+console.log(user)
 
 
     return (
@@ -56,7 +57,7 @@ const Navbar: React.FC = () => {
                         {
                                 isLoading  ? (<NavProfileSkeleton />):
                         
-                        user ? (<NavProfile user={user} />) :
+                        user?.email ? (<NavProfile user={user} />) :
                             <>
                                 <Link to="/login" className='py-2 px-3 border rounded-md'>
                                     Zaloguj
